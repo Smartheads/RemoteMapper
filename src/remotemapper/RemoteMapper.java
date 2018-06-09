@@ -12,11 +12,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
@@ -30,7 +33,7 @@ import remotemapper.utility.MyIntFilter;
 
 /**
  *
- * @author rohu7
+ * @author Robert Hutter
  */
 public class RemoteMapper extends javax.swing.JFrame {
     private SerialHandler port;
@@ -189,8 +192,12 @@ public class RemoteMapper extends javax.swing.JFrame {
         loadingProgressBar = new javax.swing.JProgressBar();
         jScrollPane1 = new javax.swing.JScrollPane();
         loadingConsole = new javax.swing.JTextArea();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        jSeparator7 = new javax.swing.JSeparator();
+        mainPanel = new javax.swing.JPanel();
+        jSeparator8 = new javax.swing.JSeparator();
+        statusBar = new javax.swing.JPanel();
+        jSeparator9 = new javax.swing.JSeparator();
+        clock = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         saveMenuItem = new javax.swing.JMenuItem();
@@ -1001,30 +1008,53 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remote Mapper");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
+        setSize(new java.awt.Dimension(830, 550));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 509, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        statusBar.setMaximumSize(new java.awt.Dimension(32767, 22));
+        statusBar.setMinimumSize(new java.awt.Dimension(100, 22));
+        statusBar.setPreferredSize(new java.awt.Dimension(909, 22));
+
+        jSeparator9.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        clock.setText("00:00.00");
+
+        javax.swing.GroupLayout statusBarLayout = new javax.swing.GroupLayout(statusBar);
+        statusBar.setLayout(statusBarLayout);
+        statusBarLayout.setHorizontalGroup(
+            statusBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusBarLayout.createSequentialGroup()
+                .addGap(0, 842, Short.MAX_VALUE)
+                .addComponent(clock)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        statusBarLayout.setVerticalGroup(
+            statusBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statusBarLayout.createSequentialGroup()
+                .addGap(4, 4, 4)
+                .addGroup(statusBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(statusBarLayout.createSequentialGroup()
+                        .addComponent(clock)
+                        .addGap(4, 4, 4))
+                    .addGroup(statusBarLayout.createSequentialGroup()
+                        .addComponent(jSeparator9)
+                        .addGap(3, 3, 3))))
         );
 
         jMenu1.setText("File");
@@ -1076,11 +1106,22 @@ public class RemoteMapper extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator8)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(statusBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -1366,6 +1407,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 
                 // Create new rover
                 rover = new Rover (Integer.parseInt(positionXFormattedField.getText()), Integer.parseInt(positionYFormattedField.getText()), Integer.parseInt(headingFormattedField.getText()), Integer.parseInt(roverWidthFormattedField.getText()), Integer.parseInt(roverLengthFormattedField.getText()));
+                this.setName("Remote Mapper ["+workspace.getName()+"] on ["+port.portName()+"]");
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -1474,7 +1516,17 @@ public class RemoteMapper extends javax.swing.JFrame {
         wizardPage3.dispose();
         wizardPage4.dispose();
         loadingScreen.dispose();
+    }
+    
+    private void loadMainFrame ()
+    {
+        cleanupWizard ();
+        setTitle("Remote Mapper ["+workspace.getName()+"] on ["+port.portName()+"]");
         
+        TimeKeeper tk = new TimeKeeper (clock);
+        tk.execute();
+        
+        setVisible (true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1482,6 +1534,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JComboBox<String> baudRateSelector;
     private javax.swing.JButton browseButton;
+    private javax.swing.JLabel clock;
     private javax.swing.JComboBox<String> decodeCharsetSelector;
     private javax.swing.JLabel emptySpaceMarkLabel;
     private javax.swing.JTextField emptySpaceMarkTextField;
@@ -1521,13 +1574,11 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -1540,9 +1591,13 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTextArea loadingConsole;
     private javax.swing.JProgressBar loadingProgressBar;
     private javax.swing.JFrame loadingScreen;
+    private javax.swing.JPanel mainPanel;
     private javax.swing.JFormattedTextField mapHeightFormattedField;
     private javax.swing.JLabel mapHeightLabel;
     private javax.swing.JFormattedTextField mapWidthFormattedField;
@@ -1567,6 +1622,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JButton start;
+    private javax.swing.JPanel statusBar;
     private javax.swing.JRadioButton useDefaultMarkingsRadio;
     private javax.swing.JRadioButton useExistingRadio;
     private javax.swing.JFrame wizardPage1;
@@ -1579,6 +1635,25 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JButton wizardPage4Next;
     // End of variables declaration//GEN-END:variables
 
+    class TimeKeeper extends SwingWorker<Void, Void>
+    {
+        private JLabel display;
+        
+        public TimeKeeper (JLabel display)
+        {
+            this.display = display;
+        }
+        
+        @Override
+        protected Void doInBackground() throws Exception {
+            for (; ;)
+            {
+                display.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm.ss")));
+                Thread.sleep(1000);
+            }
+        }
+    }
+    
     class LoadMap extends SwingWorker<Map, Integer>
     {
         File mapFile;
@@ -1657,8 +1732,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 loadingConsole.append("Done...\n");
                 
                 loadingScreen.setVisible(false);
-                cleanupWizard ();
-                setVisible (true);
+                loadMainFrame();
             }
             catch (InterruptedException ex)
             {
@@ -1740,8 +1814,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 if (log.equals(loadingConsole))
                 {
                     loadingScreen.setVisible(false);
-                    cleanupWizard ();
-                    setVisible (true);
+                    loadMainFrame();
                 }
             }
         }
