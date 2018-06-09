@@ -36,6 +36,8 @@ public class RemoteMapper extends javax.swing.JFrame {
     private SerialHandler port;
     private Map map;
     private Rover rover;
+    private File workspace;
+    private File mapFile;
 
     /**
      * Creates new form RemoteMapper
@@ -191,6 +193,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        saveMenuItem = new javax.swing.JMenuItem();
+        saveAsMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -1025,6 +1029,24 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuItem.setText("Save");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(saveMenuItem);
+
+        saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        saveAsMenuItem.setText("Save As...");
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(saveAsMenuItem);
+
         aboutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/info.png"))); // NOI18N
         aboutMenuItem.setText("About");
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -1129,6 +1151,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             {
                 if (existingWorkspaceValid (ws))
                 {
+                    workspace = ws;
                     wizardPage2.setVisible(false);
                     wizardPage4.setVisible(true);
                     pathTextField.setEditable (true);
@@ -1141,6 +1164,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             }
             else
             {
+                workspace = ws;
                 wizardPage2.setVisible(false);
                 wizardPage3.setVisible(true);
                 pathTextField.setEditable (true);
@@ -1314,7 +1338,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             if (useExistingRadio.isSelected())
             {
                 loadingConsole.append("Loading map...\n");
-                File mapFile = new File (pathTextField.getText() + File.separator + "map.d");
+                mapFile = new File (pathTextField.getText() + File.separator + "map.d");
 
                 loadingProgressBar.setMaximum((int) mapFile.length());
 
@@ -1329,11 +1353,14 @@ public class RemoteMapper extends javax.swing.JFrame {
             {
                 // Create new map
                 loadingConsole.append("Creating new map...\n");
-                wizardPage3.setVisible(true);
                 map = new Map (Integer.parseInt(mapWidthFormattedField.getText()), Integer.parseInt(mapHeightFormattedField.getText()), obsticalMarkTextField.getText().charAt(0), emptySpaceMarkTextField.getText().charAt(0));
                 loadingConsole.append ("Done...\n");
                 
-                SaveMap sm = new SaveMap (map, new File ("map.d"), loadingProgressBar, loadingConsole);
+                mapFile = new File (workspace.getPath() + File.separator + "map.d");
+                
+                loadingConsole.append ("Saving map...\n");
+                
+                SaveMap sm = new SaveMap (map, mapFile, loadingProgressBar, loadingConsole);
                 
                 sm.execute();
                 
@@ -1377,6 +1404,22 @@ public class RemoteMapper extends javax.swing.JFrame {
         wizardPage4.setVisible(false);
         wizardPage3.setVisible (true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        // TODO add your handling code here:
+        SaveMap sm = new SaveMap (map, mapFile);
+        sm.execute();
+    }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
+        // TODO add your handling code here:
+        fileChooser.setFileSelectionMode(javax.swing.JFileChooser.FILES_ONLY);
+        if (fileChooser.showDialog(this, "Save As") == javax.swing.JFileChooser.APPROVE_OPTION)
+        {
+            SaveMap sm = new SaveMap (map, fileChooser.getSelectedFile());
+            sm.execute();
+        }
+    }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1521,6 +1564,8 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel roverLengthLabel;
     private javax.swing.JFormattedTextField roverWidthFormattedField;
     private javax.swing.JLabel roverWidthLabel;
+    private javax.swing.JMenuItem saveAsMenuItem;
+    private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JButton start;
     private javax.swing.JRadioButton useDefaultMarkingsRadio;
     private javax.swing.JRadioButton useExistingRadio;
@@ -1630,8 +1675,8 @@ public class RemoteMapper extends javax.swing.JFrame {
     class SaveMap extends SwingWorker <Void, Integer>
     {
         private JProgressBar jpb;
-        private Map toSave;
-        private File out;
+        private final Map toSave;
+        private final File out;
         private JTextArea log;
         
         public SaveMap (Map toSave, File out, JProgressBar jpb, JTextArea log)
@@ -1641,12 +1686,19 @@ public class RemoteMapper extends javax.swing.JFrame {
             this.jpb = jpb;
             this.log = log;
         }
+        
+        public SaveMap (Map toSave, File out)
+        {
+            this.toSave = toSave;
+            this.out = out;
+        }
 
         @Override
         protected Void doInBackground() throws Exception {
             final char[][] d = map.getMap();
-            jpb.setMaximum(d.length * d[0].length);
-            FileWriter out = new FileWriter(this.out.getName(), false);
+            if (jpb != null)
+                jpb.setMaximum(d.length * d[0].length);
+            FileWriter out = new FileWriter(this.out.getCanonicalPath(), false);
 
             // Write markers
             out.write (String.valueOf(map.getObsticalMark()) + "\n");
@@ -1674,19 +1726,23 @@ public class RemoteMapper extends javax.swing.JFrame {
         protected void process (List<Integer> chunks)
         {
             int i = chunks.get(chunks.size()-1);
-            jpb.setValue(i);
+            if (jpb != null)
+                jpb.setValue(i);
         }
         
         @Override
         protected void done ()
         {
-            log.append ("Done...\n");
-            
-            if (log.equals(loadingConsole))
+            if (log != null)
             {
-                loadingScreen.setVisible(false);
-                cleanupWizard ();
-                setVisible (true);
+                log.append ("Done...\n");
+            
+                if (log.equals(loadingConsole))
+                {
+                    loadingScreen.setVisible(false);
+                    cleanupWizard ();
+                    setVisible (true);
+                }
             }
         }
         
