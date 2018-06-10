@@ -1,6 +1,7 @@
 package remotemapper.classes;
 
 import java.util.Vector;
+import remoteMapper.classes.Map;
 
 /*
  *  Node.java

@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
@@ -1188,28 +1189,45 @@ public class RemoteMapper extends javax.swing.JFrame {
         File ws = new File (pathTextField.getText());
         if (ws.isDirectory())
         {
-            if (useExistingRadio.isSelected())
+            if (existingWorkspaceValid (ws))
             {
-                if (existingWorkspaceValid (ws))
+                if (useExistingRadio.isSelected())
                 {
                     workspace = ws;
-                    wizardPage2.setVisible(false);
+                    wizardPage2.setVisible (false);
                     wizardPage4.setVisible(true);
+                    pathTextField.setEditable(true);
+                }
+                else
+                {
+                    if (0 == JOptionPane.showConfirmDialog(null, "Selected workspace contains valid data. Would you like to overwrite it?", "Overwrite workspace?", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION))
+                    {
+                        workspace = ws;
+                        wizardPage2.setVisible(false);
+                        wizardPage3.setVisible(true);
+                    }
+                    
                     pathTextField.setEditable (true);
-                } else
+                  }
+            }
+            else
+            {
+                if (useExistingRadio.isSelected())
                 {
                     wizardPage2ErrorLabel.setForeground(Color.red);
                     wizardPage2ErrorLabel.setText("Selected workspace invalid.");
                     pathTextField.setEditable(true);
                 }
+                else
+                {
+                    workspace = ws;
+                    wizardPage2.setVisible(false);
+                    wizardPage3.setVisible(true);
+                    pathTextField.setEditable(true);
+                }
             }
-            else
-            {
-                workspace = ws;
-                wizardPage2.setVisible(false);
-                wizardPage3.setVisible(true);
-                pathTextField.setEditable (true);
-            }
+            
+            
         }
         else
         {
@@ -1444,7 +1462,11 @@ public class RemoteMapper extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         wizardPage4.setVisible(false);
-        wizardPage3.setVisible (true);
+        
+        if (useExistingRadio.isSelected ())
+            wizardPage2.setVisible(true);
+        else
+            wizardPage3.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
