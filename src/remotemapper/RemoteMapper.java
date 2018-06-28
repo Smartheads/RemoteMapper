@@ -20,12 +20,15 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.PlainDocument;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 import remoteMapper.classes.Map;
 import remotemapper.classes.Rover;
 import remotemapper.utility.AngleFilter;
@@ -42,6 +45,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private Rover rover;
     private File workspace;
     private File mapFile;
+    private int[] propertiesBuffer;
 
     /**
      * Creates new form RemoteMapper
@@ -56,6 +60,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         wizardPage3.setLocationRelativeTo (null);
         wizardPage4.setLocationRelativeTo (null);
         loadingScreen.setLocationRelativeTo(null);
+        propertiesPage.setLocationRelativeTo (null);
         this.setLocationRelativeTo(null);
         fileChooser = new javax.swing.JFileChooser ();
         
@@ -84,6 +89,24 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         PlainDocument pd10 = (PlainDocument) headingFormattedField.getDocument();
         pd10.setDocumentFilter(new AngleFilter());
+        
+        PlainDocument pd11 = (PlainDocument) roverPropertiesWidth.getDocument();
+        pd11.setDocumentFilter(new MyIntFilter());
+        
+        PlainDocument pd12 = (PlainDocument) roverPropertiesHeight.getDocument();
+        pd12.setDocumentFilter(new MyIntFilter());
+        
+        PlainDocument pd13 = (PlainDocument) roverPropertiesLength.getDocument();
+        pd13.setDocumentFilter(new MyIntFilter());
+        
+        PlainDocument pd14 = (PlainDocument) roverPropertiesX.getDocument();
+        pd14.setDocumentFilter(new MyIntFilter());
+        
+        PlainDocument pd15 = (PlainDocument) roverPropertiesY.getDocument();
+        pd15.setDocumentFilter(new MyIntFilter());
+        
+        PlainDocument pd16 = (PlainDocument) roverPropertiesHeading.getDocument();
+        pd16.setDocumentFilter(new AngleFilter());
         
         positionErrorLabel.setForeground(Color.red);
         
@@ -156,10 +179,10 @@ public class RemoteMapper extends javax.swing.JFrame {
         wizardPage3Back = new javax.swing.JButton();
         wizardPage4 = new javax.swing.JFrame();
         jPanel9 = new javax.swing.JPanel();
-        jLabel19 = new javax.swing.JLabel();
+        wizardPage4Title = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jPanel10 = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
+        wizardPage4Header2 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         roverWidthFormattedField = new javax.swing.JFormattedTextField();
         roverWidthLabel = new javax.swing.JLabel();
@@ -176,7 +199,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         headingLabel = new javax.swing.JLabel();
         headingFormattedField = new javax.swing.JFormattedTextField();
         jLabel27 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        wizardPage4Back = new javax.swing.JButton();
         positionErrorLabel = new javax.swing.JLabel();
         about = new javax.swing.JFrame();
         jLabel15 = new javax.swing.JLabel();
@@ -193,19 +216,129 @@ public class RemoteMapper extends javax.swing.JFrame {
         loadingProgressBar = new javax.swing.JProgressBar();
         jScrollPane1 = new javax.swing.JScrollPane();
         loadingConsole = new javax.swing.JTextArea();
+        propertiesPage = new javax.swing.JFrame();
+        jPanel23 = new javax.swing.JPanel();
         jSeparator7 = new javax.swing.JSeparator();
+        jLabel30 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTree1 = new javax.swing.JTree();
+        propertiesLayers = new javax.swing.JLayeredPane();
+        presetPropertiesPanel = new javax.swing.JPanel();
+        jLabel37 = new javax.swing.JLabel();
+        jSeparator12 = new javax.swing.JSeparator();
+        presetsLayeredPane = new javax.swing.JLayeredPane();
+        presetsPage2 = new javax.swing.JPanel();
+        jLabel55 = new javax.swing.JLabel();
+        presetsPreviousPageButton = new javax.swing.JButton();
+        presetsPage1 = new javax.swing.JPanel();
+        jLabel42 = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel44 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jLabel46 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel47 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel49 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jLabel50 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        jLabel51 = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jLabel53 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jLabel54 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTextArea3 = new javax.swing.JTextArea();
+        presetsNextPageButton = new javax.swing.JButton();
+        roverPropertiesPanel = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jSeparator10 = new javax.swing.JSeparator();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        roverPropertiesWidthLabel = new javax.swing.JLabel();
+        roverPropertiesWidth = new javax.swing.JFormattedTextField();
+        roverPropertiesLengthLabel = new javax.swing.JLabel();
+        roverPropertiesLength = new javax.swing.JFormattedTextField();
+        roverPropertiesHeightLabel = new javax.swing.JLabel();
+        roverPropertiesHeight = new javax.swing.JFormattedTextField();
+        jLabel29 = new javax.swing.JLabel();
+        roverPropertiesXLabel = new javax.swing.JLabel();
+        roverPropertiesX = new javax.swing.JFormattedTextField();
+        roverPropertiesYLabel = new javax.swing.JLabel();
+        roverPropertiesY = new javax.swing.JFormattedTextField();
+        roverPropertiesHeadingLabel = new javax.swing.JLabel();
+        roverPropertiesHeading = new javax.swing.JFormattedTextField();
+        jLabel33 = new javax.swing.JLabel();
+        roverPropertiesErrorLabel = new javax.swing.JLabel();
+        roverPropertiesOk = new javax.swing.JButton();
+        roverPropertiesCancel = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
+        jSeparator11 = new javax.swing.JSeparator();
+        jLabel25 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel15 = new javax.swing.JPanel();
+        jPanel14 = new javax.swing.JPanel();
+        jPanel17 = new javax.swing.JPanel();
+        forwardCommandButton = new javax.swing.JButton();
+        jPanel21 = new javax.swing.JPanel();
+        leftTurnCommandButton = new javax.swing.JButton();
+        jPanel18 = new javax.swing.JPanel();
+        rightTurnCommandButton = new javax.swing.JButton();
+        jPanel19 = new javax.swing.JPanel();
+        backwardsCommandButton = new javax.swing.JButton();
+        jPanel20 = new javax.swing.JPanel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        movementCommandDistance = new javax.swing.JTextField();
+        movementCommandAngle = new javax.swing.JTextField();
+        movementCommandMM = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel34 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jLabel35 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jButton13 = new javax.swing.JButton();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        statusDeviceTable = new javax.swing.JTable();
+        jLabel41 = new javax.swing.JLabel();
+        statusPosX = new javax.swing.JLabel();
+        statusPosY = new javax.swing.JLabel();
+        statusPosHeading = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
         statusBar = new javax.swing.JPanel();
         jSeparator9 = new javax.swing.JSeparator();
         clock = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        autoSaveCheckBox = new javax.swing.JCheckBoxMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        roverPropertiesItem = new javax.swing.JMenuItem();
 
         wizardPage1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         wizardPage1.setTitle("Remote Mapper Setup Wizard");
@@ -704,9 +837,9 @@ public class RemoteMapper extends javax.swing.JFrame {
         wizardPage4.setResizable(false);
         wizardPage4.setSize(new java.awt.Dimension(383, 200));
 
-        jLabel19.setText("<html><h3>Smart Crew Remote Mapper Setup Wizard</h3></html>");
+        wizardPage4Title.setText("<html><h3>Smart Crew Remote Mapper Setup Wizard</h3></html>");
 
-        jLabel20.setText("<html><h4>Setup the rover</h4></html>");
+        wizardPage4Header2.setText("<html><h4>Setup the rover</h4></html>");
 
         jLabel11.setText("Dimensions (mm):");
 
@@ -745,10 +878,10 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel27.setText("°");
 
-        jButton1.setText("<html><h4>Back</h4></html>");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        wizardPage4Back.setText("<html><h4>Back</h4></html>");
+        wizardPage4Back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                wizardPage4BackActionPerformed(evt);
             }
         });
 
@@ -762,13 +895,13 @@ public class RemoteMapper extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                         .addComponent(positionErrorLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(wizardPage4Back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(wizardPage4Header2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addGap(4, 4, 4)
@@ -804,7 +937,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(wizardPage4Header2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -827,7 +960,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(wizardPage4Back, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(positionErrorLabel))
                 .addContainerGap())
         );
@@ -843,7 +976,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                         .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(wizardPage4Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(22, Short.MAX_VALUE))
             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -851,7 +984,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(wizardPage4Title, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1009,22 +1142,898 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        propertiesPage.setTitle("Properties");
+        propertiesPage.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
+        propertiesPage.setResizable(false);
+        propertiesPage.setSize(new java.awt.Dimension(769, 480));
+
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jLabel30.setText("<html><h4>Properties</h4></html>");
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Properties");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Rover");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Commands");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Presets");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTree1.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                jTree1ValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTree1);
+
+        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+        jPanel23.setLayout(jPanel23Layout);
+        jPanel23Layout.setHorizontalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel23Layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE))
+                    .addGroup(jPanel23Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3)
+                        .addGap(18, 18, 18)))
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel23Layout.setVerticalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator7)
+            .addGroup(jPanel23Layout.createSequentialGroup()
+                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane3)
+                .addContainerGap())
+        );
+
+        jLabel37.setText("<html><h3>Preset commands</h3></html>");
+
+        jLabel55.setText("Preset 4");
+
+        presetsPreviousPageButton.setText("Previous Page");
+        presetsPreviousPageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                presetsPreviousPageButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout presetsPage2Layout = new javax.swing.GroupLayout(presetsPage2);
+        presetsPage2.setLayout(presetsPage2Layout);
+        presetsPage2Layout.setHorizontalGroup(
+            presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(presetsPage2Layout.createSequentialGroup()
+                .addComponent(jLabel55)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, presetsPage2Layout.createSequentialGroup()
+                .addContainerGap(412, Short.MAX_VALUE)
+                .addComponent(presetsPreviousPageButton)
+                .addContainerGap())
+        );
+        presetsPage2Layout.setVerticalGroup(
+            presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(presetsPage2Layout.createSequentialGroup()
+                .addComponent(jLabel55)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 368, Short.MAX_VALUE)
+                .addComponent(presetsPreviousPageButton)
+                .addContainerGap())
+        );
+
+        jLabel42.setText("Preset 1");
+
+        jLabel43.setText("Name:");
+
+        jTextField1.setText("Preset 1");
+
+        jLabel44.setText("command:");
+
+        jButton1.setText("Set");
+
+        jLabel46.setText("Description:");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane4.setViewportView(jTextArea1);
+
+        jLabel47.setText("Preset 2");
+
+        jLabel48.setText("Name:");
+
+        jTextField4.setText("Preset 2");
+
+        jLabel49.setText("command:");
+
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Set");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel50.setText("Description:");
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane5.setViewportView(jTextArea2);
+
+        jLabel51.setText("Preset 3");
+
+        jLabel52.setText("Name:");
+
+        jTextField6.setText("Preset 3");
+
+        jLabel53.setText("command:");
+
+        jButton4.setText("Set");
+
+        jLabel54.setText("Description:");
+
+        jTextArea3.setColumns(20);
+        jTextArea3.setRows(5);
+        jScrollPane6.setViewportView(jTextArea3);
+
+        presetsNextPageButton.setText("Next page");
+        presetsNextPageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                presetsNextPageButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout presetsPage1Layout = new javax.swing.GroupLayout(presetsPage1);
+        presetsPage1.setLayout(presetsPage1Layout);
+        presetsPage1Layout.setHorizontalGroup(
+            presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(presetsPage1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel42, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel46)
+                                    .addGroup(presetsPage1Layout.createSequentialGroup()
+                                        .addComponent(jLabel43)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel44)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton1)))))
+                        .addComponent(jLabel47, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel50)
+                                .addGroup(presetsPage1Layout.createSequentialGroup()
+                                    .addComponent(jLabel48)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel49)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton3)))))
+                    .addComponent(jLabel51, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel54)
+                            .addGroup(presetsPage1Layout.createSequentialGroup()
+                                .addComponent(jLabel52)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel53)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton4)))))
+                .addGap(70, 70, 70))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, presetsPage1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(presetsNextPageButton)
+                .addContainerGap())
+        );
+        presetsPage1Layout.setVerticalGroup(
+            presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(presetsPage1Layout.createSequentialGroup()
+                .addComponent(jLabel42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel43)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel44)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel46)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel47)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel48)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel49)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel50)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel51)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel52)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel53)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel54)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(presetsNextPageButton)
+                .addContainerGap())
+        );
+
+        presetsLayeredPane.setLayer(presetsPage2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        presetsLayeredPane.setLayer(presetsPage1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout presetsLayeredPaneLayout = new javax.swing.GroupLayout(presetsLayeredPane);
+        presetsLayeredPane.setLayout(presetsLayeredPaneLayout);
+        presetsLayeredPaneLayout.setHorizontalGroup(
+            presetsLayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(presetsPage1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(presetsLayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, presetsLayeredPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(presetsPage2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        presetsLayeredPaneLayout.setVerticalGroup(
+            presetsLayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(presetsPage1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(presetsLayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(presetsPage2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout presetPropertiesPanelLayout = new javax.swing.GroupLayout(presetPropertiesPanel);
+        presetPropertiesPanel.setLayout(presetPropertiesPanelLayout);
+        presetPropertiesPanelLayout.setHorizontalGroup(
+            presetPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(presetPropertiesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(presetPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(presetsLayeredPane)
+                    .addGroup(presetPropertiesPanelLayout.createSequentialGroup()
+                        .addComponent(jSeparator12)
+                        .addContainerGap())
+                    .addGroup(presetPropertiesPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        presetPropertiesPanelLayout.setVerticalGroup(
+            presetPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(presetPropertiesPanelLayout.createSequentialGroup()
+                .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(presetsLayeredPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jLabel19.setText("<html><h3>Rover Properties</h3></html>");
+
+        jLabel20.setText("<html><h4>Size</h4></html>");
+
+        roverPropertiesWidthLabel.setText("Width:");
+
+        roverPropertiesLengthLabel.setText("length:");
+
+        roverPropertiesHeightLabel.setText("height:");
+
+        roverPropertiesHeight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roverPropertiesHeightActionPerformed(evt);
+            }
+        });
+
+        jLabel29.setText("<html><h4>Position</h4></html>");
+
+        roverPropertiesXLabel.setText("x:");
+
+        roverPropertiesYLabel.setText("y:");
+
+        roverPropertiesY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roverPropertiesYActionPerformed(evt);
+            }
+        });
+
+        roverPropertiesHeadingLabel.setText("heading:");
+
+        jLabel33.setText("°");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(roverPropertiesWidthLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(roverPropertiesWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(roverPropertiesLengthLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(roverPropertiesLength, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(roverPropertiesHeightLabel)
+                                .addGap(7, 7, 7)
+                                .addComponent(roverPropertiesHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(139, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(roverPropertiesXLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(roverPropertiesX, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(roverPropertiesYLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(roverPropertiesY, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(roverPropertiesHeadingLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(roverPropertiesHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel33))
+                            .addComponent(roverPropertiesErrorLabel))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(roverPropertiesWidthLabel)
+                    .addComponent(roverPropertiesWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roverPropertiesLengthLabel)
+                    .addComponent(roverPropertiesLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roverPropertiesHeightLabel)
+                    .addComponent(roverPropertiesHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(roverPropertiesXLabel)
+                    .addComponent(roverPropertiesX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roverPropertiesYLabel)
+                    .addComponent(roverPropertiesY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roverPropertiesHeadingLabel)
+                    .addComponent(roverPropertiesHeading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel33))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
+                .addComponent(roverPropertiesErrorLabel)
+                .addGap(34, 34, 34))
+        );
+
+        roverPropertiesOk.setText("OK");
+        roverPropertiesOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roverPropertiesOkActionPerformed(evt);
+            }
+        });
+
+        roverPropertiesCancel.setText("Cancel");
+        roverPropertiesCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roverPropertiesCancelActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout roverPropertiesPanelLayout = new javax.swing.GroupLayout(roverPropertiesPanel);
+        roverPropertiesPanel.setLayout(roverPropertiesPanelLayout);
+        roverPropertiesPanelLayout.setHorizontalGroup(
+            roverPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roverPropertiesPanelLayout.createSequentialGroup()
+                .addGroup(roverPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(roverPropertiesPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator10))
+                    .addGroup(roverPropertiesPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(14, 14, 14)
+                        .addComponent(roverPropertiesCancel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(roverPropertiesOk)))
+                .addContainerGap())
+            .addGroup(roverPropertiesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        roverPropertiesPanelLayout.setVerticalGroup(
+            roverPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roverPropertiesPanelLayout.createSequentialGroup()
+                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(roverPropertiesPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(roverPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(roverPropertiesOk)
+                    .addComponent(roverPropertiesCancel)))
+        );
+
+        propertiesLayers.setLayer(presetPropertiesPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        propertiesLayers.setLayer(roverPropertiesPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout propertiesLayersLayout = new javax.swing.GroupLayout(propertiesLayers);
+        propertiesLayers.setLayout(propertiesLayersLayout);
+        propertiesLayersLayout.setHorizontalGroup(
+            propertiesLayersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(propertiesLayersLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roverPropertiesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(propertiesLayersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, propertiesLayersLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(presetPropertiesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        propertiesLayersLayout.setVerticalGroup(
+            propertiesLayersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(roverPropertiesPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(propertiesLayersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(presetPropertiesPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout propertiesPageLayout = new javax.swing.GroupLayout(propertiesPage.getContentPane());
+        propertiesPage.getContentPane().setLayout(propertiesPageLayout);
+        propertiesPageLayout.setHorizontalGroup(
+            propertiesPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, propertiesPageLayout.createSequentialGroup()
+                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(propertiesLayers)
+                .addContainerGap())
+        );
+        propertiesPageLayout.setVerticalGroup(
+            propertiesPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(propertiesPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(propertiesLayers)
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remote Mapper");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
         setSize(new java.awt.Dimension(830, 550));
 
+        jSeparator11.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jLabel25.setText("<html><h4>Send command</h4></html>");
+
+        jPanel14.setLayout(new java.awt.GridLayout(3, 3));
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jPanel14.add(jPanel17);
+
+        forwardCommandButton.setText("^");
+        forwardCommandButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forwardCommandButtonActionPerformed(evt);
+            }
+        });
+        jPanel14.add(forwardCommandButton);
+
+        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
+        jPanel21.setLayout(jPanel21Layout);
+        jPanel21Layout.setHorizontalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel21Layout.setVerticalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jPanel14.add(jPanel21);
+
+        leftTurnCommandButton.setText("<");
+        leftTurnCommandButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                leftTurnCommandButtonActionPerformed(evt);
+            }
+        });
+        jPanel14.add(leftTurnCommandButton);
+
+        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
+        jPanel18.setLayout(jPanel18Layout);
+        jPanel18Layout.setHorizontalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel18Layout.setVerticalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jPanel14.add(jPanel18);
+
+        rightTurnCommandButton.setText(">");
+        rightTurnCommandButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rightTurnCommandButtonActionPerformed(evt);
+            }
+        });
+        jPanel14.add(rightTurnCommandButton);
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jPanel14.add(jPanel19);
+
+        backwardsCommandButton.setText("ˇ");
+        backwardsCommandButton.setPreferredSize(new java.awt.Dimension(50, 50));
+        backwardsCommandButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backwardsCommandButtonActionPerformed(evt);
+            }
+        });
+        jPanel14.add(backwardsCommandButton);
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jPanel14.add(jPanel20);
+
+        jLabel26.setText("Distance:");
+
+        jLabel28.setText("Angle:");
+
+        movementCommandDistance.setText("500");
+
+        movementCommandAngle.setText("90");
+
+        movementCommandMM.setText("mm");
+
+        jLabel31.setText("°");
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel26)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(movementCommandDistance, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(movementCommandMM)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel28)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(movementCommandAngle, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel31)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel26)
+                    .addComponent(jLabel28)
+                    .addComponent(movementCommandDistance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(movementCommandAngle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(movementCommandMM)
+                    .addComponent(jLabel31))
+                .addGap(12, 12, 12)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Movement", jPanel15);
+
+        jLabel34.setText("Presets");
+
+        jButton7.setText("Preset 1");
+
+        jButton8.setText("Preset 2");
+
+        jButton9.setText("Preset 4");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setText("Preset 5");
+
+        jButton11.setText("Preset 3");
+
+        jButton12.setText("Preset 6");
+
+        jLabel35.setText("Custom command:");
+
+        jButton13.setText("Send");
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton13))
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton8)
+                            .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel16Layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addComponent(jButton7))
+                                .addComponent(jLabel34)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton9)
+                            .addComponent(jButton10)))
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton11)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton12))
+                    .addComponent(jLabel35))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(jButton9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton8)
+                    .addComponent(jButton10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton11)
+                    .addComponent(jButton12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton13))
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Custom", jPanel16);
+
+        jLabel32.setText("<html><h4>Status</h4></html>");
+
+        jLabel36.setText("<html><b>Position</b></html>");
+
+        jLabel38.setText("x");
+
+        jLabel39.setText("y");
+
+        jLabel40.setText("<html><b>Devices</b></html>");
+
+        statusDeviceTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Device name", "Status", "Last checked"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(statusDeviceTable);
+        if (statusDeviceTable.getColumnModel().getColumnCount() > 0) {
+            statusDeviceTable.getColumnModel().getColumn(0).setResizable(false);
+            statusDeviceTable.getColumnModel().getColumn(1).setResizable(false);
+            statusDeviceTable.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jLabel41.setText("heading");
+
+        statusPosX.setText("XXX");
+
+        statusPosY.setText("YYY");
+
+        statusPosHeading.setText("HHH.H");
+
+        jLabel45.setText("°");
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())))
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(95, 95, 95)
+                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel38)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(statusPosX))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel39)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(statusPosY))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel41)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(statusPosHeading)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel45)))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel38)
+                    .addComponent(statusPosX))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel39)
+                    .addComponent(statusPosY))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel41)
+                    .addComponent(statusPosHeading)
+                    .addComponent(jLabel45))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(81, 81, 81))))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 509, Short.MAX_VALUE)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator11)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         statusBar.setMaximumSize(new java.awt.Dimension(32767, 22));
@@ -1040,7 +2049,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         statusBarLayout.setHorizontalGroup(
             statusBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusBarLayout.createSequentialGroup()
-                .addGap(0, 842, Short.MAX_VALUE)
+                .addGap(0, 930, Short.MAX_VALUE)
                 .addComponent(clock)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1059,6 +2068,10 @@ public class RemoteMapper extends javax.swing.JFrame {
         );
 
         jMenu1.setText("File");
+
+        autoSaveCheckBox.setSelected(true);
+        autoSaveCheckBox.setText("Autosave");
+        jMenu1.add(autoSaveCheckBox);
 
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveMenuItem.setText("Save");
@@ -1099,6 +2112,15 @@ public class RemoteMapper extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        roverPropertiesItem.setText("Rover properties");
+        roverPropertiesItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roverPropertiesItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(roverPropertiesItem);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -1110,7 +2132,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 997, Short.MAX_VALUE)
                     .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator8)))
         );
@@ -1406,7 +2428,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 lm.execute();
                 
                 // Create new rover
-                rover = new Rover (Integer.parseInt(positionXFormattedField.getText()), Integer.parseInt(positionYFormattedField.getText()), Integer.parseInt(headingFormattedField.getText()), Integer.parseInt(roverWidthFormattedField.getText()), Integer.parseInt(roverLengthFormattedField.getText()));
+                rover = new Rover (Integer.parseInt(positionXFormattedField.getText()), Integer.parseInt(positionYFormattedField.getText()), Float.parseFloat(headingFormattedField.getText()), Integer.parseInt(roverWidthFormattedField.getText()), Integer.parseInt(roverLengthFormattedField.getText()));
             }
             else
             {
@@ -1424,7 +2446,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 sm.execute();
                 
                 // Create new rover
-                rover = new Rover (Integer.parseInt(positionXFormattedField.getText()), Integer.parseInt(positionYFormattedField.getText()), Integer.parseInt(headingFormattedField.getText()), Integer.parseInt(roverWidthFormattedField.getText()), Integer.parseInt(roverLengthFormattedField.getText()));
+                rover = new Rover (Integer.parseInt(positionXFormattedField.getText()), Integer.parseInt(positionYFormattedField.getText()), Float.parseFloat(headingFormattedField.getText()), Integer.parseInt(roverWidthFormattedField.getText()), Integer.parseInt(roverLengthFormattedField.getText()));
                 this.setName("Remote Mapper ["+workspace.getName()+"] on ["+port.portName()+"]");
             }
         }
@@ -1459,7 +2481,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         wizardPage2.setVisible(true);
     }//GEN-LAST:event_wizardPage3BackActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void wizardPage4BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wizardPage4BackActionPerformed
         // TODO add your handling code here:
         wizardPage4.setVisible(false);
         
@@ -1467,7 +2489,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             wizardPage2.setVisible(true);
         else
             wizardPage3.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_wizardPage4BackActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         // TODO add your handling code here:
@@ -1484,6 +2506,227 @@ public class RemoteMapper extends javax.swing.JFrame {
             sm.execute();
         }
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
+
+    private void roverPropertiesItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roverPropertiesItemActionPerformed
+        // TODO add your handling code here:
+        // Load current values:
+        roverPropertiesWidth.setText(""+rover.getWidth());
+        roverPropertiesHeight.setText(""+rover.getHeight());
+        roverPropertiesLength.setText(""+rover.getWidth());
+        roverPropertiesHeading.setText((""+rover.getDirection()).length() >= 4 ? (String)(""+rover.getDirection()).subSequence(0, 4) : (""+rover.getDirection()));
+        roverPropertiesX.setText(""+rover.getX());
+        roverPropertiesY.setText(""+rover.getY());
+        
+        // Set default preferances page:
+        propertiesLayers.setLayer(roverPropertiesPanel, JLayeredPane.MODAL_LAYER);
+        
+        propertiesPage.setVisible(true);
+    }//GEN-LAST:event_roverPropertiesItemActionPerformed
+
+    private void roverPropertiesHeightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roverPropertiesHeightActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roverPropertiesHeightActionPerformed
+
+    private void roverPropertiesYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roverPropertiesYActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roverPropertiesYActionPerformed
+
+    private void roverPropertiesOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roverPropertiesOkActionPerformed
+        // TODO add your handling code here:
+        
+        // Check to make sure all data is correct:
+        boolean ok = true;
+        roverPropertiesErrorLabel.setForeground(Color.RED);
+        roverPropertiesErrorLabel.setText("");
+        
+        if (roverPropertiesWidth.getText().isEmpty())
+        {
+            ok = false;
+            roverPropertiesWidthLabel.setForeground(Color.RED);
+        }
+        else
+            roverPropertiesWidthLabel.setForeground(Color.BLACK);
+        
+        if (roverPropertiesHeight.getText().isEmpty())
+        {
+            ok = false;
+            roverPropertiesHeightLabel.setForeground(Color.RED);
+        }
+        else
+            roverPropertiesHeightLabel.setForeground(Color.BLACK);
+        
+        if (roverPropertiesLength.getText().isEmpty())
+        {
+            ok = false;
+            roverPropertiesLengthLabel.setForeground(Color.RED);
+        }
+        else
+            roverPropertiesLengthLabel.setForeground(Color.BLACK);
+        
+        if (roverPropertiesX.getText().isEmpty())
+        {
+            ok = false;
+            roverPropertiesXLabel.setForeground(Color.RED);
+        }
+        else
+        {
+            if (Integer.parseInt(roverPropertiesX.getText()) > map.getWidth())
+            {
+                roverPropertiesErrorLabel.setText("Given rover x value invalid.");
+                roverPropertiesXLabel.setForeground(Color.red);
+            }
+            else
+                roverPropertiesXLabel.setForeground(Color.BLACK);
+        }
+        
+        if (roverPropertiesY.getText().isEmpty())
+        {
+            ok = false;
+            roverPropertiesYLabel.setForeground(Color.RED);
+        }
+        else
+        {
+            if (Integer.parseInt(roverPropertiesY.getText()) > map.getWidth())
+            {
+                roverPropertiesErrorLabel.setText("Given rover x value invalid.");
+                roverPropertiesYLabel.setForeground(Color.red);
+            }
+            else
+                roverPropertiesYLabel.setForeground(Color.BLACK);
+        }
+        
+        if (roverPropertiesHeading.getText().isEmpty())
+        {
+            ok = false;
+            roverPropertiesHeadingLabel.setForeground(Color.RED);
+        }
+        else
+            roverPropertiesHeadingLabel.setForeground(Color.BLACK);
+        
+        if (ok)
+        {
+            // Save buffered values and close
+            roverPropertiesErrorLabel.setText("");
+            rover.setX(Integer.parseInt(roverPropertiesX.getText()));
+            rover.setY(Integer.parseInt(roverPropertiesY.getText()));
+            rover.setWidth(Integer.parseInt(roverPropertiesWidth.getText()));
+            rover.setHeight(Integer.parseInt(roverPropertiesHeight.getText()));
+            rover.setLength(Integer.parseInt(roverPropertiesLength.getText()));
+            rover.setDirection(Float.parseFloat(roverPropertiesHeading.getText()));
+            propertiesPage.setVisible(false);
+        }
+    }//GEN-LAST:event_roverPropertiesOkActionPerformed
+
+    private void roverPropertiesCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roverPropertiesCancelActionPerformed
+        // TODO add your handling code here:
+        propertiesPage.setVisible(false);
+    }//GEN-LAST:event_roverPropertiesCancelActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void leftTurnCommandButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftTurnCommandButtonActionPerformed
+        // TODO add your handling code here:
+        // Make sure angle is valid
+        if (!movementCommandAngle.getText().isEmpty())
+        {
+            // Send command
+            movementCommandAngle.setForeground(Color.black);
+        }
+        else
+        {
+            movementCommandAngle.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_leftTurnCommandButtonActionPerformed
+
+    private void rightTurnCommandButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rightTurnCommandButtonActionPerformed
+        // TODO add your handling code here:
+        // Make sure angle is valid
+        if (!movementCommandAngle.getText().isEmpty())
+        {
+            // Send command
+            movementCommandAngle.setForeground(Color.black);
+        }
+        else
+        {
+            movementCommandAngle.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_rightTurnCommandButtonActionPerformed
+
+    private void backwardsCommandButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backwardsCommandButtonActionPerformed
+        // TODO add your handling code here:
+        // Make sure distance is valid
+        if (!movementCommandDistance.getText().isEmpty())
+        {
+            // Send command
+            movementCommandDistance.setForeground(Color.black);
+            movementCommandMM.setForeground(Color.black);
+        }
+        else
+        {
+            movementCommandDistance.setForeground(Color.red);
+            movementCommandMM.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_backwardsCommandButtonActionPerformed
+
+    private void forwardCommandButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardCommandButtonActionPerformed
+        // TODO add your handling code here:
+        // Make sure distance is valid
+        if (!movementCommandDistance.getText().isEmpty())
+        {
+            // Send command
+            movementCommandDistance.setForeground(Color.black);
+            movementCommandMM.setForeground(Color.black);
+        }
+        else
+        {
+            movementCommandDistance.setForeground(Color.red);
+            movementCommandMM.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_forwardCommandButtonActionPerformed
+
+    private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTree1ValueChanged
+        // TODO add your handling code here:
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
+
+        if (node == null)
+        //Nothing is selected.  
+        return;
+        
+        switch (node.toString())
+        {
+            case "Rover":
+                propertiesLayers.setLayer(presetPropertiesPanel, JLayeredPane.DEFAULT_LAYER);
+                propertiesLayers.setLayer(roverPropertiesPanel, JLayeredPane.MODAL_LAYER);
+                break;
+                
+            case "Presets":
+                propertiesLayers.setLayer(roverPropertiesPanel, JLayeredPane.DEFAULT_LAYER);
+                propertiesLayers.setLayer(presetPropertiesPanel, JLayeredPane.MODAL_LAYER);
+                break;
+        }
+    }//GEN-LAST:event_jTree1ValueChanged
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void presetsNextPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_presetsNextPageButtonActionPerformed
+        // TODO add your handling code here:
+        presetsLayeredPane.setLayer(presetsPage1, JLayeredPane.DEFAULT_LAYER);
+        presetsLayeredPane.setLayer(presetsPage2, JLayeredPane.MODAL_LAYER);
+    }//GEN-LAST:event_presetsNextPageButtonActionPerformed
+
+    private void presetsPreviousPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_presetsPreviousPageButtonActionPerformed
+        // TODO add your handling code here:
+        presetsLayeredPane.setLayer(presetsPage2, JLayeredPane.DEFAULT_LAYER);
+        presetsLayeredPane.setLayer(presetsPage1, JLayeredPane.MODAL_LAYER);
+    }//GEN-LAST:event_presetsPreviousPageButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1548,12 +2791,24 @@ public class RemoteMapper extends javax.swing.JFrame {
         TimeKeeper tk = new TimeKeeper (clock);
         tk.execute();
         
+        AutoSaver as = new AutoSaver (map, mapFile);
+        as.execute();
+        
+        // Setup formatted textfields
+        PlainDocument pd17 = (PlainDocument) movementCommandDistance.getDocument();
+        pd17.setDocumentFilter(new MyIntFilter());
+        
+        PlainDocument pd18 = (PlainDocument) movementCommandAngle.getDocument();
+        pd18.setDocumentFilter(new AngleFilter());
+        
         setVisible (true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame about;
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JCheckBoxMenuItem autoSaveCheckBox;
+    private javax.swing.JButton backwardsCommandButton;
     private javax.swing.JComboBox<String> baudRateSelector;
     private javax.swing.JButton browseButton;
     private javax.swing.JLabel clock;
@@ -1564,10 +2819,20 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel errorJLabel;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JButton forwardCommandButton;
     private javax.swing.JFormattedTextField headingFormattedField;
     private javax.swing.JLabel headingLabel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1585,10 +2850,40 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1599,15 +2894,34 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -1616,6 +2930,19 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextArea3;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
+    private javax.swing.JTree jTree1;
+    private javax.swing.JButton leftTurnCommandButton;
     private javax.swing.JTextArea loadingConsole;
     private javax.swing.JProgressBar loadingProgressBar;
     private javax.swing.JFrame loadingScreen;
@@ -1624,6 +2951,9 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel mapHeightLabel;
     private javax.swing.JFormattedTextField mapWidthFormattedField;
     private javax.swing.JLabel mapWidthLabel;
+    private javax.swing.JTextField movementCommandAngle;
+    private javax.swing.JTextField movementCommandDistance;
+    private javax.swing.JLabel movementCommandMM;
     private javax.swing.JButton nextButton;
     private javax.swing.JLabel obsticalMarkLabel;
     private javax.swing.JTextField obsticalMarkTextField;
@@ -1635,16 +2965,46 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel positionXLabel;
     private javax.swing.JFormattedTextField positionYFormattedField;
     private javax.swing.JLabel positionYLabel;
+    private javax.swing.JPanel presetPropertiesPanel;
+    private javax.swing.JLayeredPane presetsLayeredPane;
+    private javax.swing.JButton presetsNextPageButton;
+    private javax.swing.JPanel presetsPage1;
+    private javax.swing.JPanel presetsPage2;
+    private javax.swing.JButton presetsPreviousPageButton;
+    private javax.swing.JLayeredPane propertiesLayers;
+    private javax.swing.JFrame propertiesPage;
+    private javax.swing.JButton rightTurnCommandButton;
     private javax.swing.JFormattedTextField roverHeightFormattedField;
     private javax.swing.JLabel roverHeightLabel;
     private javax.swing.JFormattedTextField roverLengthFormattedField;
     private javax.swing.JLabel roverLengthLabel;
+    private javax.swing.JButton roverPropertiesCancel;
+    private javax.swing.JLabel roverPropertiesErrorLabel;
+    private javax.swing.JFormattedTextField roverPropertiesHeading;
+    private javax.swing.JLabel roverPropertiesHeadingLabel;
+    private javax.swing.JFormattedTextField roverPropertiesHeight;
+    private javax.swing.JLabel roverPropertiesHeightLabel;
+    private javax.swing.JMenuItem roverPropertiesItem;
+    private javax.swing.JFormattedTextField roverPropertiesLength;
+    private javax.swing.JLabel roverPropertiesLengthLabel;
+    private javax.swing.JButton roverPropertiesOk;
+    private javax.swing.JPanel roverPropertiesPanel;
+    private javax.swing.JFormattedTextField roverPropertiesWidth;
+    private javax.swing.JLabel roverPropertiesWidthLabel;
+    private javax.swing.JFormattedTextField roverPropertiesX;
+    private javax.swing.JLabel roverPropertiesXLabel;
+    private javax.swing.JFormattedTextField roverPropertiesY;
+    private javax.swing.JLabel roverPropertiesYLabel;
     private javax.swing.JFormattedTextField roverWidthFormattedField;
     private javax.swing.JLabel roverWidthLabel;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JButton start;
     private javax.swing.JPanel statusBar;
+    private javax.swing.JTable statusDeviceTable;
+    private javax.swing.JLabel statusPosHeading;
+    private javax.swing.JLabel statusPosX;
+    private javax.swing.JLabel statusPosY;
     private javax.swing.JRadioButton useDefaultMarkingsRadio;
     private javax.swing.JRadioButton useExistingRadio;
     private javax.swing.JFrame wizardPage1;
@@ -1654,7 +3014,10 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JFrame wizardPage3;
     private javax.swing.JButton wizardPage3Back;
     private javax.swing.JFrame wizardPage4;
+    private javax.swing.JButton wizardPage4Back;
+    private javax.swing.JLabel wizardPage4Header2;
     private javax.swing.JButton wizardPage4Next;
+    private javax.swing.JLabel wizardPage4Title;
     // End of variables declaration//GEN-END:variables
 
     class TimeKeeper extends SwingWorker<Void, Void>
@@ -1670,10 +3033,45 @@ public class RemoteMapper extends javax.swing.JFrame {
         protected Void doInBackground() throws Exception {
             for (; ;)
             {
+                // Update clock
                 display.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm.ss")));
+                
+                // Update status
+                statusPosX.setText(""+rover.getX());
+                statusPosY.setText(""+rover.getY());
+                statusPosHeading.setText(""+rover.getDirection());
                 Thread.sleep(1000);
             }
         }
+    }
+    
+    class AutoSaver extends SwingWorker<Void, Void>
+    {
+        File out;
+        Map toSave;
+        SaveMap sm;
+        final int AUTOSAVE_INTERVAL = 15000;
+        
+        public AutoSaver (Map toSave, File out)
+        {
+            this.out = out;
+            this.toSave = toSave; 
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception
+        {
+            for (; ;)
+            {
+                Thread.sleep(AUTOSAVE_INTERVAL);
+                
+                if (autoSaveCheckBox.isSelected())
+                {
+                    sm = new SaveMap (toSave, out);
+                    sm.execute();
+                }
+            }
+        }   
     }
     
     class LoadMap extends SwingWorker<Map, Integer>
