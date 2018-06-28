@@ -25,3 +25,5 @@ For more information please contact: rohu747@gmail.com
 
 Preview:
 -
+<img src="/imgs/Capture.png" alt="Preview image 1"/>
+<img src="/docs/Capture2.png" alt="Preview image 2"/>
