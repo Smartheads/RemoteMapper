@@ -20,7 +20,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
@@ -28,8 +27,8 @@ import javax.swing.SwingWorker;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.PlainDocument;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
 import remoteMapper.classes.Map;
+import remotemapper.classes.CommandPreset;
 import remotemapper.classes.Rover;
 import remotemapper.utility.AngleFilter;
 import remotemapper.utility.LengthFilter;
@@ -43,9 +42,8 @@ public class RemoteMapper extends javax.swing.JFrame {
     private SerialHandler port;
     private Map map;
     private Rover rover;
-    private File workspace;
-    private File mapFile;
-    private int[] propertiesBuffer;
+    private File workspace, mapFile, presetFile;
+    private CommandPreset[] presets;
 
     /**
      * Creates new form RemoteMapper
@@ -234,7 +232,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         jTextField8 = new javax.swing.JTextField();
         jLabel57 = new javax.swing.JLabel();
         jTextField9 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
         jLabel58 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTextArea4 = new javax.swing.JTextArea();
@@ -243,7 +240,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         jTextField10 = new javax.swing.JTextField();
         jLabel61 = new javax.swing.JLabel();
         jTextField11 = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
         jLabel62 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jTextArea5 = new javax.swing.JTextArea();
@@ -252,39 +248,37 @@ public class RemoteMapper extends javax.swing.JFrame {
         jTextField12 = new javax.swing.JTextField();
         jLabel65 = new javax.swing.JLabel();
         jTextField13 = new javax.swing.JTextField();
-        jButton14 = new javax.swing.JButton();
         jLabel66 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         jTextArea6 = new javax.swing.JTextArea();
+        jLabel68 = new javax.swing.JLabel();
         presetsPage1 = new javax.swing.JPanel();
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        preset1NameField = new javax.swing.JTextField();
         jLabel44 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        preset1CommandField = new javax.swing.JTextField();
         jLabel46 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        preset1DescriptionField = new javax.swing.JTextArea();
         jLabel47 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        preset2NameField = new javax.swing.JTextField();
         jLabel49 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        preset2CommandField = new javax.swing.JTextField();
         jLabel50 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        preset2DescriptionField = new javax.swing.JTextArea();
         jLabel51 = new javax.swing.JLabel();
         jLabel52 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        preset3NameField = new javax.swing.JTextField();
         jLabel53 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        preset3CommandField = new javax.swing.JTextField();
         jLabel54 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        preset3DescriptionField = new javax.swing.JTextArea();
         presetsNextPageButton = new javax.swing.JButton();
+        jLabel67 = new javax.swing.JLabel();
         roverPropertiesPanel = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jSeparator10 = new javax.swing.JSeparator();
@@ -1234,11 +1228,9 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel56.setText("Name:");
 
-        jTextField8.setText("Preset 1");
+        jTextField8.setText("Preset 4");
 
         jLabel57.setText("Command:");
-
-        jButton5.setText("Set");
 
         jLabel58.setText("Description:");
 
@@ -1254,8 +1246,6 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel61.setText("Command:");
 
-        jButton6.setText("Set");
-
         jLabel62.setText("Description:");
 
         jTextArea5.setColumns(20);
@@ -1270,13 +1260,13 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel65.setText("Command:");
 
-        jButton14.setText("Set");
-
         jLabel66.setText("Description:");
 
         jTextArea6.setColumns(20);
         jTextArea6.setRows(5);
         jScrollPane9.setViewportView(jTextArea6);
+
+        jLabel68.setText("Your preferences will be saved automaticly.");
 
         javax.swing.GroupLayout presetsPage2Layout = new javax.swing.GroupLayout(presetsPage2);
         presetsPage2.setLayout(presetsPage2Layout);
@@ -1289,52 +1279,49 @@ public class RemoteMapper extends javax.swing.JFrame {
                     .addComponent(jLabel63))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(presetsPage2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, presetsPage2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel68)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(presetsPreviousPageButton))
                     .addGroup(presetsPage2Layout.createSequentialGroup()
-                        .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(presetsPage2Layout.createSequentialGroup()
-                                    .addComponent(jLabel56)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel57)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton5))
-                                .addComponent(jLabel58)
-                                .addGroup(presetsPage2Layout.createSequentialGroup()
-                                    .addComponent(jLabel60)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel61)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton6))
-                                .addComponent(jLabel62)
-                                .addGroup(presetsPage2Layout.createSequentialGroup()
-                                    .addComponent(jLabel64)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel65)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton14))
-                                .addComponent(jLabel66))
-                            .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 77, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(presetsPage2Layout.createSequentialGroup()
+                                .addComponent(jLabel56)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel57)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
+                            .addComponent(jLabel58)
+                            .addGroup(presetsPage2Layout.createSequentialGroup()
+                                .addComponent(jLabel60)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel61)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField11))
+                            .addComponent(jLabel62)
+                            .addGroup(presetsPage2Layout.createSequentialGroup()
+                                .addComponent(jLabel64)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel65)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField13))
+                            .addComponent(jLabel66)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(presetsPage2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(87, Short.MAX_VALUE))
         );
         presetsPage2Layout.setVerticalGroup(
             presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1345,8 +1332,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                     .addComponent(jLabel56)
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel57)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
+                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel58)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1358,8 +1344,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                     .addComponent(jLabel60)
                     .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel61)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel62)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1371,14 +1356,15 @@ public class RemoteMapper extends javax.swing.JFrame {
                     .addComponent(jLabel64)
                     .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel65)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton14))
+                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel66)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(presetsPreviousPageButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(presetsPreviousPageButton)
+                    .addComponent(jLabel68))
                 .addContainerGap())
         );
 
@@ -1386,60 +1372,64 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel43.setText("Name:");
 
-        jTextField1.setText("Preset 1");
+        preset1NameField.setText("Preset 1");
+        preset1NameField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                preset1NameFieldFocusLost(evt);
+            }
+        });
 
-        jLabel44.setText("command:");
-
-        jButton1.setText("Set");
+        jLabel44.setText("Command:");
 
         jLabel46.setText("Description:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane4.setViewportView(jTextArea1);
+        preset1DescriptionField.setColumns(20);
+        preset1DescriptionField.setRows(5);
+        jScrollPane4.setViewportView(preset1DescriptionField);
 
         jLabel47.setText("Preset 2");
 
         jLabel48.setText("Name:");
 
-        jTextField4.setText("Preset 2");
-
-        jLabel49.setText("command:");
-
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+        preset2NameField.setText("Preset 2");
+        preset2NameField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                preset2NameFieldFocusLost(evt);
             }
         });
 
-        jButton3.setText("Set");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jLabel49.setText("Command:");
+
+        preset2CommandField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                preset2CommandFieldActionPerformed(evt);
             }
         });
 
         jLabel50.setText("Description:");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane5.setViewportView(jTextArea2);
+        preset2DescriptionField.setColumns(20);
+        preset2DescriptionField.setRows(5);
+        jScrollPane5.setViewportView(preset2DescriptionField);
 
         jLabel51.setText("Preset 3");
 
         jLabel52.setText("Name:");
 
-        jTextField6.setText("Preset 3");
+        preset3NameField.setText("Preset 3");
+        preset3NameField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                preset3NameFieldFocusLost(evt);
+            }
+        });
 
-        jLabel53.setText("command:");
-
-        jButton4.setText("Set");
+        jLabel53.setText("Command:");
 
         jLabel54.setText("Description:");
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane6.setViewportView(jTextArea3);
+        preset3DescriptionField.setColumns(20);
+        preset3DescriptionField.setRows(5);
+        jScrollPane6.setViewportView(preset3DescriptionField);
 
         presetsNextPageButton.setText("Next page");
         presetsNextPageButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1448,68 +1438,69 @@ public class RemoteMapper extends javax.swing.JFrame {
             }
         });
 
+        jLabel67.setText("Your preferences will be saved automaticly.");
+
         javax.swing.GroupLayout presetsPage1Layout = new javax.swing.GroupLayout(presetsPage1);
         presetsPage1.setLayout(presetsPage1Layout);
         presetsPage1Layout.setHorizontalGroup(
             presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(presetsPage1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel42, javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(presetsPage1Layout.createSequentialGroup()
+                        .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createSequentialGroup()
+                                    .addComponent(jLabel42)
+                                    .addGap(280, 280, 280))
+                                .addGroup(presetsPage1Layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel46)
+                                            .addGroup(presetsPage1Layout.createSequentialGroup()
+                                                .addComponent(jLabel43)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(preset1NameField, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jLabel44)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(preset1CommandField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addComponent(jLabel47, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel51, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel46)
                                     .addGroup(presetsPage1Layout.createSequentialGroup()
-                                        .addComponent(jLabel43)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel44)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton1)))))
-                        .addComponent(jLabel47, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel50)
-                                .addGroup(presetsPage1Layout.createSequentialGroup()
-                                    .addComponent(jLabel48)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel49)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton3)))))
-                    .addComponent(jLabel51, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel54)
-                            .addGroup(presetsPage1Layout.createSequentialGroup()
-                                .addComponent(jLabel52)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel53)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4)))))
-                .addGap(70, 70, 70))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, presetsPage1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(presetsNextPageButton)
-                .addContainerGap())
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel50, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createSequentialGroup()
+                                            .addComponent(jLabel48)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(preset2NameField, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jLabel49)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(preset2CommandField))
+                                        .addComponent(jLabel54, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, presetsPage1Layout.createSequentialGroup()
+                                            .addComponent(jLabel52)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(preset3NameField, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jLabel53)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(preset3CommandField))))))
+                        .addGap(70, 70, 70))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, presetsPage1Layout.createSequentialGroup()
+                        .addComponent(jLabel67)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(presetsNextPageButton)
+                        .addContainerGap())))
         );
         presetsPage1Layout.setVerticalGroup(
             presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1518,10 +1509,9 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel43)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(preset1NameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel44)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(preset1CommandField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel46)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1531,10 +1521,9 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel48)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(preset2NameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel49)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(preset2CommandField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel50)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1544,16 +1533,17 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel52)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(preset3NameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel53)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
+                    .addComponent(preset3CommandField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel54)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(presetsNextPageButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGroup(presetsPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(presetsNextPageButton)
+                    .addComponent(jLabel67))
                 .addContainerGap())
         );
 
@@ -2577,7 +2567,8 @@ public class RemoteMapper extends javax.swing.JFrame {
             if (useExistingRadio.isSelected())
             {
                 loadingConsole.append("Loading map...\n");
-                mapFile = new File (pathTextField.getText() + File.separator + "map.d");
+                mapFile = new File (pathTextField.getText() + File.separator + ConfigFiles.MAP.getName());
+                presetFile = new File (pathTextField.getText() + File.separator + ConfigFiles.CMD_PRESETS.getName());
 
                 loadingProgressBar.setMaximum((int) mapFile.length());
 
@@ -2595,7 +2586,8 @@ public class RemoteMapper extends javax.swing.JFrame {
                 map = new Map (Integer.parseInt(mapWidthFormattedField.getText()), Integer.parseInt(mapHeightFormattedField.getText()), obsticalMarkTextField.getText().charAt(0), emptySpaceMarkTextField.getText().charAt(0));
                 loadingConsole.append ("Done...\n");
                 
-                mapFile = new File (workspace.getPath() + File.separator + "map.d");
+                mapFile = new File (workspace.getPath() + File.separator + ConfigFiles.MAP.getName());
+                presetFile = new File (workspace.getPath() + File.separator + ConfigFiles.CMD_PRESETS.getName());
                 
                 loadingConsole.append ("Saving map...\n");
                 
@@ -2869,13 +2861,9 @@ public class RemoteMapper extends javax.swing.JFrame {
         presetPropertiesPanel.setVisible(false);
     }
     
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void preset2CommandFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preset2CommandFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_preset2CommandFieldActionPerformed
 
     private void presetsNextPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_presetsNextPageButtonActionPerformed
         // TODO add your handling code here:
@@ -2888,6 +2876,24 @@ public class RemoteMapper extends javax.swing.JFrame {
         presetsPage2.setVisible(false);
         presetsPage1.setVisible(true);
     }//GEN-LAST:event_presetsPreviousPageButtonActionPerformed
+
+    private void preset1NameFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_preset1NameFieldFocusLost
+        // TODO add your handling code here:
+        if (preset1NameField.getText().isEmpty())
+            preset1NameField.setText("Preset 1");
+    }//GEN-LAST:event_preset1NameFieldFocusLost
+
+    private void preset2NameFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_preset2NameFieldFocusLost
+        // TODO add your handling code here:
+        if (preset2NameField.getText().isEmpty())
+            preset2NameField.setText("Preset 2");
+    }//GEN-LAST:event_preset2NameFieldFocusLost
+
+    private void preset3NameFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_preset3NameFieldFocusLost
+        // TODO add your handling code here:
+        if (preset3NameField.getText().isEmpty())
+            preset3NameField.setText("Preset 3");
+    }//GEN-LAST:event_preset3NameFieldFocusLost
 
     /**
      * @param args the command line arguments
@@ -2924,13 +2930,10 @@ public class RemoteMapper extends javax.swing.JFrame {
         });
     }
     
-    private boolean existingWorkspaceValid (File ws)
+    private static boolean existingWorkspaceValid (File ws)
     {
-        if (new File (ws.getPath() + File.separator +"map.d").isFile())
-        {
-            // Continue
+        if (new File (ws.getPath() + File.separator + ConfigFiles.MAP.getName()).isFile() && new File (ws.getPath() + File.separator + ConfigFiles.CMD_PRESETS.getName()).isFile())
             return true;
-        }
         
         return false;
     }
@@ -2952,7 +2955,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         TimeKeeper tk = new TimeKeeper (clock);
         tk.execute();
         
-        AutoSaver as = new AutoSaver (map, mapFile);
+        AutoSaver as = new AutoSaver (map, mapFile, presetFile);
         as.execute();
         
         // Setup formatted textfields
@@ -2962,6 +2965,21 @@ public class RemoteMapper extends javax.swing.JFrame {
         PlainDocument pd18 = (PlainDocument) movementCommandAngle.getDocument();
         pd18.setDocumentFilter(new AngleFilter());
         propertiesPage.setAlwaysOnTop(true);
+        
+        // Initialize command presets:
+        if (useExistingRadio.isSelected())
+        {
+            // Load command presets from existing workspace
+            
+        }
+        {
+            // Create new presets
+            presets = new CommandPreset[6];
+            for (int i = 0; i < 6; i++)
+            {
+                presets[i] = new CommandPreset("Preset "+(i+1), "", "");
+            }
+        }
         
         setVisible (true);
     }
@@ -3003,17 +3021,11 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JButton forwardCommandButton;
     private javax.swing.JFormattedTextField headingFormattedField;
     private javax.swing.JLabel headingLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -3080,6 +3092,8 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -3128,23 +3142,14 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextArea jTextArea5;
     private javax.swing.JTextArea jTextArea6;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JTree jTree1;
@@ -3172,6 +3177,15 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField positionYFormattedField;
     private javax.swing.JLabel positionYLabel;
     private javax.swing.JMenuItem preferencesItem;
+    private javax.swing.JTextField preset1CommandField;
+    private javax.swing.JTextArea preset1DescriptionField;
+    private javax.swing.JTextField preset1NameField;
+    private javax.swing.JTextField preset2CommandField;
+    private javax.swing.JTextArea preset2DescriptionField;
+    private javax.swing.JTextField preset2NameField;
+    private javax.swing.JTextField preset3CommandField;
+    private javax.swing.JTextArea preset3DescriptionField;
+    private javax.swing.JTextField preset3NameField;
     private javax.swing.JPanel presetPropertiesPanel;
     private javax.swing.JLayeredPane presetsLayeredPane;
     private javax.swing.JButton presetsNextPageButton;
@@ -3254,14 +3268,15 @@ public class RemoteMapper extends javax.swing.JFrame {
     
     class AutoSaver extends SwingWorker<Void, Void>
     {
-        File out;
+        File mapOut, presetsOut;
         Map toSave;
         SaveMap sm;
         final int AUTOSAVE_INTERVAL = 15000;
         
-        public AutoSaver (Map toSave, File out)
+        public AutoSaver (Map toSave, File mapOut, File presetsOut)
         {
-            this.out = out;
+            this.mapOut = mapOut;
+            this.presetsOut = presetsOut;
             this.toSave = toSave; 
         }
 
@@ -3272,10 +3287,16 @@ public class RemoteMapper extends javax.swing.JFrame {
             {
                 Thread.sleep(AUTOSAVE_INTERVAL);
                 
-                if (autoSaveCheckBox.isSelected())
+                if (autoSaveCheckBox.isSelected() && !propertiesPage.isVisible())
                 {
-                    sm = new SaveMap (toSave, out);
+                    sm = new SaveMap (toSave, mapOut);
                     sm.execute();
+                    
+                    // Save command presets:
+                    for (int i = 0; i < presets.length; i++)
+                    {
+                        presets[i].saveToFile(presetsOut);
+                    }
                 }
             }
         }   
