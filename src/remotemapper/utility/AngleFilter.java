@@ -16,7 +16,7 @@ import javax.swing.text.DocumentFilter;
  */
 public class AngleFilter extends DocumentFilter
 {
-    final int limit = 3;
+    final int limit = 6;
   
   @Override
   public void insertString(DocumentFilter.FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException
@@ -44,7 +44,7 @@ public class AngleFilter extends DocumentFilter
         return true;
       }
 
-      int i = Integer.parseInt(text);
+      float i = Float.parseFloat(text);
       
       if (i < 360 && i >= 0)
         return true;
