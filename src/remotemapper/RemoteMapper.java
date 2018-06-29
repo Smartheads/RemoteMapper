@@ -217,7 +217,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         loadingConsole = new javax.swing.JTextArea();
         propertiesPage = new javax.swing.JFrame();
-        jPanel23 = new javax.swing.JPanel();
+        selectPagePanel = new javax.swing.JPanel();
         jSeparator7 = new javax.swing.JSeparator();
         jLabel30 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -230,6 +230,32 @@ public class RemoteMapper extends javax.swing.JFrame {
         presetsPage2 = new javax.swing.JPanel();
         jLabel55 = new javax.swing.JLabel();
         presetsPreviousPageButton = new javax.swing.JButton();
+        jLabel56 = new javax.swing.JLabel();
+        jTextField8 = new javax.swing.JTextField();
+        jLabel57 = new javax.swing.JLabel();
+        jTextField9 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
+        jLabel58 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTextArea4 = new javax.swing.JTextArea();
+        jLabel59 = new javax.swing.JLabel();
+        jLabel60 = new javax.swing.JLabel();
+        jTextField10 = new javax.swing.JTextField();
+        jLabel61 = new javax.swing.JLabel();
+        jTextField11 = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
+        jLabel62 = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTextArea5 = new javax.swing.JTextArea();
+        jLabel63 = new javax.swing.JLabel();
+        jLabel64 = new javax.swing.JLabel();
+        jTextField12 = new javax.swing.JTextField();
+        jLabel65 = new javax.swing.JLabel();
+        jTextField13 = new javax.swing.JTextField();
+        jButton14 = new javax.swing.JButton();
+        jLabel66 = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jTextArea6 = new javax.swing.JTextArea();
         presetsPage1 = new javax.swing.JPanel();
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
@@ -338,7 +364,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         aboutMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        roverPropertiesItem = new javax.swing.JMenuItem();
+        preferencesItem = new javax.swing.JMenuItem();
 
         wizardPage1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         wizardPage1.setTitle("Remote Mapper Setup Wizard");
@@ -1144,8 +1170,9 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         propertiesPage.setTitle("Properties");
         propertiesPage.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
+        propertiesPage.setPreferredSize(new java.awt.Dimension(788, 524));
         propertiesPage.setResizable(false);
-        propertiesPage.setSize(new java.awt.Dimension(769, 480));
+        propertiesPage.setSize(new java.awt.Dimension(788, 524));
 
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -1166,30 +1193,32 @@ public class RemoteMapper extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jTree1);
 
-        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
-        jPanel23.setLayout(jPanel23Layout);
-        jPanel23Layout.setHorizontalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
-                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel23Layout.createSequentialGroup()
+        javax.swing.GroupLayout selectPagePanelLayout = new javax.swing.GroupLayout(selectPagePanel);
+        selectPagePanel.setLayout(selectPagePanelLayout);
+        selectPagePanelLayout.setHorizontalGroup(
+            selectPagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(selectPagePanelLayout.createSequentialGroup()
+                .addGroup(selectPagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(selectPagePanelLayout.createSequentialGroup()
                         .addGap(62, 62, 62)
                         .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE))
-                    .addGroup(jPanel23Layout.createSequentialGroup()
+                    .addGroup(selectPagePanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane3)
                         .addGap(18, 18, 18)))
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        jPanel23Layout.setVerticalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator7)
-            .addGroup(jPanel23Layout.createSequentialGroup()
+        selectPagePanelLayout.setVerticalGroup(
+            selectPagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(selectPagePanelLayout.createSequentialGroup()
                 .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jScrollPane3)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, selectPagePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSeparator7))
         );
 
         jLabel37.setText("<html><h3>Preset commands</h3></html>");
@@ -1203,23 +1232,152 @@ public class RemoteMapper extends javax.swing.JFrame {
             }
         });
 
+        jLabel56.setText("Name:");
+
+        jTextField8.setText("Preset 1");
+
+        jLabel57.setText("Command:");
+
+        jButton5.setText("Set");
+
+        jLabel58.setText("Description:");
+
+        jTextArea4.setColumns(20);
+        jTextArea4.setRows(5);
+        jScrollPane7.setViewportView(jTextArea4);
+
+        jLabel59.setText("Preset 5");
+
+        jLabel60.setText("Name:");
+
+        jTextField10.setText("Preset 5");
+
+        jLabel61.setText("Command:");
+
+        jButton6.setText("Set");
+
+        jLabel62.setText("Description:");
+
+        jTextArea5.setColumns(20);
+        jTextArea5.setRows(5);
+        jScrollPane8.setViewportView(jTextArea5);
+
+        jLabel63.setText("Preset 6");
+
+        jLabel64.setText("Name:");
+
+        jTextField12.setText("Preset 6");
+
+        jLabel65.setText("Command:");
+
+        jButton14.setText("Set");
+
+        jLabel66.setText("Description:");
+
+        jTextArea6.setColumns(20);
+        jTextArea6.setRows(5);
+        jScrollPane9.setViewportView(jTextArea6);
+
         javax.swing.GroupLayout presetsPage2Layout = new javax.swing.GroupLayout(presetsPage2);
         presetsPage2.setLayout(presetsPage2Layout);
         presetsPage2Layout.setHorizontalGroup(
             presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(presetsPage2Layout.createSequentialGroup()
-                .addComponent(jLabel55)
+                .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel55)
+                    .addComponent(jLabel59)
+                    .addComponent(jLabel63))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, presetsPage2Layout.createSequentialGroup()
-                .addContainerGap(412, Short.MAX_VALUE)
-                .addComponent(presetsPreviousPageButton)
+            .addGroup(presetsPage2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, presetsPage2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(presetsPreviousPageButton))
+                    .addGroup(presetsPage2Layout.createSequentialGroup()
+                        .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(presetsPage2Layout.createSequentialGroup()
+                                    .addComponent(jLabel56)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel57)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton5))
+                                .addComponent(jLabel58)
+                                .addGroup(presetsPage2Layout.createSequentialGroup()
+                                    .addComponent(jLabel60)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel61)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton6))
+                                .addComponent(jLabel62)
+                                .addGroup(presetsPage2Layout.createSequentialGroup()
+                                    .addComponent(jLabel64)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel65)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton14))
+                                .addComponent(jLabel66))
+                            .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 77, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         presetsPage2Layout.setVerticalGroup(
             presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(presetsPage2Layout.createSequentialGroup()
                 .addComponent(jLabel55)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 368, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel56)
+                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel57)
+                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel58)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel59)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel60)
+                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel61)
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel62)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel63)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(presetsPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel64)
+                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel65)
+                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton14))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel66)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addComponent(presetsPreviousPageButton)
                 .addContainerGap())
         );
@@ -1500,7 +1658,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                                 .addComponent(roverPropertiesHeightLabel)
                                 .addGap(7, 7, 7)
                                 .addComponent(roverPropertiesHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(139, Short.MAX_VALUE))
+                        .addContainerGap(158, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -1595,7 +1753,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(roverPropertiesPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(479, Short.MAX_VALUE)
                 .addGroup(roverPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(roverPropertiesOk)
                     .addComponent(roverPropertiesCancel)))
@@ -1628,14 +1786,14 @@ public class RemoteMapper extends javax.swing.JFrame {
         propertiesPageLayout.setHorizontalGroup(
             propertiesPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, propertiesPageLayout.createSequentialGroup()
-                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(selectPagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(propertiesLayers)
                 .addContainerGap())
         );
         propertiesPageLayout.setVerticalGroup(
             propertiesPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(selectPagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(propertiesPageLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(propertiesLayers)
@@ -2113,13 +2271,13 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jMenu2.setText("Edit");
 
-        roverPropertiesItem.setText("Rover properties");
-        roverPropertiesItem.addActionListener(new java.awt.event.ActionListener() {
+        preferencesItem.setText("Preferences");
+        preferencesItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roverPropertiesItemActionPerformed(evt);
+                preferencesItemActionPerformed(evt);
             }
         });
-        jMenu2.add(roverPropertiesItem);
+        jMenu2.add(preferencesItem);
 
         jMenuBar1.add(jMenu2);
 
@@ -2507,21 +2665,18 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
-    private void roverPropertiesItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roverPropertiesItemActionPerformed
+    private void preferencesItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preferencesItemActionPerformed
         // TODO add your handling code here:
-        // Load current values:
-        roverPropertiesWidth.setText(""+rover.getWidth());
-        roverPropertiesHeight.setText(""+rover.getHeight());
-        roverPropertiesLength.setText(""+rover.getWidth());
-        roverPropertiesHeading.setText((""+rover.getDirection()).length() >= 4 ? (String)(""+rover.getDirection()).subSequence(0, 4) : (""+rover.getDirection()));
-        roverPropertiesX.setText(""+rover.getX());
-        roverPropertiesY.setText(""+rover.getY());
         
         // Set default preferances page:
-        propertiesLayers.setLayer(roverPropertiesPanel, JLayeredPane.MODAL_LAYER);
+        hideAllPreferencePanels();
+        loadRoverPropertiesPage();
+        
+        // Other initialization
+        presetsPage2.setVisible(false);
         
         propertiesPage.setVisible(true);
-    }//GEN-LAST:event_roverPropertiesItemActionPerformed
+    }//GEN-LAST:event_preferencesItemActionPerformed
 
     private void roverPropertiesHeightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roverPropertiesHeightActionPerformed
         // TODO add your handling code here:
@@ -2697,17 +2852,23 @@ public class RemoteMapper extends javax.swing.JFrame {
         switch (node.toString())
         {
             case "Rover":
-                propertiesLayers.setLayer(presetPropertiesPanel, JLayeredPane.DEFAULT_LAYER);
-                propertiesLayers.setLayer(roverPropertiesPanel, JLayeredPane.MODAL_LAYER);
+                hideAllPreferencePanels();
+                loadRoverPropertiesPage();
                 break;
                 
             case "Presets":
-                propertiesLayers.setLayer(roverPropertiesPanel, JLayeredPane.DEFAULT_LAYER);
-                propertiesLayers.setLayer(presetPropertiesPanel, JLayeredPane.MODAL_LAYER);
+                hideAllPreferencePanels();
+                loadPresetPropertiesPage();
                 break;
         }
     }//GEN-LAST:event_jTree1ValueChanged
 
+    private void hideAllPreferencePanels ()
+    {
+        roverPropertiesPanel.setVisible(false);
+        presetPropertiesPanel.setVisible(false);
+    }
+    
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -2718,14 +2879,14 @@ public class RemoteMapper extends javax.swing.JFrame {
 
     private void presetsNextPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_presetsNextPageButtonActionPerformed
         // TODO add your handling code here:
-        presetsLayeredPane.setLayer(presetsPage1, JLayeredPane.DEFAULT_LAYER);
-        presetsLayeredPane.setLayer(presetsPage2, JLayeredPane.MODAL_LAYER);
+        presetsPage1.setVisible(false);
+        presetsPage2.setVisible(true);
     }//GEN-LAST:event_presetsNextPageButtonActionPerformed
 
     private void presetsPreviousPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_presetsPreviousPageButtonActionPerformed
         // TODO add your handling code here:
-        presetsLayeredPane.setLayer(presetsPage2, JLayeredPane.DEFAULT_LAYER);
-        presetsLayeredPane.setLayer(presetsPage1, JLayeredPane.MODAL_LAYER);
+        presetsPage2.setVisible(false);
+        presetsPage1.setVisible(true);
     }//GEN-LAST:event_presetsPreviousPageButtonActionPerformed
 
     /**
@@ -2800,8 +2961,28 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         PlainDocument pd18 = (PlainDocument) movementCommandAngle.getDocument();
         pd18.setDocumentFilter(new AngleFilter());
+        propertiesPage.setAlwaysOnTop(true);
         
         setVisible (true);
+    }
+    
+    private void loadRoverPropertiesPage ()
+    {
+        // Load current values:
+        roverPropertiesWidth.setText(""+rover.getWidth());
+        roverPropertiesHeight.setText(""+rover.getHeight());
+        roverPropertiesLength.setText(""+rover.getWidth());
+        roverPropertiesHeading.setText((""+rover.getDirection()).length() >= 4 ? (String)(""+rover.getDirection()).subSequence(0, 4) : (""+rover.getDirection()));
+        roverPropertiesX.setText(""+rover.getX());
+        roverPropertiesY.setText(""+rover.getY());
+        
+        roverPropertiesPanel.setVisible(true);
+    }
+    
+    private void loadPresetPropertiesPage()
+    {
+        // TODO: Implement load presets page
+        presetPropertiesPanel.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2827,9 +3008,12 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -2884,7 +3068,18 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -2904,7 +3099,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -2918,6 +3112,9 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
@@ -2934,13 +3131,22 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
+    private javax.swing.JTextArea jTextArea4;
+    private javax.swing.JTextArea jTextArea5;
+    private javax.swing.JTextArea jTextArea6;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
     private javax.swing.JTree jTree1;
     private javax.swing.JButton leftTurnCommandButton;
     private javax.swing.JTextArea loadingConsole;
@@ -2965,6 +3171,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel positionXLabel;
     private javax.swing.JFormattedTextField positionYFormattedField;
     private javax.swing.JLabel positionYLabel;
+    private javax.swing.JMenuItem preferencesItem;
     private javax.swing.JPanel presetPropertiesPanel;
     private javax.swing.JLayeredPane presetsLayeredPane;
     private javax.swing.JButton presetsNextPageButton;
@@ -2984,7 +3191,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel roverPropertiesHeadingLabel;
     private javax.swing.JFormattedTextField roverPropertiesHeight;
     private javax.swing.JLabel roverPropertiesHeightLabel;
-    private javax.swing.JMenuItem roverPropertiesItem;
     private javax.swing.JFormattedTextField roverPropertiesLength;
     private javax.swing.JLabel roverPropertiesLengthLabel;
     private javax.swing.JButton roverPropertiesOk;
@@ -2999,6 +3205,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel roverWidthLabel;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JPanel selectPagePanel;
     private javax.swing.JButton start;
     private javax.swing.JPanel statusBar;
     private javax.swing.JTable statusDeviceTable;
