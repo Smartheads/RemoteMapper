@@ -10,32 +10,32 @@ package remotemapper.classes;
  * @author rohu7
  */
 public class Angle {
-    protected int size;
+    protected float size;
     protected final int vollWinkel;
     
-    public Angle (int size)
+    public Angle (float size)
     {
         this.vollWinkel = 360;
         setAngel (size);
     }
     
-    public Angle (int size, int vollWinkel)
+    public Angle (float size, int vollWinkel)
     {
         this.vollWinkel = vollWinkel;
         setAngel (size);
     }
     
-    public void add (int b)
+    public void add (float b)
     {
         setAngel (this.size + b);
     }
     
-    public void subtract (int b)
+    public void subtract (float b)
     {
         setAngel (this.size - b);
     }
             
-    public final void setAngel (int size)
+    public final void setAngel (float size)
     {
         if (size > 0)
             this.size = vollWinkel % size;
@@ -45,7 +45,7 @@ public class Angle {
             this.size = 0;
     }
     
-    public int size ()
+    public float size ()
     {
         return this.size;
     }
