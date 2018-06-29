@@ -35,7 +35,9 @@ import remotemapper.utility.LengthFilter;
 import remotemapper.utility.MyIntFilter;
 
 /**
- *
+ * RemoteMapper.java - A class containing the most of the Remote Mapper GUI
+ * and some functions.
+ * 
  * @author Robert Hutter
  */
 public class RemoteMapper extends javax.swing.JFrame {
@@ -383,11 +385,6 @@ public class RemoteMapper extends javax.swing.JFrame {
                 portComboBoxPopupMenuWillBecomeVisible(evt);
             }
         });
-        portComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                portComboBoxActionPerformed(evt);
-            }
-        });
 
         jLabel4.setText("Baud rate:");
 
@@ -527,19 +524,8 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         useExistingRadio.setText("Yes");
         useExistingRadio.setToolTipText("Select if you want to use an existing workspace.");
-        useExistingRadio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                useExistingRadioActionPerformed(evt);
-            }
-        });
 
         jLabel10.setText("Workspace path:");
-
-        pathTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pathTextFieldActionPerformed(evt);
-            }
-        });
 
         nextButton.setText("<html><h4>Next</h4></html>");
         nextButton.addActionListener(new java.awt.event.ActionListener() {
@@ -672,11 +658,6 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         mapWidthFormattedField.setText("100");
         mapWidthFormattedField.setToolTipText("Select the maps width.");
-        mapWidthFormattedField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mapWidthFormattedFieldActionPerformed(evt);
-            }
-        });
 
         mapHeightLabel.setText("height");
 
@@ -703,11 +684,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         obsticalMarkTextField.setText("1");
         obsticalMarkTextField.setToolTipText("Select the charactar to be used to mark an obstical on the map.");
         obsticalMarkTextField.setEnabled(false);
-        obsticalMarkTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                obsticalMarkTextFieldActionPerformed(evt);
-            }
-        });
 
         emptySpaceMarkLabel.setText("Empty space:");
         emptySpaceMarkLabel.setEnabled(false);
@@ -716,11 +692,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         emptySpaceMarkTextField.setText("0");
         emptySpaceMarkTextField.setToolTipText("Select the character to be used to mark empty space on the map.");
         emptySpaceMarkTextField.setEnabled(false);
-        emptySpaceMarkTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emptySpaceMarkTextFieldActionPerformed(evt);
-            }
-        });
 
         wizardPage4Next.setText("<html><h4>Next</h4></html>");
         wizardPage4Next.addActionListener(new java.awt.event.ActionListener() {
@@ -1164,7 +1135,6 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         propertiesPage.setTitle("Properties");
         propertiesPage.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
-        propertiesPage.setPreferredSize(new java.awt.Dimension(788, 524));
         propertiesPage.setResizable(false);
         propertiesPage.setSize(new java.awt.Dimension(788, 524));
 
@@ -1602,23 +1572,11 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         roverPropertiesHeightLabel.setText("height:");
 
-        roverPropertiesHeight.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roverPropertiesHeightActionPerformed(evt);
-            }
-        });
-
         jLabel29.setText("<html><h4>Position</h4></html>");
 
         roverPropertiesXLabel.setText("x:");
 
         roverPropertiesYLabel.setText("y:");
-
-        roverPropertiesY.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roverPropertiesYActionPerformed(evt);
-            }
-        });
 
         roverPropertiesHeadingLabel.setText("heading:");
 
@@ -2319,10 +2277,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_startActionPerformed
 
-    private void portComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_portComboBoxActionPerformed
-
     private void portComboBoxPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_portComboBoxPopupMenuWillBecomeVisible
         // TODO add your handling code here:
         SerialPort[] ports = SerialHandler.getCommPorts();
@@ -2334,14 +2288,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         if (portComboBox.getItemCount() < 1)
             portComboBox.addItem("Select");
     }//GEN-LAST:event_portComboBoxPopupMenuWillBecomeVisible
-
-    private void useExistingRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useExistingRadioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_useExistingRadioActionPerformed
-
-    private void pathTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pathTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pathTextFieldActionPerformed
 
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         // TODO add your handling code here:
@@ -2407,10 +2353,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_nextButtonActionPerformed
 
-    private void mapWidthFormattedFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mapWidthFormattedFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mapWidthFormattedFieldActionPerformed
-
     private void useDefaultMarkingsRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useDefaultMarkingsRadioActionPerformed
         // TODO add your handling code here:
         if (useDefaultMarkingsRadio.isSelected())
@@ -2435,14 +2377,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_useDefaultMarkingsRadioActionPerformed
-
-    private void obsticalMarkTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obsticalMarkTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_obsticalMarkTextFieldActionPerformed
-
-    private void emptySpaceMarkTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emptySpaceMarkTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emptySpaceMarkTextFieldActionPerformed
 
     private void wizardPage4NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wizardPage4NextActionPerformed
         // TODO add your handling code here:
@@ -2669,14 +2603,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         propertiesPage.setVisible(true);
     }//GEN-LAST:event_preferencesItemActionPerformed
-
-    private void roverPropertiesHeightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roverPropertiesHeightActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_roverPropertiesHeightActionPerformed
-
-    private void roverPropertiesYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roverPropertiesYActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_roverPropertiesYActionPerformed
 
     private void roverPropertiesOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roverPropertiesOkActionPerformed
         // TODO add your handling code here:
