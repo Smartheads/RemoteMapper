@@ -56,9 +56,67 @@ public class CommandPreset
             
             Element root = doc.getRootElement();
             List<Element> subElements = root.getChildren();
+            
+            // Try to find prseset and get update its element
+            Element preset = null;
+            for (int i = 0; i < subElements.size(); i++)
+            {
+                if (subElements.get(i).getAttribute("name").equals(this.name))
+                {
+                    preset = subElements.get(i);
+                }
+            }
+            
+            // Check to see if we found the element:
+            if (preset != null)
+            {
+                // Update the element's data
+                List<Element> data = preset.getChildren();
+                
+                for (int i = 0; i < data.size(); i++)
+                {
+                    switch (data.get(i).getName())
+                    {
+                        case "name":
+                            data.get(i).setText(this.name);
+                            break;
+                            
+                        case "command":
+                            data.get(i).setText(this.command);
+                            break;
+                            
+                        case "description":
+                            data.get(i).setText(this.description);
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                // Append the new preset
+                preset = new Element("preset");
+                preset.setAttribute(new Attribute("name", this.name));
+                
+                Element cmd = new Element("command");
+                cmd.setText(this.command);
+                
+                Element desc = new Element("description");
+                desc.setText(this.description);
+                
+                preset.addContent(cmd);
+                preset.addContent(desc);
+                
+                root.addContent(preset);
+            }
+            
+            // Output to file
+            XMLOutputter XMLOutput = new XMLOutputter();
+            XMLOutput.setFormat(Format.getPrettyFormat());
+            XMLOutput.output(root, new FileWriter(out));
         }
         catch (JDOMException jdome)
         {
+            // Write new XML file
             Element presetsElement = new Element("command presets");
             Document doc = new Document (presetsElement);
             
@@ -75,7 +133,6 @@ public class CommandPreset
             preset.addContent(desc);
             
             XMLOutputter XMLOutput = new XMLOutputter();
-            
             XMLOutput.setFormat(Format.getPrettyFormat());
             XMLOutput.output(doc, new FileWriter(out));
         }
