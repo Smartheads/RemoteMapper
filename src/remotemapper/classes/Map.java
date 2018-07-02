@@ -11,14 +11,29 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.ArrayList;
 import remotemapper.classes.Node;
 
+/**
+ *
+ * @author rohu7
+ */
+public final class Map {
 
-public class Map {
-	protected char[][] map;
-        protected final char obsticalMark;
-        protected final char emptySpaceMark;
+    /**
+     *
+     */
+    protected char[][] map;
+
+    /**
+     *
+     */
+    protected final char obsticalMark;
+
+    /**
+     *
+     */
+    protected final char emptySpaceMark;
 	
 	
 	/* Create a new empty map.
@@ -26,6 +41,15 @@ public class Map {
 	 *  @param xDim int width of map
 	 *  @param yDim int height of map
 	 */
+
+    /**
+     *
+     * @param xDim
+     * @param yDim
+     * @param obM
+     * @param esM
+     */
+
 	public Map (int xDim, int yDim, char obM, char esM)
 	{
 		map = new char[yDim][xDim + 1];
@@ -48,6 +72,12 @@ public class Map {
 	 * 
 	 * @param Map
 	 */
+
+    /**
+     *
+     * @param preloaded
+     */
+
 	public Map (Map preloaded)
 	{
 		this.map = preloaded.getMap();
@@ -60,6 +90,13 @@ public class Map {
 	 * 
 	 *  @param File 
 	 */
+
+    /**
+     *
+     * @param mapfile
+     * @throws IOException
+     */
+
 	public Map (File mapfile) throws IOException
 	{
 		Map m = parseMapfile(mapfile);
@@ -74,6 +111,14 @@ public class Map {
             @param char obm Obstical marker
             @param char esM Empty space marker
         */
+
+    /**
+     *
+     * @param raw
+     * @param obM
+     * @param esM
+     */
+
         public Map (char[][] raw, char obM, char esM)
         {
             this.map = raw;
@@ -81,10 +126,16 @@ public class Map {
             this.emptySpaceMark = esM;
         }
 	
-	public Node[] Astar (Node start, Node goal)
+    /**
+     *
+     * @param start
+     * @param goal
+     * @return
+     */
+    public Node[] Astar (Node start, Node goal)
 	{
-		Vector<Node> openList = new Vector<Node>();
-		Vector<Node> closedList = new Vector<Node>();
+		ArrayList<Node> openList = new ArrayList<>();
+		ArrayList<Node> closedList = new ArrayList<>();
 		
 		start.setG(0);
 		start.setF(start.getG() + start.heuristic(goal));
@@ -123,7 +174,15 @@ public class Map {
 		return null;
 	}
 	
-	public void setPointRectangle (int x, int y, int width, int length, char val)
+    /**
+     *
+     * @param x
+     * @param y
+     * @param width
+     * @param length
+     * @param val
+     */
+    public void setPointRectangle (int x, int y, int width, int length, char val)
 	{
 		for (int y2 = y; y2 < y + length; y2++)
 		{
@@ -134,13 +193,24 @@ public class Map {
 		}
 	}
 	
-	
-	public void setPoint (int x, int y, char val)
+    /**
+     *
+     * @param x
+     * @param y
+     * @param val
+     */
+    public void setPoint (int x, int y, char val)
 	{
 		map[y-1][x-1] = val;
 	}
 	
-	public char getPoint (int x, int y)
+    /**
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public char getPoint (int x, int y)
 	{
 		return map[y-1][x-1];
 	}
@@ -152,6 +222,14 @@ public class Map {
 	 *  @param Map map
 	 *  @param File destination
 	 */
+
+    /**
+     *
+     * @param map
+     * @param dest
+     * @throws IOException
+     */
+
 	public static void exportToFile(Map map, File dest) throws IOException
 	{
 		final char[][] d = map.getMap();
@@ -161,14 +239,12 @@ public class Map {
                 out.write (String.valueOf(map.obsticalMark) + "\n");
                 out.write (String.valueOf(map.emptySpaceMark) + "\n");
                 
-                // Write map raw data
-		for (int y = 0; y < d.length; y++)
-		{
-			for (int x = 0; x < d[y].length; x++)
-			{
-				out.write(d[y][x]);
-			}
-		}
+        // Write map raw data
+        for (char[] d1 : d) {
+            for (int x = 0; x < d1.length; x++) {
+                out.write(d1[x]);
+            }
+        }
 		
 		out.flush();
 		out.close();
@@ -181,6 +257,14 @@ public class Map {
 	 * @param Map The map to be simplified.
 	 * @param int Coefficient of simplification.
 	 */
+
+    /**
+     *
+     * @param in
+     * @param w
+     * @return
+     */
+
 	public static Map simplfyMap (Map in, int w)
 	{
 		Map s = new Map ((int) in.getMap()[0].length / w, (int) in.getMap().length / w, in.getObsticalMark(), in.getEmptySpaceMark());
@@ -219,14 +303,22 @@ public class Map {
 	 * @return char[][] map extracted from file.
 	 * @throws IOException
 	 */
+
+    /**
+     *
+     * @param mapFile
+     * @return
+     * @throws IOException
+     */
+
 	protected Map parseMapfile(File mapFile) throws IOException
 	{
 		FileReader in = new FileReader(mapFile);
 		int c, y = 0;
 		
 		// Buffer map
-		Vector<Vector<Character>> b = new Vector<Vector<Character>>();
-		b.add(new Vector<Character>());
+		ArrayList<ArrayList<Character>> b = new ArrayList<>();
+		b.add(new ArrayList<>());
                 
                 char obM = (char) in.read();
                 in.skip(1);
@@ -239,7 +331,7 @@ public class Map {
 			if (c == '\n')
 			{
 				y++;
-				b.add(new Vector<Character>());
+				b.add(new ArrayList<>());
 			}
 			else
 			{
@@ -266,31 +358,53 @@ public class Map {
 		return new Map (m, obM, esM);
 	}
 	
-
-	public char[][] getMap() {
+    /**
+     *
+     * @return
+     */
+    public char[][] getMap() {
 		return map;
 	}
 	
-
-	public void setMap(char[][] map) {
+    /**
+     *
+     * @param map
+     */
+    public void setMap(char[][] map) {
 		this.map = map;
 	}
 	
-	public int getWidth ()
+    /**
+     *
+     * @return
+     */
+    public int getWidth ()
 	{
 		return this.map[0].length;
 	}
 	
-	public int getLength ()
+    /**
+     *
+     * @return
+     */
+    public int getLength ()
 	{
 		return this.map.length;
 	}
 
-        public char getObsticalMark() {
+    /**
+     *
+     * @return
+     */
+    public char getObsticalMark() {
             return obsticalMark;
         }
 
-        public char getEmptySpaceMark() {
+    /**
+     *
+     * @return
+     */
+    public char getEmptySpaceMark() {
             return emptySpaceMark;
         }
 }
