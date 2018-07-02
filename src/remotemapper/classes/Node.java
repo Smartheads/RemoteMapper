@@ -1,6 +1,6 @@
 package remotemapper.classes;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import remoteMapper.classes.Map;
 
 /*
@@ -39,9 +39,9 @@ public class Node
 			return false;
 	}
 
-	public static Node getLowestF (Vector<Node> list)
+	public static Node getLowestF (ArrayList<Node> list)
 	{
-		Node i = list.elementAt(0);
+		Node i = list.get(0);
 		for (Node n : list)
 		{
 			if (n.getF() < i.getF())
@@ -54,7 +54,7 @@ public class Node
 	public static Node[] constructPath (Node goal)
 	{
 		Node n = goal;
-		Vector<Node> path = new Vector<Node>();
+		ArrayList<Node> path = new ArrayList<>();
 		path.add(n);
 		
 		while (n.getParent() != null)
@@ -69,7 +69,7 @@ public class Node
 	/*
 	 * returns index of node in list. (see params) Returns -1 if node not contained within list.
 	 */
-	public static int containsNodeIndex (Vector<Node> list, Node node)
+	public static int containsNodeIndex (ArrayList<Node> list, Node node)
 	{
 		for (Node n : list)
 		{
@@ -80,7 +80,7 @@ public class Node
 		return -1;
 	}
 	
-	public static boolean containsNode (Vector<Node> list, Node node)
+	public static boolean containsNode (ArrayList<Node> list, Node node)
 	{
 		if (containsNodeIndex (list, node) != -1)
 			return true;
@@ -93,7 +93,7 @@ public class Node
 	 */
 	public static Node[] neighbors(Node center, Map map, char ch)
 	{
-		Vector<Node> neighbors = new Vector<Node>();
+		ArrayList<Node> neighbors = new ArrayList<>();
 		char[][] m = map.getMap();
 		
 		/* XXX
