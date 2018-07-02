@@ -264,9 +264,9 @@ public class CommandPreset
             
             return cps;
         }
-        catch (JDOMException | IOException ex)
+        catch (IOException | JDOMException ex)
         {
-            Logger.getLogger(CommandPreset.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommandPreset.class.getName()).log(Level.WARNING, null, ex);
             
             // Throw unified exception to let processing know, load failed
             throw new LoadWorkspaceException();
