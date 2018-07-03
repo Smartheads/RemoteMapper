@@ -14,28 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package remotemapper;
 
 /**
- * A collection of configuration files for the application to run.
+ * A enum containing rover commands.
  * 
  * @author Robert Hutter
  */
-public enum ConfigFiles {
-    // Files
-    MAP("map.d"),
-    CMD_PRESETS("presets.xml");
+public enum RoverCommands {
+    FORWARDS("f"),
+    BACKWARDS("b"),
+    LEFT("l"),
+    RIGHT("r");
     
-    private final String file;
+    private final String command;
     
-    ConfigFiles (String file)
+    RoverCommands (String cmd)
     {
-        this.file = file;
+        this.command = cmd;
     }
     
-    public String getName ()
+    public String getText ()
     {
-        return file;
+        return this.command;
     }
 }

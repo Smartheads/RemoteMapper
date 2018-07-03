@@ -15,13 +15,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package remotemapper.exceptions;
+package remotemapper.classes;
 
 /**
  *
- * @author rohu7
+ * @author Robert Hutter
  */
-public class LoadWorkspaceException extends Exception
+public class Coord
 {
+    int x, y;
+    
+    public Coord (int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
 
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+    
+    
 }
