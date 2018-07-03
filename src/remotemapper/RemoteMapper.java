@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2018 Robert Hutter
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package remotemapper;
 
@@ -30,6 +41,8 @@ import javax.swing.text.PlainDocument;
 import javax.swing.tree.DefaultMutableTreeNode;
 import remoteMapper.classes.Map;
 import remotemapper.classes.CommandPreset;
+import remotemapper.classes.Coord;
+import remotemapper.classes.Node;
 import remotemapper.classes.Rover;
 import remotemapper.exceptions.LoadWorkspaceException;
 import remotemapper.utility.AngleFilter;
@@ -44,7 +57,7 @@ import remotemapper.utility.MyIntFilter;
  */
 public class RemoteMapper extends javax.swing.JFrame {
     private SerialHandler port;
-    private Map map;
+    private Map map, simpleMap;
     private Rover rover;
     private File workspace, mapFile, presetFile;
     private CommandPreset[] presets;
@@ -337,8 +350,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         preset3Button = new javax.swing.JButton();
         preset6Button = new javax.swing.JButton();
         jLabel35 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton13 = new javax.swing.JButton();
+        sendCommandField = new javax.swing.JTextField();
+        sendCommandButton = new javax.swing.JButton();
         jLabel32 = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
@@ -359,23 +372,25 @@ public class RemoteMapper extends javax.swing.JFrame {
         jPanel24 = new javax.swing.JPanel();
         jLabel67 = new javax.swing.JLabel();
         jLabel68 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        pathFindAlgorithmSelector = new javax.swing.JComboBox<>();
         jLabel69 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel70 = new javax.swing.JLabel();
-        jLabel71 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        pathfindStartXField = new javax.swing.JTextField();
+        pathfindStartXLabel = new javax.swing.JLabel();
+        pathfindStartYLabel = new javax.swing.JLabel();
+        pathfindStartYField = new javax.swing.JTextField();
         jLabel72 = new javax.swing.JLabel();
-        jLabel73 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel74 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        pathfindGoalXLabel = new javax.swing.JLabel();
+        pathfindGoalXField = new javax.swing.JTextField();
+        pathfindGoalYLabel = new javax.swing.JLabel();
+        pathfindGoalYField = new javax.swing.JTextField();
+        findPathButton = new javax.swing.JButton();
+        previewRouteButton = new javax.swing.JButton();
         jLabel75 = new javax.swing.JLabel();
         jLabel76 = new javax.swing.JLabel();
         jLabel77 = new javax.swing.JLabel();
         jLabel78 = new javax.swing.JLabel();
+        pathfindUseRoverPos = new javax.swing.JCheckBox();
+        pathfindErrorLabel = new javax.swing.JLabel();
         jSeparator13 = new javax.swing.JSeparator();
         jPanel25 = new javax.swing.JPanel();
         jLabel79 = new javax.swing.JLabel();
@@ -388,7 +403,16 @@ public class RemoteMapper extends javax.swing.JFrame {
         jLabel82 = new javax.swing.JLabel();
         jLabel84 = new javax.swing.JLabel();
         jPanel26 = new javax.swing.JPanel();
+        jLabel83 = new javax.swing.JLabel();
+        jLabel85 = new javax.swing.JLabel();
+        jLabel86 = new javax.swing.JLabel();
+        jLabel87 = new javax.swing.JLabel();
+        jLabel88 = new javax.swing.JLabel();
+        jLabel89 = new javax.swing.JLabel();
+        jLabel90 = new javax.swing.JLabel();
         jPanel27 = new javax.swing.JPanel();
+        jLabel91 = new javax.swing.JLabel();
+        jLabel92 = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
         statusBar = new javax.swing.JPanel();
         jSeparator9 = new javax.swing.JSeparator();
@@ -1968,8 +1992,18 @@ public class RemoteMapper extends javax.swing.JFrame {
         jLabel34.setText("Presets");
 
         preset1Button.setText("Preset 1");
+        preset1Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                preset1ButtonActionPerformed(evt);
+            }
+        });
 
         preset2Button.setText("Preset 2");
+        preset2Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                preset2ButtonActionPerformed(evt);
+            }
+        });
 
         preset4Button.setText("Preset 4");
         preset4Button.addActionListener(new java.awt.event.ActionListener() {
@@ -1979,14 +2013,34 @@ public class RemoteMapper extends javax.swing.JFrame {
         });
 
         preset5Button.setText("Preset 5");
+        preset5Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                preset5ButtonActionPerformed(evt);
+            }
+        });
 
         preset3Button.setText("Preset 3");
+        preset3Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                preset3ButtonActionPerformed(evt);
+            }
+        });
 
         preset6Button.setText("Preset 6");
+        preset6Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                preset6ButtonActionPerformed(evt);
+            }
+        });
 
         jLabel35.setText("Custom command:");
 
-        jButton13.setText("Send");
+        sendCommandButton.setText("Send");
+        sendCommandButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendCommandButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -1996,9 +2050,9 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel16Layout.createSequentialGroup()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sendCommandField, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton13))
+                        .addComponent(sendCommandButton))
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(preset2Button, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2040,8 +2094,8 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addComponent(jLabel35)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton13))
+                    .addComponent(sendCommandField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sendCommandButton))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -2212,31 +2266,36 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel68.setText("Algorithm:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A*" }));
+        pathFindAlgorithmSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A*" }));
 
         jLabel69.setText("From:");
 
-        jTextField1.setText("0");
+        pathfindStartXField.setText("0");
 
-        jLabel70.setText("x");
+        pathfindStartXLabel.setText("x");
 
-        jLabel71.setText("y");
+        pathfindStartYLabel.setText("y");
 
-        jTextField2.setText("0");
+        pathfindStartYField.setText("0");
 
         jLabel72.setText("To:");
 
-        jLabel73.setText("x");
+        pathfindGoalXLabel.setText("x");
 
-        jTextField4.setText("0");
+        pathfindGoalXField.setText("0");
 
-        jLabel74.setText("y");
+        pathfindGoalYLabel.setText("y");
 
-        jTextField5.setText("0");
+        pathfindGoalYField.setText("0");
 
-        jButton1.setText("Find path");
+        findPathButton.setText("Find path");
+        findPathButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findPathButtonActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Preview route");
+        previewRouteButton.setText("Preview route");
 
         jLabel75.setText("Route details");
 
@@ -2246,74 +2305,79 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel78.setText("cm");
 
+        pathfindUseRoverPos.setText("Rover pos");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(79, 79, 79))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(jLabel67, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(83, 83, 83)
+                                .addComponent(jLabel67, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel75)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jLabel76)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel77)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel78)))))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel68)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(pathFindAlgorithmSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(findPathButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(previewRouteButton))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel72)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jLabel73)
+                                        .addComponent(pathfindGoalXLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(pathfindGoalXField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel69)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel70)
+                                        .addComponent(pathfindStartXLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(pathfindStartXField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel71)
+                                        .addComponent(pathfindStartYLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(pathfindStartYField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel74)
+                                        .addComponent(pathfindGoalYLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField5)))
+                                        .addComponent(pathfindGoalYField)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(pathfindUseRoverPos))
+                            .addComponent(jTabbedPane2))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTabbedPane2)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton3)
-                                    .addComponent(jLabel75))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel76)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel77)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel78)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(pathfindErrorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2326,29 +2390,29 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel68)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel69)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel70)
-                            .addComponent(jLabel71)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel72)
-                            .addComponent(jLabel73)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel74)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                    .addComponent(pathFindAlgorithmSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel69)
+                    .addComponent(pathfindStartXField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pathfindStartXLabel)
+                    .addComponent(pathfindStartYLabel)
+                    .addComponent(pathfindStartYField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pathfindUseRoverPos))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel72)
+                    .addComponent(pathfindGoalXLabel)
+                    .addComponent(pathfindGoalXField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pathfindGoalYLabel)
+                    .addComponent(pathfindGoalYField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(previewRouteButton)
+                    .addComponent(findPathButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pathfindErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel75)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2366,34 +2430,98 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel81.setText("<html><h4>Simplefied</h4></html>");
 
+        jTextPane1.setEditable(false);
         jScrollPane10.setViewportView(jTextPane1);
 
+        jTextPane2.setEditable(false);
         jScrollPane11.setViewportView(jTextPane2);
 
         jLabel82.setText("<html><h4>Details</h4></html>");
 
         jLabel84.setText("<html><h4>Details</h4></html>");
 
+        jLabel83.setText("Size:");
+
+        jLabel85.setText("XX x YY cm");
+
+        jLabel86.setText("<html><b>Markings</b></html>");
+
+        jLabel87.setText("Obstical:");
+
+        jLabel88.setText("Clear:");
+
+        jLabel89.setText("X");
+
+        jLabel90.setText("X");
+
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
         jPanel26Layout.setHorizontalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel26Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel26Layout.createSequentialGroup()
+                        .addComponent(jLabel83)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel85))
+                    .addComponent(jLabel86, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel26Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel26Layout.createSequentialGroup()
+                                .addComponent(jLabel88)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel90, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel26Layout.createSequentialGroup()
+                                .addComponent(jLabel87)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel89)))))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         jPanel26Layout.setVerticalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel26Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel83)
+                    .addComponent(jLabel85))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel86, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel87)
+                    .addComponent(jLabel89))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel88)
+                    .addComponent(jLabel90))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jLabel91.setText("Size:");
+
+        jLabel92.setText("XX x YY cm");
 
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 227, Short.MAX_VALUE)
+            .addGroup(jPanel27Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel91)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel92)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel27Layout.setVerticalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel27Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel91)
+                    .addComponent(jLabel92))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
@@ -2407,22 +2535,20 @@ public class RemoteMapper extends javax.swing.JFrame {
                         .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel25Layout.createSequentialGroup()
-                                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel25Layout.createSequentialGroup()
-                                        .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, Short.MAX_VALUE))
-                                    .addComponent(jScrollPane11))
-                                .addGap(5, 5, 5)
-                                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel84, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel25Layout.createSequentialGroup()
+                            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel25Layout.createSequentialGroup()
+                                    .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, Short.MAX_VALUE))
+                                .addComponent(jScrollPane11))
+                            .addGap(5, 5, 5)
+                            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel84, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel25Layout.setVerticalGroup(
@@ -2585,7 +2711,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1031, Short.MAX_VALUE)
+                    .addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1077, Short.MAX_VALUE)
                     .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator8)))
         );
@@ -3043,7 +3169,17 @@ public class RemoteMapper extends javax.swing.JFrame {
     }//GEN-LAST:event_roverPropertiesCancelActionPerformed
 
     private void preset4ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preset4ButtonActionPerformed
-        // TODO add your handling code here:
+        try
+        {
+            if (presets[3].getCommand().isEmpty()) // Do nothing if preset not yet set
+                return;
+            
+            port.send(presets[3].getCommand(), (String) encodeCharsetSelector.getSelectedItem());
+        }
+        catch (SerialException ex) 
+        {
+            Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_preset4ButtonActionPerformed
 
     private void leftTurnCommandButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftTurnCommandButtonActionPerformed
@@ -3098,7 +3234,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     }//GEN-LAST:event_backwardsCommandButtonActionPerformed
 
     private void forwardCommandButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forwardCommandButtonActionPerformed
-        // TODO add your handling code here:
         // Make sure distance is valid
         if (!movementCommandDistance.getText().isEmpty())
         {
@@ -3106,6 +3241,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             movementCommandMM.setForeground(Color.black);
             
             // Send command
+            
         }
         else
         {
@@ -3239,6 +3375,184 @@ public class RemoteMapper extends javax.swing.JFrame {
             preset6NameField.setText("Preset 6");
     }//GEN-LAST:event_preset6NameFieldFocusLost
 
+    private void preset1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preset1ButtonActionPerformed
+        try
+        {
+            if (presets[0].getCommand().isEmpty()) // Do nothing if preset not yet set
+                return;
+            
+            port.send(presets[0].getCommand(), (String) encodeCharsetSelector.getSelectedItem());
+        }
+        catch (SerialException ex) 
+        {
+            Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_preset1ButtonActionPerformed
+
+    private void preset2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preset2ButtonActionPerformed
+        try
+        {
+            if (presets[1].getCommand().isEmpty()) // Do nothing if preset not yet set
+                return;
+            
+            port.send(presets[1].getCommand(), (String) encodeCharsetSelector.getSelectedItem());
+        }
+        catch (SerialException ex) 
+        {
+            Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_preset2ButtonActionPerformed
+
+    private void preset3ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preset3ButtonActionPerformed
+        try
+        {
+            if (presets[2].getCommand().isEmpty()) // Do nothing if preset not yet set
+                return;
+            
+            port.send(presets[2].getCommand(), (String) encodeCharsetSelector.getSelectedItem());
+        }
+        catch (SerialException ex) 
+        {
+            Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_preset3ButtonActionPerformed
+
+    private void preset5ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preset5ButtonActionPerformed
+        try
+        {
+            if (presets[4].getCommand().isEmpty()) // Do nothing if preset not yet set
+                return;
+            
+            port.send(presets[4].getCommand(), (String) encodeCharsetSelector.getSelectedItem());
+        }
+        catch (SerialException ex) 
+        {
+            Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_preset5ButtonActionPerformed
+
+    private void preset6ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preset6ButtonActionPerformed
+        try
+        {
+            if (presets[5].getCommand().isEmpty()) // Do nothing if preset not yet set
+                return;
+            
+            port.send(presets[5].getCommand(), (String) encodeCharsetSelector.getSelectedItem());
+        }
+        catch (SerialException ex) 
+        {
+            Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_preset6ButtonActionPerformed
+
+    private void sendCommandButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendCommandButtonActionPerformed
+        if (sendCommandField.getText().isEmpty()) // Do nothing if commmand field is empty
+            return;
+        
+        try
+        {
+            port.send(sendCommandField.getText(), (String) encodeCharsetSelector.getSelectedItem());
+        }
+        catch (SerialException ex)
+        {
+            Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_sendCommandButtonActionPerformed
+
+    @SuppressWarnings("UnnecessaryReturnStatement")
+    private void findPathButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findPathButtonActionPerformed
+        // Validate data entered
+        boolean ok = true;
+        
+        pathfindErrorLabel.setText("");
+        pathfindErrorLabel.setForeground(Color.red);
+        
+        // Check to make sure all fields have data and are valid.
+        if (!pathfindStartXField.getText().isEmpty())
+        {
+            if (Integer.parseInt(pathfindStartXField.getText()) <= map.getWidth())
+                pathfindStartXLabel.setForeground(Color.black);
+            else
+            {
+                pathfindStartXLabel.setForeground(Color.red);
+                pathfindErrorLabel.setText("Invalid data entered");
+            }
+        }
+        else
+        {
+            ok = false;
+            pathfindStartXLabel.setForeground(Color.red);
+        }
+        
+        if (!pathfindStartYField.getText().isEmpty())
+        {
+            if (Integer.parseInt(pathfindStartYField.getText()) <= map.getLength())
+                pathfindStartYLabel.setForeground(Color.black);
+            else
+            {
+                pathfindStartYLabel.setForeground(Color.red);
+                pathfindErrorLabel.setText("Invalid data entered");
+            }
+        }
+        else
+        {
+            ok = false;
+            pathfindStartYLabel.setForeground(Color.red);
+        }
+        
+        if (!pathfindGoalXField.getText().isEmpty())
+        {
+            if (Integer.parseInt(pathfindGoalXField.getText()) <= map.getWidth())
+                pathfindGoalXLabel.setForeground(Color.black);
+            else
+            {
+                pathfindGoalXLabel.setForeground(Color.red);
+                pathfindErrorLabel.setText("Invalid data entered");
+            }
+        }
+        else
+        {
+            ok = false;
+            pathfindGoalXLabel.setForeground(Color.red);
+        }
+        
+        if (!pathfindGoalYField.getText().isEmpty())
+        {
+            if (Integer.parseInt(pathfindGoalYField.getText()) <= map.getLength())
+                pathfindGoalYLabel.setForeground(Color.black);
+            else
+            {
+                pathfindGoalYLabel.setForeground(Color.red);
+                pathfindErrorLabel.setText("Invalid data entered");
+            }
+        }
+        else
+        {
+            ok = false;
+            pathfindGoalYLabel.setForeground(Color.red);
+        }
+        
+        // Make sure the two coordinates are different:
+        if (pathfindStartXField.getText().equals(pathfindGoalXField.getText()))
+        {
+            if (pathfindStartYField.getText().equals(pathfindGoalYField.getText()))
+            {
+                pathfindErrorLabel.setText("Two coordinates cannot be the same");
+                ok = false;
+            }
+        }
+        
+        if (!ok) // Exit if data entered is invalid
+            return;
+        
+        findPathButton.setEnabled(false);
+        pathfindErrorLabel.setForeground(Color.black);
+        
+        Pathfinder pf = new Pathfinder (new Coord(Integer.parseInt(pathfindStartXField.getText()), Integer.parseInt(pathfindStartYField.getText())),
+                new Coord(Integer.parseInt(pathfindGoalXField.getText()), Integer.parseInt(pathfindGoalYField.getText())), simpleMap, pathfindErrorLabel);
+        
+    }//GEN-LAST:event_findPathButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3255,15 +3569,11 @@ public class RemoteMapper extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RemoteMapper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RemoteMapper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RemoteMapper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(RemoteMapper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
 
@@ -3303,6 +3613,19 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         PlainDocument pd18 = (PlainDocument) movementCommandAngle.getDocument();
         pd18.setDocumentFilter(new AngleFilter());
+        
+        PlainDocument pd19 = (PlainDocument) pathfindStartXField.getDocument();
+        pd19.setDocumentFilter(new MyIntFilter());
+        
+        PlainDocument pd20 = (PlainDocument) pathfindStartYField.getDocument();
+        pd20.setDocumentFilter(new MyIntFilter());
+        
+        PlainDocument pd21 = (PlainDocument) pathfindGoalXField.getDocument();
+        pd21.setDocumentFilter(new MyIntFilter());
+        
+        PlainDocument pd22 = (PlainDocument) pathfindGoalYField.getDocument();
+        pd22.setDocumentFilter(new MyIntFilter());
+        
         propertiesPage.setAlwaysOnTop(true);
         
         // Set preset button texts
@@ -3376,14 +3699,11 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel errorJLabel;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JButton findPathButton;
     private javax.swing.JButton forwardCommandButton;
     private javax.swing.JFormattedTextField headingFormattedField;
     private javax.swing.JLabel headingLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -3451,11 +3771,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel70;
-    private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
-    private javax.swing.JLabel jLabel73;
-    private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel77;
@@ -3465,8 +3781,17 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel80;
     private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel82;
+    private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel84;
+    private javax.swing.JLabel jLabel85;
+    private javax.swing.JLabel jLabel86;
+    private javax.swing.JLabel jLabel87;
+    private javax.swing.JLabel jLabel88;
+    private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel90;
+    private javax.swing.JLabel jLabel91;
+    private javax.swing.JLabel jLabel92;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -3523,11 +3848,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTextPane jTextPane2;
     private javax.swing.JButton leftTurnCommandButton;
@@ -3547,7 +3867,18 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel obsticalMarkLabel;
     private javax.swing.JTextField obsticalMarkTextField;
     private javax.swing.JButton okButton;
+    private javax.swing.JComboBox<String> pathFindAlgorithmSelector;
     private javax.swing.JTextField pathTextField;
+    private javax.swing.JLabel pathfindErrorLabel;
+    private javax.swing.JTextField pathfindGoalXField;
+    private javax.swing.JLabel pathfindGoalXLabel;
+    private javax.swing.JTextField pathfindGoalYField;
+    private javax.swing.JLabel pathfindGoalYLabel;
+    private javax.swing.JTextField pathfindStartXField;
+    private javax.swing.JLabel pathfindStartXLabel;
+    private javax.swing.JTextField pathfindStartYField;
+    private javax.swing.JLabel pathfindStartYLabel;
+    private javax.swing.JCheckBox pathfindUseRoverPos;
     private javax.swing.JComboBox<String> portComboBox;
     private javax.swing.JLabel positionErrorLabel;
     private javax.swing.JFormattedTextField positionXFormattedField;
@@ -3586,6 +3917,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JPanel presetsPage1;
     private javax.swing.JPanel presetsPage2;
     private javax.swing.JButton presetsPreviousPageButton;
+    private javax.swing.JButton previewRouteButton;
     private javax.swing.JLayeredPane propertiesLayers;
     private javax.swing.JFrame propertiesPage;
     private javax.swing.JButton rightTurnCommandButton;
@@ -3616,6 +3948,8 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JButton savePresetsButton1;
     private javax.swing.JButton savePresetsButton2;
     private javax.swing.JPanel selectPagePanel;
+    private javax.swing.JButton sendCommandButton;
+    private javax.swing.JTextField sendCommandField;
     private javax.swing.JButton start;
     private javax.swing.JPanel statusBar;
     private javax.swing.JTable statusDeviceTable;
@@ -3651,6 +3985,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
         
         @Override
+        @SuppressWarnings("SleepWhileInLoop")
         protected Void doInBackground() {
             for (; ;)
             {
@@ -3692,6 +4027,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
 
         @Override
+        @SuppressWarnings("SleepWhileInLoop")
         protected Void doInBackground()
         {
             for (; ;)
@@ -3734,11 +4070,22 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
 
         @Override
+        @SuppressWarnings("null")
         public Map doInBackground() throws LoadWorkspaceException
         {
             FileReader in = null;
             try 
             {
+                // Load command presets
+                ArrayList<CommandPreset> cps = CommandPreset.loadPresets(presetFile);
+                cps.sort(CommandPreset.CommandPresetComparator);
+                
+                
+                for (int e = 0; e < this.presets.length; e++)
+                {
+                    this.presets[e] = cps.get(e); // Load them in the correct order
+                }
+                
                 // Load map
                 in = new FileReader(this.mapFile);
                 int c, y = 0;
@@ -3753,7 +4100,6 @@ public class RemoteMapper extends javax.swing.JFrame {
                 in.skip(1);
                 
                 int i = 4;
-                long max = this.mapFile.length();
                 
                 while ((c = in.read()) != -1)
                 {
@@ -3784,14 +4130,6 @@ public class RemoteMapper extends javax.swing.JFrame {
                     }
                     m[y][capX - 1] = 10;
                 }   
-                
-                ArrayList<CommandPreset> cps = CommandPreset.loadPresets(presetFile);
-                
-                // Load presets
-                for (int e = 0; e < this.presets.length; e++)
-                {
-                    this.presets[cps.get(e).getId()] = cps.get(e);
-                }
                 
                 return new Map (m, obM, esM);
             }
@@ -3867,6 +4205,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
 
         @Override
+        @SuppressWarnings("null")
         protected Void doInBackground()
         {
             FileWriter mapFileWriter = null;
@@ -3957,5 +4296,60 @@ public class RemoteMapper extends javax.swing.JFrame {
             }
         }
         
+    }
+    
+    class Pathfinder extends SwingWorker<Node[], Void>
+    {
+        private final Coord start, goal;
+        private JLabel display;
+        private final Map map;
+        
+        public Pathfinder (Coord start, Coord goal, Map map)
+        {
+            this.start = start;
+            this.goal = goal;
+            this.map = map;
+        }
+        
+        /**
+         * 
+         * @param start
+         * @param goal
+         * @param map Map to search for route on
+         * @param display 
+         */
+        public Pathfinder (Coord start, Coord goal, Map map, JLabel display)
+        {
+            this.start = start;
+            this.goal = goal;
+            this.display = display;
+            this.map = map;
+        }
+
+        @Override
+        protected Node[] doInBackground() throws Exception {
+            if (display != null)
+                display.setText("Pathfinding...");
+            
+            return map.Astar(new Node(start.getX(), start.getY()), new Node(goal.getX(), goal.getY()));
+        }
+        
+        @Override
+        protected void done ()
+        {
+            Node[] path = null;
+            try {
+                path = get();
+            } catch (InterruptedException | ExecutionException ex) {
+                Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (display != null)
+            {
+                if (path != null)
+                    display.setText("Route found!");
+                else
+                    display.setText("No route found!");
+            }
+        }
     }
 }
