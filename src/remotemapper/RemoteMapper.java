@@ -56,6 +56,7 @@ import remotemapper.utility.MyIntFilter;
  * @author Robert Hutter
  */
 public class RemoteMapper extends javax.swing.JFrame {
+    static int CONVERSION_CM_MM = 10;
     private SerialHandler port;
     private Map map;
     private Map simpleMap;
@@ -3509,16 +3510,20 @@ public class RemoteMapper extends javax.swing.JFrame {
         // Validate data entered
         boolean ok = true;
         
+        /* TEMP UNTIL AUTO MAP AND SIMPLE MAP UPDATE IS IMPLEMENTED! */
+        simpleMap = Map.simplfyMap(map, ((int) rover.getFlatDiagonal() + 1) / CONVERSION_CM_MM);
+        
         pathfindErrorLabel.setText("");
         pathfindErrorLabel.setForeground(Color.red);
         
         // Check to make sure all fields have data and are valid.
         if (!pathfindStartXField.getText().isEmpty())
         {
-            if (Integer.parseInt(pathfindStartXField.getText()) <= map.getWidth())
+            if (Integer.parseInt(pathfindStartXField.getText()) <= simpleMap.getWidth())
                 pathfindStartXLabel.setForeground(Color.black);
             else
             {
+                ok = false;
                 pathfindStartXLabel.setForeground(Color.red);
                 pathfindErrorLabel.setText("Invalid data entered");
             }
@@ -3531,10 +3536,11 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         if (!pathfindStartYField.getText().isEmpty())
         {
-            if (Integer.parseInt(pathfindStartYField.getText()) <= map.getLength())
+            if (Integer.parseInt(pathfindStartYField.getText()) <= simpleMap.getLength())
                 pathfindStartYLabel.setForeground(Color.black);
             else
             {
+                ok = false;
                 pathfindStartYLabel.setForeground(Color.red);
                 pathfindErrorLabel.setText("Invalid data entered");
             }
@@ -3547,10 +3553,11 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         if (!pathfindGoalXField.getText().isEmpty())
         {
-            if (Integer.parseInt(pathfindGoalXField.getText()) <= map.getWidth())
+            if (Integer.parseInt(pathfindGoalXField.getText()) <= simpleMap.getWidth())
                 pathfindGoalXLabel.setForeground(Color.black);
             else
             {
+                ok = false;
                 pathfindGoalXLabel.setForeground(Color.red);
                 pathfindErrorLabel.setText("Invalid data entered");
             }
@@ -3563,10 +3570,11 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         if (!pathfindGoalYField.getText().isEmpty())
         {
-            if (Integer.parseInt(pathfindGoalYField.getText()) <= map.getLength())
+            if (Integer.parseInt(pathfindGoalYField.getText()) <= simpleMap.getLength())
                 pathfindGoalYLabel.setForeground(Color.black);
             else
             {
+                ok = false;
                 pathfindGoalYLabel.setForeground(Color.red);
                 pathfindErrorLabel.setText("Invalid data entered");
             }
@@ -3593,8 +3601,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         findPathButton.setEnabled(false);
         pathfindErrorLabel.setForeground(Color.black);
         
-        simpleMap = Map.simplfyMap(map, (int) rover.getFlatDiagonal() + 1);
-        
         Pathfinder pf;
         pf = new Pathfinder (
                 new Coord(Integer.parseInt(pathfindStartXField.getText()),
@@ -3604,8 +3610,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 simpleMap, pathfindErrorLabel,
                 (String) pathfindAlgorithmSelector.getSelectedItem());
         
-        pf.execute();
-        
+        pf.execute();  
     }//GEN-LAST:event_findPathButtonActionPerformed
 
     private void pathfindUseRoverPosBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pathfindUseRoverPosBoxActionPerformed
