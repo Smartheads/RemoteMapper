@@ -36,32 +36,32 @@ public class Rover
     protected int y;
 
     /**
-     *
+     * Rover width in mm
      */
     protected int width;
     
     /**
-     *
+     * Rover length in mm
      */
     protected int length;
 
     /**
-     *
+     * Rover height in mm
      */
     protected int height;
 
     /**
-     *
+     * Rover diagonal between width and length
      */
     protected double flatDiagonal;
 
     /**
-     *
+     * Rover diagonal between width, length and height
      */
     protected double diagonal;
 
     /**
-     *
+     * Heading the rover is facing in. 0° = up
      */
     protected Angle direction;
     
@@ -211,6 +211,7 @@ public class Rover
     }
 
     /**
+     * Returns the rover's diagonal between its width and length in mm.
      * 
      * @return 
      */
@@ -219,6 +220,7 @@ public class Rover
     }
 
     /**
+     * Returns the rover's diagonal between its width, length and height in mm.
      * 
      * @return 
      */
