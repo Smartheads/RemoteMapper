@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package remotemapper.classes;
 
 import java.util.ArrayList;
@@ -23,14 +22,20 @@ import remoteMapper.classes.Map;
 /**
  *  Node.java
  *
- *  Version: 1.2J
+ *  @version 1.4J
  *  @author Robert Hutter
- *
+ *  @date 2018.06.06
+ *      updated: 2018.07.04
+ * 
 */
 public class Node
 {
-    private Node parent;
-    private int x, y, f, g, cost = 1;
+    protected Node parent;
+    protected int x;
+    protected int y;
+    protected double f;
+    protected double g;
+    protected double cost = 1;
 
     /**
      * Constructor for creating a new Node.
@@ -40,9 +45,9 @@ public class Node
      */
     public Node (int x, int y)
     {
-            this.x = x;
-            this.y = y;
-            this.g = this.cost;
+        this.x = x;
+        this.y = y;
+        this.g = this.cost;
     }
 
     /**
@@ -52,23 +57,12 @@ public class Node
      * @param y Position y
      * @param cost Cost to traverse node
      */
-    public Node(int x, int y, int cost)
+    public Node(int x, int y, double cost)
     {
-            this.x = x;
-            this.y = y;
-            this.cost = cost;
-            this.g = this.cost;
-    }
-
-    /**
-     * Check to see if node is equal to Param
-     * 
-     * @param o Node to compare
-     * @return
-     */
-    public boolean equals (Node o)
-    {
-        return o.getX() == this.x && o.getY() == this.y;
+        this.x = x;
+        this.y = y;
+        this.cost = cost;
+        this.g = cost;
     }
 
     /**
@@ -77,16 +71,18 @@ public class Node
      * @param list Collection of nodes to check
      * @return
      */
-    public static Node getLowestF (ArrayList<Node> list)
+    public static Node getLowestF (Node[] list)
     {
-            Node i = list.get(0);
-            for (Node n : list)
+        Node i = list[0];
+        for (Node n : list)
+        {
+            if (n.getF() < i.getF())
             {
-                    if (n.getF() < i.getF())
-                            i = n;
+                i = n;
             }
+        }
 
-            return i;
+        return i;
     }
 
     /**
@@ -97,17 +93,17 @@ public class Node
      */
     public static Node[] constructPath (Node goal)
     {
-            Node n = goal;
-            ArrayList<Node> path = new ArrayList<>();
-            path.add(n);
+        Node n = goal;
+        ArrayList<Node> path = new ArrayList<>();
+        path.add(n);
 
-            while (n.getParent() != null)
-            {
-                    n = n.getParent();
-                    path.add (n);
-            }
+        while (n.getParent() != null)
+        {
+            path.add (n);
+            n = n.getParent();
+        }
 
-            return path.toArray(new Node[path.size()]);
+        return path.toArray(new Node[path.size()]);
     }
 
     /**
@@ -117,14 +113,16 @@ public class Node
      * @param node Node to look for
      * @return 
      */
-    public static int containsNodeIndex (ArrayList<Node> list, Node node)
+    public static int containsNodeIndex (Node[] list, Node node)
     {
-        for (Node n : list)
+        for (int i = 0; i < list.length; i++)
         {
-            if (node.equals(n))
-                return list.indexOf(n);
-
+            if (node.equals(list[i]))
+            {
+                return i;
+            }
         }
+        
         return -1;
     }
 
@@ -135,13 +133,14 @@ public class Node
      * @param node Node to look for
      * @return
      */
-    public static boolean containsNode (ArrayList<Node> list, Node node)
+    public static boolean containsNode (Node[] list, Node node)
     {
         return containsNodeIndex (list, node) != -1;
     }
 
     /**
      *  Return Node array of neighbors,that have the value of a specific character on a map.
+     * 
     * @param center
     * @param map
     * @param ch
@@ -150,26 +149,29 @@ public class Node
     public static Node[] neighbors(Node center, Map map, char ch)
     {
         ArrayList<Node> neighbors = new ArrayList<>();
-        char[][] m = map.getMap();
 
         /* XXX
          * XXX
          * XOX
          */
-        if (m.length > center.getY() - 1)
+        if (map.getLength() > center.getY() + 1)
         {
-                if (m[center.getY()][center.getX()-1] == ch)
-                        neighbors.add(new Node(center.getX(), center.getY() + 1));
+            if (map.getPoint(center.getX(), center.getY() + 1) == ch)
+            {
+                neighbors.add(new Node(center.getX(), center.getY() + 1));
+            }
         }
 
         /* XXX
          * XXO
          * XXX
          */
-        if (m[0].length - 1 > center.getX() - 1)
+        if (map.getLength() > center.getX() + 1)
         {
-                if (m[center.getY()-1][center.getX()] == ch)
-                        neighbors.add(new Node(center.getX()+1, center.getY()));
+            if (map.getPoint(center.getX() + 1, center.getY()) == ch)
+            {
+                neighbors.add(new Node(center.getX() + 1, center.getY()));
+            }
         }
 
         /* XXX
@@ -178,8 +180,10 @@ public class Node
          */
         if (center.getX() - 1 > 0)
         {
-                if (m[center.getY()-1][center.getX()-2] == ch)
-                        neighbors.add(new Node (center.getX()-1, center.getY()));
+            if (map.getPoint(center.getX() - 1, center.getX()) == ch)
+            {
+                neighbors.add(new Node (center.getX() - 1, center.getY()));
+            }
         }
 
         /* XOX
@@ -188,13 +192,26 @@ public class Node
          */
         if (center.getY() - 1 > 0)
         {
-                if (m[center.getY()-2][center.getX()-1] == ch)
-                        neighbors.add(new Node (center.getX(), center.getY() - 1));
+            if (map.getPoint(center.getX(), center.getY() - 1) == ch)
+            {
+                neighbors.add(new Node (center.getX(), center.getY() - 1));
+            }
         }
 
         neighbors.forEach(node -> node.setParent(center));
 
         return neighbors.toArray(new Node[neighbors.size()]);
+    }
+    
+    /**
+     * Compare two nodes
+     * 
+     * @param o Node to compare
+     * @return
+     */
+    public boolean equals (Node o)
+    {
+        return (o.getX() == this.x) && (o.getY() == this.y);
     }
 
     /**
@@ -260,7 +277,7 @@ public class Node
      *
      * @return
      */
-    public int getF() {
+    public double getF() {
             return f;
     }
 
@@ -268,7 +285,7 @@ public class Node
      *
      * @param f
      */
-    public void setF(int f) {
+    public void setF(double f) {
             this.f = f;
     }
 
@@ -276,7 +293,7 @@ public class Node
      *
      * @return
      */
-    public int getG() {
+    public double getG() {
             return g;
     }
 
@@ -284,7 +301,7 @@ public class Node
      *
      * @param g
      */
-    public void setG(int g) {
+    public void setG(double g) {
             this.g = g;
     }
 
@@ -292,7 +309,7 @@ public class Node
      *
      * @return
      */
-    public int getCost() {
+    public double getCost() {
             return cost;
     }
 

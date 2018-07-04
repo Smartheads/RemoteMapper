@@ -26,25 +26,26 @@ import remotemapper.classes.Node;
 
 /**
  *  Map.java - Java file defining a map.
- *  Version: 1.2J
+ *  @version  1.2J
  * 
  *  @author Robert Hutter
  *  @date 2018.06.06
+ *      updated: 2018.07.04
  */
 public final class Map {
 
     /**
-     *
+     * The character array containing the maps data.
      */
     protected char[][] map;
 
     /**
-     *
+     * A character defining an obstical on the map
      */
     protected final char obsticalMark;
 
     /**
-     *
+     * A character defining empty space on the map
      */
     protected final char emptySpaceMark;
 	
@@ -53,24 +54,24 @@ public final class Map {
      * 
      * @param xDim xDim int width of map
      * @param yDim yDim int height of map
-     * @param obM
-     * @param esM
+     * @param obM Mark of an obstical on the map
+     * @param esM Mark of empty space on the map
      */
     public Map (int xDim, int yDim, char obM, char esM)
     {
-            map = new char[yDim][xDim + 1];
+        this.map = new char[yDim][xDim + 1];
 
-            obsticalMark = obM;
-            emptySpaceMark = esM;
+        this.obsticalMark = obM;
+        this.emptySpaceMark = esM;
 
-            for (int y = 0; y < yDim; y++)
+        for (int y = 0; y < yDim; y++)
+        {
+            for (int x = 0; x < xDim; x++)
             {
-                    for (int x = 0; x < xDim; x++)
-                    {
-                            map[y][x] = emptySpaceMark;
-                    }
-                    map[y][xDim] = 10;
+                    map[y][x] = emptySpaceMark;
             }
+            map[y][xDim] = 10;
+        }
     }
 
     /**
@@ -81,9 +82,9 @@ public final class Map {
      */
     public Map (Map preloaded)
     {
-            this.map = preloaded.getMap();
-            this.obsticalMark = preloaded.getObsticalMark();
-            this.emptySpaceMark = preloaded.getEmptySpaceMark();
+        this.map = preloaded.getMap();
+        this.obsticalMark = preloaded.getObsticalMark();
+        this.emptySpaceMark = preloaded.getEmptySpaceMark();
     }
 	
     /**
@@ -94,10 +95,10 @@ public final class Map {
      */
     public Map (File mapfile) throws IOException
     {
-            Map m = parseMapfile(mapfile);
-            this.map = m.getMap();
-            this.obsticalMark = m.getObsticalMark();
-            this.emptySpaceMark = m.getEmptySpaceMark();
+        Map m = parseMapfile(mapfile);
+        this.map = m.getMap();
+        this.obsticalMark = m.getObsticalMark();
+        this.emptySpaceMark = m.getEmptySpaceMark();
     }
 
     /**
@@ -122,45 +123,52 @@ public final class Map {
      * @return
      */
     public Node[] Astar (Node start, Node goal)
-	{
-            ArrayList<Node> openList = new ArrayList<>();
-            ArrayList<Node> closedList = new ArrayList<>();
+    {
+        ArrayList<Node> openList = new ArrayList<>();
+        ArrayList<Node> closedList = new ArrayList<>();
 
-            start.setG(0);
-            start.setF(start.getG() + start.heuristic(goal));
-            openList.add(start);
+        start.setG(0);
+        start.setF(start.getG() + start.heuristic(goal));
+        openList.add(start);
 
-            while (!openList.isEmpty())
+        while (!openList.isEmpty())
+        {
+            Node current = Node.getLowestF(openList.toArray(new Node[openList.size()]));
+            
+            if (current.equals(goal))
             {
-                Node current = Node.getLowestF(openList);
-                if (current.equals(goal))
-                        return Node.constructPath (current);
+                return Node.constructPath (current);
+            }
 
-                openList.remove(current);
-                closedList.add(current);
+            openList.remove(current);
+            closedList.add(current);
 
-                for (Node n : Node.neighbors(current, this, this.emptySpaceMark))
+            for (Node n : Node.neighbors(current, this, this.emptySpaceMark))
+            {
+                if (!Node.containsNode (closedList.toArray(new Node[closedList.size()]), n))
                 {
-                    if (!Node.containsNode (closedList, n))
-                    {
-                        n.setF(n.getG() + n.heuristic(goal));
+                    n.setF(n.getG() + n.heuristic(goal));
 
-                        if (!Node.containsNode(openList, n))
-                            openList.add(n);
-                        else
+                    if (!Node.containsNode(openList.toArray(new Node[openList.size()]), n))
+                    {
+                        openList.add(n);
+                    }
+                    else
+                    {
+                        Node openNeighbor;
+                        openNeighbor = openList.get(Node.containsNodeIndex(
+                                openList.toArray(new Node[openList.size()]), n));
+                        if (n.getG() < openNeighbor.getG())
                         {
-                            Node openNeighbor = openList.get(Node.containsNodeIndex(openList, n));
-                            if (n.getG() < openNeighbor.getG())
-                            {
-                                    openNeighbor.setG(n.getG());
-                                    openNeighbor.setParent(n.getParent());
-                            }
+                            openNeighbor.setG(n.getG());
+                            openNeighbor.setParent(n.getParent());
                         }
                     }
                 }
             }
+        }
 
-            return null;
+        return null;
 	}
 	
     /**
@@ -172,15 +180,15 @@ public final class Map {
      * @param val
      */
     public void setPointRectangle (int x, int y, int width, int length, char val)
-	{
-		for (int y2 = y; y2 < y + length; y2++)
-		{
-			for (int x2 = x; x2 < x + width; x2++)
-			{
-				this.setPoint(y2, x2, val);
-			}
-		}
-	}
+    {
+        for (int y2 = y; y2 < y + length; y2++)
+        {
+            for (int x2 = x; x2 < x + width; x2++)
+            {
+                this.setPoint(y2, x2, val);
+            }
+        }
+    }
 	
     /**
      *
@@ -190,7 +198,7 @@ public final class Map {
      */
     public void setPoint (int x, int y, char val)
 	{
-		map[y-1][x-1] = val;
+            map[y-1][x-1] = val;
 	}
 	
     /**
@@ -201,7 +209,7 @@ public final class Map {
      */
     public char getPoint (int x, int y)
 	{
-		return map[y-1][x-1];
+            return map[y-1][x-1];
 	}
 
     /**
@@ -213,22 +221,25 @@ public final class Map {
      */
     public static void exportToFile(Map map, File dest) throws IOException
     {
-            final char[][] d = map.getMap();
-            FileWriter out = new FileWriter(dest, false);
-
-            // Write markers
+        final char[][] d = map.getMap();
+        
+        try (FileWriter out = new FileWriter(dest, false)) 
+        {
+            /* Write markers */
             out.write (String.valueOf(map.obsticalMark) + "\n");
             out.write (String.valueOf(map.emptySpaceMark) + "\n");
-
-    // Write map raw data
-    for (char[] d1 : d) {
-        for (int x = 0; x < d1.length; x++) {
-            out.write(d1[x]);
-        }
-    }
-
+            
+            /* Write map raw data */
+            for (char[] d1 : d) 
+            {
+                for (int x = 0; x < d1.length; x++) 
+                {
+                    out.write(d1[x]);
+                }
+            }
+            
             out.flush();
-            out.close();
+        }
     }
 	
     /**
@@ -240,14 +251,14 @@ public final class Map {
      */
     public static Map simplfyMap (Map in, int w)
     {
-        Map s = new Map ((int) in.getMap()[0].length / w, (int) in.getMap().length / w, in.getObsticalMark(), in.getEmptySpaceMark());
+        Map s = new Map ((int) in.getWidth() / w, (int) in.getLength() / w, in.getObsticalMark(), in.getEmptySpaceMark());
 
-        int rY = in.getMap().length % w;
-        int rX = in.getMap()[0].length % w;
+        int rY = in.getLength() % w;
+        int rX = in.getWidth() % w;
 
-        for (int y = 0; y < in.getMap().length - rY; y += w)
+        for (int y = 0; y < in.getLength() - rY; y += w)
         {
-            for (int x = 0; x < (int) in.getMap()[0].length - rX; x += w)
+            for (int x = 0; x < (int) in.getWidth() - rX; x += w)
             {
                 char[] b = new char[w*w];
                 for (int y2 = 0; y2 < w; y2++)
@@ -258,9 +269,9 @@ public final class Map {
                     }
                 }
 
-                if (new String (b).contains(Character.toString( (char) 49)))
+                if (new String (b).contains(Character.toString( in.obsticalMark)))
                 {
-                     s.setPoint(x / w + 1, y / w + 1, '1');
+                     s.setPoint(x / w + 1, y / w + 1, in.obsticalMark);
                 }
             }
         }
@@ -277,33 +288,36 @@ public final class Map {
      */
     protected Map parseMapfile(File mapFile) throws IOException
     {
-        FileReader in = new FileReader(mapFile);
-        int c, y = 0;
-
-        // Buffer map
-        ArrayList<ArrayList<Character>> b = new ArrayList<>();
-        b.add(new ArrayList<>());
-
-        char obM = (char) in.read();
-        in.skip(1);
-        char esM = (char) in.read();
-        in.skip(1);
-
-
-        while ((c = in.read()) != -1)
+        int y;
+        ArrayList<ArrayList<Character>> b;
+        char obM;
+        char esM;
+        
+        try (FileReader in = new FileReader(mapFile))
         {
-            if (c == '\n')
+            int c;
+            y = 0;
+            
+            /* Buffer map */
+            b = new ArrayList<>();
+            b.add(new ArrayList<>());
+            obM = (char) in.read();
+            in.skip(1);
+            esM = (char) in.read();
+            in.skip(1);
+            while ((c = in.read()) != -1)
             {
+                if (c == '\n')
+                {
                     y++;
                     b.add(new ArrayList<>());
-            }
-            else
-            {
+                }
+                else
+                {
                     b.get(y).add((char) c);
+                }
             }
         }
-
-        in.close();
 
         int capX = b.get(0).size() + 1;
         int capY = b.size() -1;
@@ -327,48 +341,48 @@ public final class Map {
      * @return
      */
     public char[][] getMap() {
-		return map;
-	}
+            return map;
+    }
 	
     /**
      *
      * @param map
      */
     public void setMap(char[][] map) {
-		this.map = map;
-	}
+        this.map = map;
+    }
 	
     /**
      *
      * @return
      */
     public int getWidth ()
-	{
-		return this.map[0].length;
-	}
+    {
+        return this.map[0].length;
+    }
 	
     /**
      *
      * @return
      */
     public int getLength ()
-	{
-		return this.map.length;
-	}
+    {
+        return this.map.length;
+    }
 
     /**
      *
      * @return
      */
     public char getObsticalMark() {
-            return obsticalMark;
-        }
+        return obsticalMark;
+    }
 
     /**
      *
      * @return
      */
     public char getEmptySpaceMark() {
-            return emptySpaceMark;
-        }
+        return emptySpaceMark;
+    }
 }
