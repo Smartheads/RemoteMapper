@@ -18,14 +18,61 @@
 package remotemapper.classes;
 
 /**
- *
+ * Class defining a rover.
+ * 
  * @author rohu7
  */
 public class Rover
 {
-    protected int x, y, width, length, height;
+
+    /**
+     *
+     */
+    protected int x;
+
+    /**
+     *
+     */
+    protected int y;
+
+    /**
+     *
+     */
+    protected int width;
+    
+    /**
+     *
+     */
+    protected int length;
+
+    /**
+     *
+     */
+    protected int height;
+
+    /**
+     *
+     */
+    protected double flatDiagonal;
+
+    /**
+     *
+     */
+    protected double diagonal;
+
+    /**
+     *
+     */
     protected Angle direction;
     
+    /**
+     *
+     * @param x
+     * @param y
+     * @param dir
+     * @param width
+     * @param length
+     */
     public Rover (int x, int y, float dir, int width, int length)
     {
         this.x = x;
@@ -33,8 +80,18 @@ public class Rover
         this.direction = new Angle (dir);
         this.width = width;
         this.length = length;
+        updateDiagonals();
     }
     
+    /**
+     *
+     * @param x
+     * @param y
+     * @param dir
+     * @param width
+     * @param length
+     * @param height
+     */
     public Rover (int x, int y, float dir, int width, int length, int height)
     {
         this.x = x;
@@ -43,55 +100,129 @@ public class Rover
         this.width = width;
         this.length = length;
         this.height = height;
+        updateDiagonals();
+    }
+    
+    private void updateDiagonals()
+    {
+        flatDiagonal = Math.sqrt(width*width + length*length);
+        diagonal = Math.sqrt(width*width + length*length + height*height);
     }
 
+    /**
+     *
+     * @return
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     *
+     * @param x
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     *
+     * @param y
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     *
+     * @param width
+     */
     public void setWidth(int width) {
         this.width = width;
+        updateDiagonals();
     }
 
+    /**
+     *
+     * @param length
+     */
     public void setLength(int length) {
         this.length = length;
+        updateDiagonals();
     }
 
+    /**
+     *
+     * @param height
+     */
     public void setHeight(int height) {
         this.height = height;
+        updateDiagonals();
     }
     
+    /**
+     *
+     * @param dir
+     */
     public void setDirection (float dir)
     {
         this.direction.setAngel(dir);
     }
 
+    /**
+     *
+     * @return
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLength() {
         return length;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getHeight() {
         return height;
     }
     
+    /**
+     *
+     * @return
+     */
     public float getDirection ()
     {
         return this.direction.size;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public double getFlatDiagonal() {
+        return flatDiagonal;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public double getDiagonal() {
+        return diagonal;
     }
 }
