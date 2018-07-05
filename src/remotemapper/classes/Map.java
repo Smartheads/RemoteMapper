@@ -26,11 +26,11 @@ import remotemapper.classes.Node;
 
 /**
  *  Map.java - Java file defining a map.
- *  @version  1.2J
+ *  @version  1.4J
  * 
  *  @author Robert Hutter
  *  @date 2018.06.06
- *      updated: 2018.07.04
+ *      updated: 2018.07.05
  */
 public final class Map {
 
@@ -137,7 +137,8 @@ public final class Map {
             
             if (current.equals(goal))
             {
-                return Node.constructPath (current);
+                goal.setParent(current);
+                return Node.constructPath (goal);
             }
 
             openList.remove(current);
@@ -169,7 +170,7 @@ public final class Map {
         }
 
         return null;
-	}
+    }
 	
     /**
      *
@@ -197,9 +198,9 @@ public final class Map {
      * @param val
      */
     public void setPoint (int x, int y, char val)
-	{
-            map[y-1][x-1] = val;
-	}
+    {
+        map[y-1][x-1] = val;
+    }
 	
     /**
      *
@@ -208,9 +209,9 @@ public final class Map {
      * @return
      */
     public char getPoint (int x, int y)
-	{
-            return map[y-1][x-1];
-	}
+    {
+        return map[y-1][x-1];
+    }
 
     /**
      * Save the contents of a map to a specified destination.
@@ -226,8 +227,8 @@ public final class Map {
         try (FileWriter out = new FileWriter(dest, false)) 
         {
             /* Write markers */
-            out.write (String.valueOf(map.obsticalMark) + "\n");
-            out.write (String.valueOf(map.emptySpaceMark) + "\n");
+            out.write (String.valueOf(map.obsticalMark) + '\n');
+            out.write (String.valueOf(map.emptySpaceMark) + '\n');
             
             /* Write map raw data */
             for (char[] d1 : d) 
