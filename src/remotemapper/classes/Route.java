@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package remotemapper;
+package remotemapper.classes;
 
+import remotemapper.classes.Vector;
 import java.util.ArrayList;
 import remoteMapper.classes.Map;
 import remotemapper.classes.Node;

@@ -15,9 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package remotemapper;
-
-import remotemapper.classes.Angle;
+package remotemapper.classes;
 
 /**
  * A class defining a mathematical vector.

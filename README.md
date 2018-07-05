@@ -10,13 +10,14 @@ Features:
 * Track rover position and device status.
 * View raw sensor data and display it with graphics.
 * Map terrain arround rover and contruct a map based on the data.
+* Edit the map using a wide range of tools.
 * Pathfind from point A to point B.
 * Send custom commands to rover.
 
 Usage:
 -
 Run remote mapper and follow through the setup wizard.
-An interface will open, where you can control the rover, view sensor data, maps, routes and the status.
+A window will open, where you can control the rover, view sensor data, maps, routes and status.
 
 How to contribute:
 -
