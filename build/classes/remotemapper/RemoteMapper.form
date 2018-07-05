@@ -2331,7 +2331,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="statusBar" pref="1062" max="32767" attributes="0"/>
+                  <Component id="statusBar" pref="1068" max="32767" attributes="0"/>
                   <Component id="jSeparator8" alignment="0" max="32767" attributes="0"/>
                   <Component id="mainPanel" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -2358,20 +2358,20 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="jPanel25" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="jSeparator13" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="jPanel1" min="-2" pref="221" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="jSeparator11" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jPanel13" max="32767" attributes="0"/>
                       <Component id="jLabel25" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -2380,7 +2380,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jPanel25" max="32767" attributes="0"/>
+                      <Component id="jPanel25" min="-2" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jSeparator11" max="32767" attributes="0"/>
@@ -2390,7 +2390,7 @@
                                   <Component id="jLabel25" min="-2" pref="22" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanel13" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="23" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -3172,48 +3172,46 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel97" alignment="1" max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jLabel95" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jLabel96" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jTextField3" min="-2" pref="22" max="-2" attributes="0"/>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="jTextField4" min="-2" pref="22" max="-2" attributes="0"/>
-                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
+                                      <Component id="editPointErrorLabel" alignment="1" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel95" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editPointReplaceWithLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="editPointCurrentValueField" min="-2" pref="22" max="-2" attributes="0"/>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="editPointReplaceWithField" min="-2" pref="22" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="editPointReplaceButton" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Component id="jLabel73" min="-2" max="-2" attributes="0"/>
-                                              <Group type="102" attributes="0">
-                                                  <Component id="jLabel77" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jLabel93" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jTextField1" min="-2" pref="32" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jLabel94" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jTextField2" min="-2" pref="32" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <Component id="jLabel98" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel99" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jLabel100" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jTextField5" min="-2" pref="22" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="jScrollPane12" alignment="0" min="-2" pref="168" max="-2" attributes="0"/>
                                       </Group>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="jLabel73" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Component id="jLabel77" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="editPointXLabel" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="editPointXField" min="-2" pref="32" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="editPointYLabel" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="editPointYField" min="-2" pref="32" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Component id="jLabel98" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel99" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel100" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="editPointBottomReplaceWithField" min="-2" pref="22" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="editPointBottomReplaceButton" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jScrollPane12" alignment="0" min="-2" pref="168" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
@@ -3226,24 +3224,24 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel77" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel93" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel94" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editPointXLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editPointXField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editPointYLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editPointYField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel95" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editPointCurrentValueField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel96" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editPointReplaceWithField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editPointReplaceWithLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editPointReplaceButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jLabel97" min="-2" pref="15" max="-2" attributes="0"/>
+                                  <Component id="editPointErrorLabel" min="-2" pref="15" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel98" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -3252,8 +3250,8 @@
                                   <Component id="jLabel99" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jTextField5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editPointBottomReplaceWithField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editPointBottomReplaceButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel100" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
@@ -3272,40 +3270,53 @@
                             <Property name="text" type="java.lang.String" value="Point"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel93">
+                        <Component class="javax.swing.JLabel" name="editPointXLabel">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="x"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="jTextField1">
+                        <Component class="javax.swing.JTextField" name="editPointXField">
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel94">
+                        <Component class="javax.swing.JLabel" name="editPointYLabel">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="y"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="jTextField2">
+                        <Component class="javax.swing.JTextField" name="editPointYField">
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel95">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Current value:"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="jTextField3">
+                        <Component class="javax.swing.JTextField" name="editPointCurrentValueField">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                            </Property>
+                            <Property name="horizontalAlignment" type="int" value="0"/>
+                          </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel96">
+                        <Component class="javax.swing.JLabel" name="editPointReplaceWithLabel">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Replace with:"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="jTextField4">
+                        <Component class="javax.swing.JTextField" name="editPointReplaceWithField">
+                          <Properties>
+                            <Property name="horizontalAlignment" type="int" value="0"/>
+                          </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton1">
+                        <Component class="javax.swing.JButton" name="editPointReplaceButton">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Replace"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editPointReplaceButtonActionPerformed"/>
+                          </Events>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel97">
+                        <Component class="javax.swing.JLabel" name="editPointErrorLabel">
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel98">
                           <Properties>
@@ -3319,7 +3330,7 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JTextPane" name="jTextPane3">
+                            <Component class="javax.swing.JTextPane" name="editPointTextPane">
                             </Component>
                           </SubComponents>
                         </Container>
@@ -3328,7 +3339,7 @@
                             <Property name="text" type="java.lang.String" value="Format: [x],[y][newline]"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton3">
+                        <Component class="javax.swing.JButton" name="editPointBottomReplaceButton">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Replace"/>
                           </Properties>
@@ -3338,7 +3349,10 @@
                             <Property name="text" type="java.lang.String" value="Replace with:"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="jTextField5">
+                        <Component class="javax.swing.JTextField" name="editPointBottomReplaceWithField">
+                          <Properties>
+                            <Property name="horizontalAlignment" type="int" value="0"/>
+                          </Properties>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -3396,7 +3410,7 @@
                                                   <Component id="jTextField10" min="-2" pref="32" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace min="0" pref="44" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="38" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -3749,7 +3763,7 @@
                                                           <Component id="jTextField7" max="32767" attributes="0"/>
                                                       </Group>
                                                   </Group>
-                                                  <EmptySpace pref="69" max="32767" attributes="0"/>
+                                                  <EmptySpace pref="63" max="32767" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Component id="jTextField8" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
                                                       <Component id="jTextField9" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
@@ -4053,13 +4067,13 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel79" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel81" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jScrollPane10" min="-2" pref="253" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel26" max="32767" attributes="0"/>
+                              <Component id="jPanel26" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jLabel79" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel81" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
@@ -4072,11 +4086,11 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel84" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel82" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jPanel27" max="32767" attributes="0"/>
+                                  <Component id="jPanel27" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -4102,7 +4116,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jPanel27" max="32767" attributes="0"/>
-                          <Component id="jScrollPane11" max="32767" attributes="0"/>
+                          <Component id="jScrollPane11" pref="244" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
@@ -4270,7 +4284,7 @@
                           <Component id="jLabel91" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel92" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="180" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -4343,7 +4357,7 @@
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="clock" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="4" max="32767" attributes="0"/>
+                          <EmptySpace min="4" pref="12" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="jSeparator9" max="32767" attributes="0"/>

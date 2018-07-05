@@ -32,7 +32,6 @@ public class TestMain {
         try {
             /*
             try {
-            // TODO code application logic here
             Element root = new Element ("command_presets");
             Document doc = new Document(root);
             Element preset = new Element("preset");
