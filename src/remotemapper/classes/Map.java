@@ -171,78 +171,7 @@ public final class Map {
 
         return null;
     }
-	
-    /**
-     *
-     * @param x
-     * @param y
-     * @param width
-     * @param length
-     * @param val
-     */
-    public void setPointRectangle (int x, int y, int width, int length, char val)
-    {
-        for (int y2 = y; y2 < y + length; y2++)
-        {
-            for (int x2 = x; x2 < x + width; x2++)
-            {
-                this.setPoint(y2, x2, val);
-            }
-        }
-    }
-	
-    /**
-     *
-     * @param x
-     * @param y
-     * @param val
-     */
-    public void setPoint (int x, int y, char val)
-    {
-        map[y-1][x-1] = val;
-    }
-	
-    /**
-     *
-     * @param x
-     * @param y
-     * @return
-     */
-    public char getPoint (int x, int y)
-    {
-        return map[y-1][x-1];
-    }
-
-    /**
-     * Save the contents of a map to a specified destination.
-     * 
-     * @param map
-     * @param dest
-     * @throws IOException
-     */
-    public static void exportToFile(Map map, File dest) throws IOException
-    {
-        final char[][] d = map.getMap();
-        
-        try (FileWriter out = new FileWriter(dest, false)) 
-        {
-            /* Write markers */
-            out.write (String.valueOf(map.obsticalMark) + '\n');
-            out.write (String.valueOf(map.emptySpaceMark) + '\n');
-            
-            /* Write map raw data */
-            for (char[] d1 : d) 
-            {
-                for (int x = 0; x < d1.length; x++) 
-                {
-                    out.write(d1[x]);
-                }
-            }
-            
-            out.flush();
-        }
-    }
-	
+    
     /**
      * A method for simplifying a map with a given length.
      * 
@@ -278,6 +207,36 @@ public final class Map {
         }
 
         return s;
+    }
+    
+    /**
+     * Save the contents of a map to a specified destination.
+     * 
+     * @param map
+     * @param dest
+     * @throws IOException
+     */
+    public static void exportToFile(Map map, File dest) throws IOException
+    {
+        final char[][] d = map.getMap();
+        
+        try (FileWriter out = new FileWriter(dest, false)) 
+        {
+            /* Write markers */
+            out.write (String.valueOf(map.obsticalMark) + '\n');
+            out.write (String.valueOf(map.emptySpaceMark) + '\n');
+            
+            /* Write map raw data */
+            for (char[] d1 : d) 
+            {
+                for (int x = 0; x < d1.length; x++) 
+                {
+                    out.write(d1[x]);
+                }
+            }
+            
+            out.flush();
+        }
     }
 
     /**
@@ -335,6 +294,89 @@ public final class Map {
         }
 
         return new Map (m, obM, esM);
+    }
+	
+    /**
+     * Sets a rectangular selection of the map to the specified character.
+     * 
+     * @param x x coordinate of the rectangle's top left corner
+     * @param y y coordinate of the rectangle's top left corner
+     * @param width the rectangle's width (x axis)
+     * @param height the rectangle's height (y axis)
+     * @param val the character to set the selection to
+     */
+    public void setPointRectangle (int x, int y, int width, int height, char val)
+    {
+        for (int y2 = y; y2 < y + height; y2++)
+        {
+            for (int x2 = x; x2 < x + width; x2++)
+            {
+                this.setPoint(y2, x2, val);
+            }
+        }
+    }
+    
+    /**
+     * Returns a char[][] containing the requested selection of the map.
+     * 
+     * @param x x coordinate of the rectangle's top left corner
+     * @param y y coordinate of the rectangle's top left corner
+     * @param width the rectangle's width (x axis)
+     * @param height the rectangle's height (y axis)
+     * @return 
+     */
+    public char[][] getPointRectangle(int x, int y, int width, int height)
+    {
+        char[][] sel = new char[height][width];
+        
+        int y3 = 0;
+        for (int y2 = y; y2 < y + height; y2++)
+        {
+            int x3 = 0;
+            for (int x2 = x; x2 < x + width; x2++)
+            {
+                sel[y3++][x3++] = this.getPoint(x2, y2);
+            }
+        }
+        
+        return sel;
+    }
+    
+    /**
+     * Sets a square selection of the map to a specific character.
+     * 
+     * @param x x coordinate of the square's top left corner
+     * @param y y coordinate of the square's top left corner
+     * @param length the length of one of the square's sides
+     * @param val the character to set the selection to
+     */
+    public void setPointSquare (int x, int y, int length, char val)
+    {
+        this.setPointRectangle(x, y, length, length, val);
+    }
+	
+    /**
+     * Set a point of the map to the specified character
+     * 
+     * @param x the point's x coordinate
+     * @param y the point's y coordinate
+     * @param val the character to set the point to
+     */
+    public void setPoint (int x, int y, char val)
+    {
+        map[y-1][x-1] = val;
+    }
+	
+    /**
+     * Returns the value of the map's specified point
+     * 
+     * @param x the point's x coordinate
+     * @param y the point's y coordinate
+     * @return
+     */
+    public char getPoint (int x, int y)
+    {
+        return map[y-1][x-1];
     }
 	
     /**
