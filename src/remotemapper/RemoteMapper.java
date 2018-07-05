@@ -930,11 +930,11 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         positionXLabel.setText("x");
 
-        positionXFormattedField.setText("0");
+        positionXFormattedField.setText("1");
 
         positionYLabel.setText("y");
 
-        positionYFormattedField.setText("0");
+        positionYFormattedField.setText("1");
 
         headingLabel.setText("Heading:");
 
@@ -2278,23 +2278,23 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel69.setText("From:");
 
-        pathfindStartXField.setText("0");
+        pathfindStartXField.setText("1");
 
         pathfindStartXLabel.setText("x");
 
         pathfindStartYLabel.setText("y");
 
-        pathfindStartYField.setText("0");
+        pathfindStartYField.setText("1");
 
         jLabel72.setText("To:");
 
         pathfindGoalXLabel.setText("x");
 
-        pathfindGoalXField.setText("0");
+        pathfindGoalXField.setText("1");
 
         pathfindGoalYLabel.setText("y");
 
-        pathfindGoalYField.setText("0");
+        pathfindGoalYField.setText("1");
 
         findPathButton.setText("Find path");
         findPathButton.addActionListener(new java.awt.event.ActionListener() {
@@ -2310,7 +2310,7 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel76.setText("Distance:");
 
-        routeDistanceLabel.setText("XXX.XX");
+        routeDistanceLabel.setText("XXX.XXX");
 
         jLabel78.setText("cm");
 
@@ -2328,7 +2328,7 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel71.setText("Displacement:");
 
-        routeDisplacementLabel.setText("XXX.XX");
+        routeDisplacementLabel.setText("XXX.XXX");
 
         jLabel74.setText("cm");
 
@@ -2353,13 +2353,13 @@ public class RemoteMapper extends javax.swing.JFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel76)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(routeDistanceLabel)
+                                                .addComponent(routeDistanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel78))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel71)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(routeDisplacementLabel)
+                                                .addComponent(routeDisplacementLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel74)))))))
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -2950,7 +2950,9 @@ public class RemoteMapper extends javax.swing.JFrame {
             roverHeightLabel.setForeground(Color.red);
         }
         else
+        {
             roverHeightLabel.setForeground(Color.black);
+        }
         
         if (roverLengthFormattedField.getText().isEmpty())
         {
@@ -2958,7 +2960,9 @@ public class RemoteMapper extends javax.swing.JFrame {
             roverLengthLabel.setForeground(Color.red);
         }
         else
+        {
             roverLengthLabel.setForeground(Color.black);
+        }
         
         if (roverWidthFormattedField.getText().isEmpty())
         {
@@ -2966,23 +2970,29 @@ public class RemoteMapper extends javax.swing.JFrame {
             roverWidthLabel.setForeground(Color.red);
         }
         else
+        {
             roverWidthLabel.setForeground(Color.black);
+        }
         
-        if (positionXFormattedField.getText().isEmpty())
+        if ((positionXFormattedField.getText().isEmpty()) || (Integer.parseInt(positionXFormattedField.getText()) <= 0))
         {
             ok = false;
             positionXLabel.setForeground(Color.red);
         }
         else
+        {
             positionXLabel.setForeground (Color.black);
+        }
         
-        if (positionYFormattedField.getText().isEmpty())
+        if ((positionYFormattedField.getText().isEmpty()) || (Integer.parseInt(positionYFormattedField.getText()) <= 0))
         {
             ok = false;
             positionYLabel.setForeground(Color.red);
         }
         else
+        {
             positionYLabel.setForeground (Color.black);
+        }
         
         if (headingFormattedField.getText().isEmpty())
         {
@@ -2990,7 +3000,9 @@ public class RemoteMapper extends javax.swing.JFrame {
             headingLabel.setForeground(Color.red);
         }
         else
+        {
             headingLabel.setForeground(Color.black);
+        }
         
         // Check to make sure position is valid:
         if (!useExistingRadio.isSelected())
@@ -3137,7 +3149,9 @@ public class RemoteMapper extends javax.swing.JFrame {
             roverPropertiesWidthLabel.setForeground(Color.RED);
         }
         else
+        {
             roverPropertiesWidthLabel.setForeground(Color.BLACK);
+        }
         
         if (roverPropertiesHeight.getText().isEmpty())
         {
@@ -3145,7 +3159,9 @@ public class RemoteMapper extends javax.swing.JFrame {
             roverPropertiesHeightLabel.setForeground(Color.RED);
         }
         else
+        {
             roverPropertiesHeightLabel.setForeground(Color.BLACK);
+        }
         
         if (roverPropertiesLength.getText().isEmpty())
         {
@@ -3153,7 +3169,9 @@ public class RemoteMapper extends javax.swing.JFrame {
             roverPropertiesLengthLabel.setForeground(Color.RED);
         }
         else
+        {
             roverPropertiesLengthLabel.setForeground(Color.BLACK);
+        }
         
         if (roverPropertiesX.getText().isEmpty())
         {
@@ -3162,13 +3180,16 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
         else
         {
-            if (Integer.parseInt(roverPropertiesX.getText()) > map.getWidth())
+            int x = Integer.parseInt(roverPropertiesX.getText());
+            if ((x > map.getWidth()) || (x <= 0))
             {
                 roverPropertiesErrorLabel.setText("Given rover x value invalid.");
                 roverPropertiesXLabel.setForeground(Color.red);
             }
             else
+            {
                 roverPropertiesXLabel.setForeground(Color.BLACK);
+            }
         }
         
         if (roverPropertiesY.getText().isEmpty())
@@ -3178,13 +3199,16 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
         else
         {
-            if (Integer.parseInt(roverPropertiesY.getText()) > map.getWidth())
+            int y = Integer.parseInt(roverPropertiesY.getText());
+            if ((y > map.getWidth()) || (y <= 0))
             {
                 roverPropertiesErrorLabel.setText("Given rover x value invalid.");
                 roverPropertiesYLabel.setForeground(Color.red);
             }
             else
+            {
                 roverPropertiesYLabel.setForeground(Color.BLACK);
+            }
         }
         
         if (roverPropertiesHeading.getText().isEmpty())
@@ -3193,10 +3217,14 @@ public class RemoteMapper extends javax.swing.JFrame {
             roverPropertiesHeadingLabel.setForeground(Color.RED);
         }
         else
-            roverPropertiesHeadingLabel.setForeground(Color.BLACK);
-        
-        if (ok)
         {
+            roverPropertiesHeadingLabel.setForeground(Color.BLACK);
+        }
+        
+        if (!ok)
+        {
+            return;
+        }
             // Save buffered values and close
             roverPropertiesErrorLabel.setText("");
             rover.setX(Integer.parseInt(roverPropertiesX.getText()));
@@ -3207,7 +3235,6 @@ public class RemoteMapper extends javax.swing.JFrame {
             rover.setDirection(Float.parseFloat(roverPropertiesHeading.getText()));
             
             propertiesPage.setVisible(false);
-        }
     }//GEN-LAST:event_roverPropertiesOkActionPerformed
 
     private void roverPropertiesCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roverPropertiesCancelActionPerformed
@@ -3317,6 +3344,9 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_preferencePagesListValueChanged
 
+    /**
+     *  Hide all preference window panels
+     */
     private void hideAllPreferencePanels ()
     {
         roverPropertiesPanel.setVisible(false);
@@ -3513,13 +3543,15 @@ public class RemoteMapper extends javax.swing.JFrame {
         /* TEMP UNTIL AUTO MAP AND SIMPLE MAP UPDATE IS IMPLEMENTED! */
         simpleMap = Map.simplfyMap(map, ((int) rover.getFlatDiagonal() + 1) / CONVERSION_CM_MM);
         
+        
         pathfindErrorLabel.setText("");
         pathfindErrorLabel.setForeground(Color.red);
         
         // Check to make sure all fields have data and are valid.
         if (!pathfindStartXField.getText().isEmpty())
         {
-            if (Integer.parseInt(pathfindStartXField.getText()) <= simpleMap.getWidth())
+            int x = Integer.parseInt(pathfindStartXField.getText());
+            if ((x <= simpleMap.getWidth()) && (x > 0))
                 pathfindStartXLabel.setForeground(Color.black);
             else
             {
@@ -3536,7 +3568,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         if (!pathfindStartYField.getText().isEmpty())
         {
-            if (Integer.parseInt(pathfindStartYField.getText()) <= simpleMap.getLength())
+            int y = Integer.parseInt(pathfindStartYField.getText());
+            if ((y <= simpleMap.getLength()) && (y > 0))
                 pathfindStartYLabel.setForeground(Color.black);
             else
             {
@@ -3553,7 +3586,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         if (!pathfindGoalXField.getText().isEmpty())
         {
-            if (Integer.parseInt(pathfindGoalXField.getText()) <= simpleMap.getWidth())
+            int x = Integer.parseInt(pathfindGoalXField.getText());
+            if ((x <= simpleMap.getWidth()) && (x > 0))
                 pathfindGoalXLabel.setForeground(Color.black);
             else
             {
@@ -3570,7 +3604,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         if (!pathfindGoalYField.getText().isEmpty())
         {
-            if (Integer.parseInt(pathfindGoalYField.getText()) <= simpleMap.getLength())
+            int y = Integer.parseInt(pathfindGoalYField.getText());
+            if ((y <= simpleMap.getLength()) && (y > 0))
                 pathfindGoalYLabel.setForeground(Color.black);
             else
             {
@@ -3656,11 +3691,20 @@ public class RemoteMapper extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(RemoteMapper::new);
     }
     
+    /**
+     * Check to see if the workspace specified is valid or not.
+     * 
+     * @param ws
+     * @return 
+     */
     private static boolean existingWorkspaceValid (File ws)
     {
          return (new File (ws.getPath() + File.separator + ConfigFiles.MAP.getName()).isFile() && new File (ws.getPath() + File.separator + ConfigFiles.CMD_PRESETS.getName()).isFile());
     }
     
+    /**
+     * Clean up wizard pages by disposing them.
+     */
     private void cleanupWizard ()
     {
         wizardPage1.dispose();
@@ -3670,6 +3714,9 @@ public class RemoteMapper extends javax.swing.JFrame {
         loadingScreen.dispose();
     }
     
+    /**
+     * Load the main window.
+     */
     private void loadMainFrame ()
     {
         cleanupWizard ();
@@ -3717,6 +3764,9 @@ public class RemoteMapper extends javax.swing.JFrame {
         setVisible (true);
     }
     
+    /**
+     * Load the rover properties page.
+     */
     private void loadRoverPropertiesPage ()
     {
         // Load current values:
@@ -3730,6 +3780,9 @@ public class RemoteMapper extends javax.swing.JFrame {
         roverPropertiesPanel.setVisible(true);
     }
     
+    /**
+     * Load the preset properties page.
+     */
     private void loadPresetPropertiesPage()
     {
         // Load presets into window components
@@ -3761,16 +3814,30 @@ public class RemoteMapper extends javax.swing.JFrame {
         presetsPage1.setVisible(true); // Show default page
     }
     
+    /**
+     * Display the found route.
+     * 
+     * @param path 
+     */
     public void displayFoundRoute (Node[] path)
     {
-        findPathButton.setEnabled(true);
+        resetPathfinder();
+        previewRouteButton.setEnabled(true);
         
         route = new Route(simpleMap, path, routeMarkField.getText().charAt(0));
         
-        routeDistanceLabel.setText(Double.toString(route.getDistance()));
-        routeDisplacementLabel.setText(Double.toString(route.getDisplacement()));
+        String rd = Double.toString(route.getDistance() * (rover.getFlatDiagonal() / CONVERSION_CM_MM));
+        routeDistanceLabel.setText(rd);
+        routeDistanceLabel.setToolTipText(rd);
+        
+        String rd2 = Double.toString(route.getDisplacement() * (rover.getFlatDiagonal() / CONVERSION_CM_MM));
+        routeDisplacementLabel.setText(rd2);
+        routeDisplacementLabel.setToolTipText(rd2);
     }
     
+    /**
+     * Reset the pathfinding GUI after looking for a path.
+     */
     public void resetPathfinder ()
     {
         findPathButton.setEnabled(true);
@@ -4148,6 +4215,9 @@ public class RemoteMapper extends javax.swing.JFrame {
         }   
     }
     
+    /**
+     * A swing worker that loads the specified VALID workspace
+     */
     class LoadWorkspace extends SwingWorker<Map, Integer>
     {
         private final File mapFile, presetFile;
@@ -4273,7 +4343,7 @@ public class RemoteMapper extends javax.swing.JFrame {
 
     }
     
-    /*
+    /**
      * A swing worker that saves the workspace.
      */
     class SaveWorkspace extends SwingWorker <Void, Integer>
@@ -4396,6 +4466,9 @@ public class RemoteMapper extends javax.swing.JFrame {
         
     }
     
+    /**
+     * A swing worker that looks for a path on the map.
+     */
     class Pathfinder extends SwingWorker<Node[], Void>
     {
         private final Coord start, goal;
