@@ -38,6 +38,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.PlainDocument;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -58,7 +60,7 @@ import remotemapper.utility.MyIntFilter;
  * @author Robert Hutter
  */
 public class RemoteMapper extends javax.swing.JFrame {
-    static int CONVERSION_CM_MM = 10;
+    static final int CONVERSION_CM_MM = 10;
     private SerialHandler port;
     private Map map;
     private Map simpleMap;
@@ -376,23 +378,23 @@ public class RemoteMapper extends javax.swing.JFrame {
         jPanel28 = new javax.swing.JPanel();
         jLabel73 = new javax.swing.JLabel();
         jLabel77 = new javax.swing.JLabel();
-        jLabel93 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel94 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        editPointXLabel = new javax.swing.JLabel();
+        editPointXField = new javax.swing.JTextField();
+        editPointYLabel = new javax.swing.JLabel();
+        editPointYField = new javax.swing.JTextField();
         jLabel95 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel96 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jLabel97 = new javax.swing.JLabel();
+        editPointCurrentValueField = new javax.swing.JTextField();
+        editPointReplaceWithLabel = new javax.swing.JLabel();
+        editPointReplaceWithField = new javax.swing.JTextField();
+        editPointReplaceButton = new javax.swing.JButton();
+        editPointErrorLabel = new javax.swing.JLabel();
         jLabel98 = new javax.swing.JLabel();
         jScrollPane12 = new javax.swing.JScrollPane();
-        jTextPane3 = new javax.swing.JTextPane();
+        editPointTextPane = new javax.swing.JTextPane();
         jLabel99 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        editPointBottomReplaceButton = new javax.swing.JButton();
         jLabel100 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        editPointBottomReplaceWithField = new javax.swing.JTextField();
         jPanel23 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jLabel109 = new javax.swing.JLabel();
@@ -2307,25 +2309,38 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel77.setText("Point");
 
-        jLabel93.setText("x");
+        editPointXLabel.setText("x");
 
-        jLabel94.setText("y");
+        editPointYLabel.setText("y");
 
         jLabel95.setText("Current value:");
 
-        jLabel96.setText("Replace with:");
+        editPointCurrentValueField.setEditable(false);
+        editPointCurrentValueField.setBackground(new java.awt.Color(255, 255, 255));
+        editPointCurrentValueField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        jButton1.setText("Replace");
+        editPointReplaceWithLabel.setText("Replace with:");
+
+        editPointReplaceWithField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        editPointReplaceButton.setText("Replace");
+        editPointReplaceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editPointReplaceButtonActionPerformed(evt);
+            }
+        });
 
         jLabel98.setText("Change more points:");
 
-        jScrollPane12.setViewportView(jTextPane3);
+        jScrollPane12.setViewportView(editPointTextPane);
 
         jLabel99.setText("Format: [x],[y][newline]");
 
-        jButton3.setText("Replace");
+        editPointBottomReplaceButton.setText("Replace");
 
         jLabel100.setText("Replace with:");
+
+        editPointBottomReplaceWithField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
         jPanel28.setLayout(jPanel28Layout);
@@ -2334,40 +2349,39 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addGroup(jPanel28Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel97, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel28Layout.createSequentialGroup()
-                            .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel95)
-                                .addComponent(jLabel96))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel28Layout.createSequentialGroup()
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jButton1))))
-                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel73, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editPointErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel95)
+                            .addComponent(editPointReplaceWithLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(editPointCurrentValueField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel28Layout.createSequentialGroup()
-                                .addComponent(jLabel77)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel93)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel94)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(jLabel98)
-                        .addComponent(jLabel99)
+                                .addComponent(editPointReplaceWithField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(editPointReplaceButton))))
+                    .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel73, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel28Layout.createSequentialGroup()
-                            .addComponent(jLabel100)
+                            .addComponent(jLabel77)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton3))
-                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(editPointXLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(editPointXField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(editPointYLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(editPointYField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel98)
+                    .addComponent(jLabel99)
+                    .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addComponent(jLabel100)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editPointBottomReplaceWithField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(editPointBottomReplaceButton))
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel28Layout.setVerticalGroup(
@@ -2377,21 +2391,21 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel77)
-                    .addComponent(jLabel93)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel94)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(editPointXLabel)
+                    .addComponent(editPointXField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editPointYLabel)
+                    .addComponent(editPointYField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel95)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(editPointCurrentValueField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel96)
-                    .addComponent(jButton1))
+                    .addComponent(editPointReplaceWithField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editPointReplaceWithLabel)
+                    .addComponent(editPointReplaceButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel97, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(editPointErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel98)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2400,8 +2414,8 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addComponent(jLabel99)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3)
+                    .addComponent(editPointBottomReplaceWithField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editPointBottomReplaceButton)
                     .addComponent(jLabel100))
                 .addGap(2, 2, 2))
         );
@@ -2591,7 +2605,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                                 .addComponent(jLabel112)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 44, Short.MAX_VALUE)))
+                        .addGap(0, 38, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel30Layout.setVerticalGroup(
@@ -2675,7 +2689,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                                         .addComponent(jLabel104)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jTextField7)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))))
@@ -3028,7 +3042,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addComponent(jLabel91)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel92)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
         jPanel27Layout.setVerticalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3047,12 +3061,12 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel25Layout.createSequentialGroup()
                         .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel25Layout.createSequentialGroup()
                         .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel25Layout.createSequentialGroup()
@@ -3063,8 +3077,8 @@ public class RemoteMapper extends javax.swing.JFrame {
                         .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel84, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                            .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3085,7 +3099,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane11))
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
                 .addGap(21, 21, 21))
         );
 
@@ -3096,24 +3110,24 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel25))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator11)
@@ -3123,7 +3137,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 23, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
 
@@ -3159,7 +3173,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(clock)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(4, 12, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(jSeparator9)
                         .addGap(3, 3, 3))))
@@ -3230,7 +3244,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1062, Short.MAX_VALUE)
+                    .addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1068, Short.MAX_VALUE)
                     .addComponent(jSeparator8)
                     .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
@@ -3249,7 +3263,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startActionPerformed
-        // TODO add your handling code here:
         try {
             if (!portComboBox.getSelectedItem().equals("Select"))
             {
@@ -3281,7 +3294,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     }//GEN-LAST:event_portComboBoxPopupMenuWillBecomeVisible
 
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
-        // TODO add your handling code here:
         fileChooser.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
         if (fileChooser.showDialog(wizardPage2, "Select workspace") == javax.swing.JFileChooser.APPROVE_OPTION)
         {
@@ -3290,7 +3302,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     }//GEN-LAST:event_browseButtonActionPerformed
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
-        // TODO add your handling code here:
         // Make sure that the workspace is valid
         pathTextField.setEditable (false);
         File ws = new File (pathTextField.getText());
@@ -3345,7 +3356,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void useDefaultMarkingsRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useDefaultMarkingsRadioActionPerformed
-        // TODO add your handling code here:
         if (useDefaultMarkingsRadio.isSelected())
         {
             obsticalMarkLabel.setEnabled(false);
@@ -3370,7 +3380,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     }//GEN-LAST:event_useDefaultMarkingsRadioActionPerformed
 
     private void wizardPage4NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wizardPage4NextActionPerformed
-        // TODO add your handling code here:
         // Test values
         boolean ok = true;
         
@@ -3561,7 +3570,21 @@ public class RemoteMapper extends javax.swing.JFrame {
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        // TODO: Save workspace before closing it!
+        SaveWorkspace sw = new SaveWorkspace (map, mapFile, presets, presetFile);
+        sw.execute();
+        
+        /* Hide all windows */
+        setVisible(false);
+        propertiesPage.setVisible(false);
+        
+        try
+        {
+            sw.get(); // Wait for operation to finish
+        }
+        catch (InterruptedException | ExecutionException ex) 
+        {
+            Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         System.exit (0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
@@ -3592,7 +3615,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
-        // TODO add your handling code here:
         fileChooser.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
         if (fileChooser.showDialog(this, "Save As") == javax.swing.JFileChooser.APPROVE_OPTION)
         {
@@ -3797,7 +3819,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     }//GEN-LAST:event_forwardCommandButtonActionPerformed
 
     private void preferencePagesListValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_preferencePagesListValueChanged
-        // TODO add your handling code here:
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) preferencePagesList.getLastSelectedPathComponent();
 
         if (node == null) // Nothing is selected
@@ -3843,9 +3864,10 @@ public class RemoteMapper extends javax.swing.JFrame {
     }//GEN-LAST:event_preset1NameFieldFocusLost
 
     private void preset2NameFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_preset2NameFieldFocusLost
-        // TODO add your handling code here:
         if (preset2NameField.getText().isEmpty())
+        {
             preset2NameField.setText("Preset 2");
+        }
     }//GEN-LAST:event_preset2NameFieldFocusLost
 
     private void preset3NameFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_preset3NameFieldFocusLost
@@ -4136,6 +4158,116 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_pathfindUseRoverPosBoxActionPerformed
 
+    @SuppressWarnings("UnnecessaryReturnStatement")
+    private void editPointReplaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPointReplaceButtonActionPerformed
+        /* Validate input */
+        boolean ok = true;
+        
+        editPointErrorLabel.setText("");
+        
+        if (!editPointXField.getText().isEmpty())
+        {
+            int x = Integer.parseInt(editPointXField.getText());
+            if ((x > 0) && (x <= map.getWidth()))
+            {
+                editPointXLabel.setForeground(Color.black);
+            }
+            else
+            {
+                ok = false;
+                editPointXLabel.setForeground(Color.red);
+                editPointErrorLabel.setText("Invalid position givin");
+            }
+        }
+        else
+        {
+            ok = false;
+            editPointXLabel.setForeground(Color.red);
+        }
+        
+        if (!editPointYField.getText().isEmpty())
+        {
+            int y = Integer.parseInt(editPointYField.getText());
+            if ((y <= map.getLength()) || (y > 0))
+            {
+                editPointYLabel.setForeground(Color.black);
+            }
+            else
+            {
+                ok = false;
+                editPointYLabel.setForeground(Color.red);
+                editPointErrorLabel.setText("Invalid position givin.");
+            }
+        }
+        else
+        {
+            ok = false;
+            editPointYLabel.setForeground(Color.red);
+        }
+        
+        if (!editPointReplaceWithField.getText().isEmpty())
+        {
+            editPointReplaceWithLabel.setForeground(Color.black);
+        }
+        else
+        {
+            editPointReplaceWithLabel.setForeground(Color.red);
+        }
+        
+        if (!ok) // Return if data is not valid
+        {
+            return;
+        }
+        
+        /* Change the affected point */
+        map.setPoint(Integer.parseInt(editPointXField.getText()),
+                     Integer.parseInt(editPointYField.getText()),
+                     editPointReplaceWithField.getText().charAt(0));
+        
+        editPointErrorLabel.setForeground(Color.green);
+        editPointErrorLabel.setText("Point changed");
+    }//GEN-LAST:event_editPointReplaceButtonActionPerformed
+
+    /** Automaticly update editPointCurrentValueField when the editPointX/Y Fields
+     * are changed
+    */
+    class EditPointDocumentListener implements DocumentListener
+    {
+        @Override
+        public void changedUpdate(DocumentEvent de)
+        {
+            // Usless but must implement
+        }
+        
+        @Override
+        public void removeUpdate(DocumentEvent de)
+        {
+            updateCurrentValueField();
+        }
+        
+        @Override
+        public void insertUpdate(DocumentEvent de)
+        {
+            updateCurrentValueField();
+        }
+        
+        private void updateCurrentValueField ()
+        {
+            try
+            {
+                editPointCurrentValueField.setText(Character.toString(map.getPoint(
+                    Integer.parseInt(editPointXField.getText()), 
+                    Integer.parseInt(editPointYField.getText()))));
+            }
+            catch (NumberFormatException | ArrayIndexOutOfBoundsException e)
+            {
+                //Logger.getLogger(RemoteMapper.class.getName()).log(Level.INFO,
+                //        "Failed to load edit point current value", e);
+                editPointCurrentValueField.setText("");
+            }
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -4202,7 +4334,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         AutoSaver as = new AutoSaver (map, mapFile, presetFile);
         as.execute();
         
-        // Setup formatted textfields
+        // Setup formatted textfields / documentListeners
+        //<editor-fold>
         PlainDocument pd17 = (PlainDocument) movementCommandDistance.getDocument();
         pd17.setDocumentFilter(new MyIntFilter());
         
@@ -4223,6 +4356,21 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         PlainDocument pd23 = (PlainDocument) routeMarkField.getDocument();
         pd23.setDocumentFilter(new LengthFilter(1));
+        
+        PlainDocument pd24 = (PlainDocument) editPointXField.getDocument();
+        pd24.setDocumentFilter(new MyIntFilter());
+        pd24.addDocumentListener(new EditPointDocumentListener());
+        
+        PlainDocument pd25 = (PlainDocument) editPointYField.getDocument();
+        pd25.setDocumentFilter(new MyIntFilter());
+        pd25.addDocumentListener(new EditPointDocumentListener());
+        
+        PlainDocument pd26 = (PlainDocument) editPointReplaceWithField.getDocument();
+        pd26.setDocumentFilter(new LengthFilter(1));
+        
+        PlainDocument pd27 = (PlainDocument) editPointBottomReplaceWithField.getDocument();
+        pd27.setDocumentFilter(new LengthFilter(1));
+        //</editor-fold>
         
         propertiesPage.setAlwaysOnTop(true);
         
@@ -4326,6 +4474,18 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JButton browseButton;
     private javax.swing.JLabel clock;
     private javax.swing.JComboBox<String> decodeCharsetSelector;
+    private javax.swing.JButton editPointBottomReplaceButton;
+    private javax.swing.JTextField editPointBottomReplaceWithField;
+    private javax.swing.JTextField editPointCurrentValueField;
+    private javax.swing.JLabel editPointErrorLabel;
+    private javax.swing.JButton editPointReplaceButton;
+    private javax.swing.JTextField editPointReplaceWithField;
+    private javax.swing.JLabel editPointReplaceWithLabel;
+    private javax.swing.JTextPane editPointTextPane;
+    private javax.swing.JTextField editPointXField;
+    private javax.swing.JLabel editPointXLabel;
+    private javax.swing.JTextField editPointYField;
+    private javax.swing.JLabel editPointYLabel;
     private javax.swing.JLabel emptySpaceMarkLabel;
     private javax.swing.JTextField emptySpaceMarkTextField;
     private javax.swing.JComboBox<String> encodeCharsetSelector;
@@ -4336,9 +4496,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JButton forwardCommandButton;
     private javax.swing.JFormattedTextField headingFormattedField;
     private javax.swing.JLabel headingLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -4457,11 +4615,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel90;
     private javax.swing.JLabel jLabel91;
     private javax.swing.JLabel jLabel92;
-    private javax.swing.JLabel jLabel93;
-    private javax.swing.JLabel jLabel94;
     private javax.swing.JLabel jLabel95;
-    private javax.swing.JLabel jLabel96;
-    private javax.swing.JLabel jLabel97;
     private javax.swing.JLabel jLabel98;
     private javax.swing.JLabel jLabel99;
     private javax.swing.JMenu jMenu1;
@@ -4528,7 +4682,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
@@ -4537,17 +4690,12 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTextPane jTextPane2;
-    private javax.swing.JTextPane jTextPane3;
     private javax.swing.JTextPane jTextPane4;
     private javax.swing.JButton leftTurnCommandButton;
     private javax.swing.JTextArea loadingConsole;
