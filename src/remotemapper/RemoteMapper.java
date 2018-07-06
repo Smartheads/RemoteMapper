@@ -2326,6 +2326,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         editPointCurrentValueField.setEditable(false);
         editPointCurrentValueField.setBackground(new java.awt.Color(255, 255, 255));
         editPointCurrentValueField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        editPointCurrentValueField.setFocusable(false);
 
         editPointReplaceWithLabel.setText("Replace with:");
 
@@ -3228,7 +3229,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(clock)
-                        .addGap(4, 12, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(jSeparator9)
                         .addGap(3, 3, 3))))
@@ -4325,8 +4326,40 @@ public class RemoteMapper extends javax.swing.JFrame {
         editPointErrorLabel.setText("Point changed");
     }//GEN-LAST:event_editPointReplaceButtonActionPerformed
 
+    @SuppressWarnings("UnnecessaryReturnStatement")
     private void editPointBottomReplaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPointBottomReplaceButtonActionPerformed
-        // TODO add your handling code here:
+        /* Validate user entries */
+        boolean ok = true;
+        
+        editPointErrorLabel.setText("");
+        
+        if (editPointBottomReplaceWithField.getText().isEmpty())
+        {
+            ok = false;
+            editPointErrorLabel.setForeground(Color.red);
+            editPointErrorLabel.setText("No 'replace with' char entered.");
+        }
+        
+        if (!ok) // Exit if data entered is invalid
+        {
+            return;
+        }
+        
+        /* Parse values and replace them on the map */
+        Coord[] cords = Coord.parseText(editPointTextPane.getText());
+        
+        for (Coord c : cords)
+        {
+            try
+            {
+                map.setPoint(c.getX(), c.getY(), editPointBottomReplaceWithField.getText().charAt(0));
+            }
+            catch (ArrayIndexOutOfBoundsException e) {}
+        }
+        
+        editPointErrorLabel.setForeground(Color.green);
+        editPointErrorLabel.setText("All valid points were changed.");
+        
     }//GEN-LAST:event_editPointBottomReplaceButtonActionPerformed
 
     private void editShapeApplyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editShapeApplyButtonActionPerformed
