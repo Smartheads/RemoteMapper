@@ -49,12 +49,14 @@ import remotemapper.classes.CommandPreset;
 import remotemapper.classes.Coord;
 import remotemapper.classes.mapping.Node;
 import remotemapper.classes.Rover;
+import remotemapper.classes.mapping.Point;
 import remotemapper.exceptions.InternalException;
 import remotemapper.exceptions.LoadWorkspaceException;
 import remotemapper.utility.AngleFilter;
 import remotemapper.utility.CoordinateFilter;
 import remotemapper.utility.LengthFilter;
 import remotemapper.utility.PositiveIntFilter;
+import remotemapper.utility.WhitespaceLengthFilter;
 
 /**
  * RemoteMapper.java - A class containing the most of the Remote Mapper GUI
@@ -432,20 +434,20 @@ public class RemoteMapper extends javax.swing.JFrame {
         jPanel29 = new javax.swing.JPanel();
         jLabel101 = new javax.swing.JLabel();
         jLabel102 = new javax.swing.JLabel();
-        jLabel103 = new javax.swing.JLabel();
-        jLabel104 = new javax.swing.JLabel();
-        jLabel105 = new javax.swing.JLabel();
-        jLabel106 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        editSectionX1Label = new javax.swing.JLabel();
+        editSectionY1Label = new javax.swing.JLabel();
+        editSectionX2Label = new javax.swing.JLabel();
+        editSectionY2Label = new javax.swing.JLabel();
+        editSectionX1Field = new javax.swing.JTextField();
+        editSectionY1Field = new javax.swing.JTextField();
+        editSectionX2Field = new javax.swing.JTextField();
+        editSectionY2Field = new javax.swing.JTextField();
+        loadSectionButton = new javax.swing.JButton();
         jLabel107 = new javax.swing.JLabel();
-        jScrollPane13 = new javax.swing.JScrollPane();
-        jTextPane4 = new javax.swing.JTextPane();
-        jButton5 = new javax.swing.JButton();
-        jLabel108 = new javax.swing.JLabel();
+        applySectionButton = new javax.swing.JButton();
+        editSectionErrorLabel = new javax.swing.JLabel();
+        jScrollPane = new javax.swing.JScrollPane();
+        editSectionTextArea = new javax.swing.JTextArea();
         jLabel67 = new javax.swing.JLabel();
         jLabel68 = new javax.swing.JLabel();
         pathfindAlgorithmSelector = new javax.swing.JComboBox<>();
@@ -2331,6 +2333,11 @@ public class RemoteMapper extends javax.swing.JFrame {
         editPointReplaceWithLabel.setText("Replace with:");
 
         editPointReplaceWithField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        editPointReplaceWithField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editPointReplaceWithFieldActionPerformed(evt);
+            }
+        });
 
         editPointReplaceButton.setText("Replace");
         editPointReplaceButton.addActionListener(new java.awt.event.ActionListener() {
@@ -2675,102 +2682,116 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel102.setText("Section bounds:");
 
-        jLabel103.setText("x1");
+        editSectionX1Label.setText("x1");
 
-        jLabel104.setText("y1");
+        editSectionY1Label.setText("y1");
 
-        jLabel105.setText("x2");
+        editSectionX2Label.setText("x2");
 
-        jLabel106.setText("y2");
+        editSectionY2Label.setText("y2");
 
-        jButton4.setText("Load section");
-        jButton4.setToolTipText("Load section: (x1 <= x <= x2) (y1 <= y <= y2)");
+        loadSectionButton.setText("Load section");
+        loadSectionButton.setToolTipText("Load section: (x1 <= x <= x2) (y1 <= y <= y2)");
+        loadSectionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadSectionButtonActionPerformed(evt);
+            }
+        });
 
-        jScrollPane13.setViewportView(jTextPane4);
+        applySectionButton.setText("Apply");
+        applySectionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                applySectionButtonActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Apply");
+        editSectionTextArea.setColumns(20);
+        editSectionTextArea.setRows(1);
+        editSectionTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jScrollPane.setViewportView(editSectionTextArea);
 
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
         jPanel29.setLayout(jPanel29Layout);
         jPanel29Layout.setHorizontalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel29Layout.createSequentialGroup()
-                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
-                        .addComponent(jLabel107, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4))
-                    .addGroup(jPanel29Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel102)
-                            .addGroup(jPanel29Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel103)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
-                                        .addComponent(jLabel104)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
-                                        .addGap(0, 18, Short.MAX_VALUE)
-                                        .addComponent(jLabel105)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel106)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jScrollPane13)
-                            .addGroup(jPanel29Layout.createSequentialGroup()
-                                .addComponent(jLabel108, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5)))))
-                .addContainerGap())
             .addComponent(jLabel101)
+            .addGroup(jPanel29Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel29Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(editSectionX1Label)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editSectionX1Field, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
+                                .addComponent(editSectionY1Label)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(editSectionY1Field, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(editSectionX2Label)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(editSectionX2Field, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(editSectionY2Label)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(editSectionY2Field, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12))))
+                    .addGroup(jPanel29Layout.createSequentialGroup()
+                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel29Layout.createSequentialGroup()
+                                .addComponent(jLabel102)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel29Layout.createSequentialGroup()
+                                .addComponent(editSectionErrorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(applySectionButton))
+                            .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                            .addGroup(jPanel29Layout.createSequentialGroup()
+                                .addComponent(jLabel107, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(loadSectionButton)))
+                        .addContainerGap())))
         );
         jPanel29Layout.setVerticalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel29Layout.createSequentialGroup()
                 .addComponent(jLabel101, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel29Layout.createSequentialGroup()
-                        .addComponent(jLabel102)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel103)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel104)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel106)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel105)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton4)
-                            .addComponent(jLabel107, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel108, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5))
-                    .addComponent(jButton5))
-                .addGap(8, 8, 8))
+                .addComponent(jLabel102)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editSectionX1Label)
+                    .addComponent(editSectionX1Field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editSectionY1Label)
+                    .addComponent(editSectionY1Field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editSectionY2Label)
+                    .addComponent(editSectionY2Field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editSectionX2Label)
+                    .addComponent(editSectionX2Field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(loadSectionButton)
+                    .addComponent(jLabel107, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(applySectionButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editSectionErrorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
         jPanel24.setLayout(jPanel24Layout);
         jPanel24Layout.setHorizontalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel24Layout.setVerticalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4257,6 +4278,14 @@ public class RemoteMapper extends javax.swing.JFrame {
 
     @SuppressWarnings("UnnecessaryReturnStatement")
     private void editPointReplaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPointReplaceButtonActionPerformed
+        editPointActionHandler();
+    }//GEN-LAST:event_editPointReplaceButtonActionPerformed
+    
+    /**
+     * Methods that makes this action handler accesssible to other methods.
+     */
+    private void editPointActionHandler ()
+    {
         /* Validate input */
         boolean ok = true;
         
@@ -4324,8 +4353,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         editPointErrorLabel.setForeground(Color.green);
         editPointErrorLabel.setText("Point changed");
-    }//GEN-LAST:event_editPointReplaceButtonActionPerformed
-
+    }
+    
     @SuppressWarnings("UnnecessaryReturnStatement")
     private void editPointBottomReplaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPointBottomReplaceButtonActionPerformed
         /* Validate user entries */
@@ -4545,6 +4574,186 @@ public class RemoteMapper extends javax.swing.JFrame {
         setAlwaysOnTop(alwaysOnTopMenuItem.isSelected());
     }//GEN-LAST:event_alwaysOnTopMenuItemActionPerformed
 
+    private int sectionWidth;
+    private Point sectionP;
+    
+    @SuppressWarnings("UnnecessaryReturnStatement")
+    private void loadSectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadSectionButtonActionPerformed
+        editSectionErrorLabel.setText("");
+        
+        /* Check user entries */
+        boolean ok = true;
+        if (editSectionX1Field.getText().isEmpty())
+        {
+            ok = false;
+            editSectionX1Label.setForeground(Color.red);
+        }
+        else
+        {
+            if (Integer.parseInt(editSectionX1Field.getText()) <= map.getWidth())
+            {
+                editSectionX1Label.setForeground(Color.black);
+            }
+            else
+            {
+                ok = false;
+                editSectionErrorLabel.setForeground(Color.red);
+                editSectionErrorLabel.setText("Invalid data entered.");
+            }
+        }
+        
+        if (editSectionX2Field.getText().isEmpty())
+        {
+            ok = false;
+            editSectionX2Label.setForeground(Color.red);
+        }
+        else
+        {
+            if (Integer.parseInt(editSectionX2Field.getText()) <= map.getWidth())
+            {
+                editSectionX2Label.setForeground(Color.black);
+            }
+            else
+            {
+                ok = false;
+                editSectionErrorLabel.setForeground(Color.red);
+                editSectionErrorLabel.setText("Invalid data entered.");
+            }
+        }
+        
+        if (editSectionY1Field.getText().isEmpty())
+        {
+            ok = false;
+            editSectionY1Label.setForeground(Color.red);
+        }
+        else
+        {
+            if (Integer.parseInt(editSectionY1Field.getText()) <= map.getLength())
+            {
+                editSectionY1Label.setForeground(Color.black);
+            }
+            else
+            {
+                ok = false;
+                editSectionErrorLabel.setForeground(Color.red);
+                editSectionErrorLabel.setText("Invalid data entered.");
+            }
+        }
+        
+        if (editSectionY2Field.getText().isEmpty())
+        {
+            ok = false;
+            editSectionY2Label.setForeground(Color.red);
+        }
+        else
+        {
+            if (Integer.parseInt(editSectionY2Field.getText()) <= map.getLength())
+            {
+                editSectionY2Label.setForeground(Color.black);
+            }
+            else
+            {
+                ok = false;
+                editSectionErrorLabel.setForeground(Color.red);
+                editSectionErrorLabel.setText("Invalid data entered.");
+            }
+        }
+        
+        if (!ok)
+        {
+            return;
+        }
+        
+        /* Do another round of data checkting */
+        ok = (Integer.parseInt(editSectionX1Field.getText()) <
+                Integer.parseInt(editSectionX2Field.getText()));
+        
+        ok = (Integer.parseInt(editSectionY1Field.getText()) <
+                Integer.parseInt(editSectionY2Field.getText())) && ok;
+        
+        if (!ok)
+        {
+            editSectionErrorLabel.setForeground(Color.red);
+            editSectionErrorLabel.setText("Invalid data entered.");
+            return;
+        }
+        
+        /* Load section of map into text pane */
+        int x1 = Integer.parseInt(editSectionX1Field.getText());
+        int y1 = Integer.parseInt(editSectionY1Field.getText());
+        
+        sectionWidth = Integer.parseInt(editSectionX2Field.getText()) - x1;
+        sectionP = new Point(x1, y1);
+        
+        /* Get section and load it into the text area */
+        char[][] section = map.getPointRectangle(
+                x1, 
+                y1,
+                sectionWidth,
+                Integer.parseInt(editSectionY2Field.getText()) - y1
+        );
+        
+        editSectionTextArea.setText("");
+        
+        for (char[] r : section)
+        {
+            for (char c : r)
+            {
+                editSectionTextArea.append(Character.toString(c));
+            }
+            editSectionTextArea.append ("\n");
+        }
+        
+        /* Setup length filter to prevent invalid data entry */
+        ((PlainDocument) editSectionTextArea.getDocument()).setDocumentFilter(
+            new WhitespaceLengthFilter(
+                editSectionTextArea.getText().replaceAll("\\s", "").length())
+        );
+        
+        editSectionErrorLabel.setForeground(Color.green);
+        editSectionErrorLabel.setText("Section loaded.");
+    }//GEN-LAST:event_loadSectionButtonActionPerformed
+
+    @SuppressWarnings("UnnecessaryReturnStatement")
+    private void applySectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applySectionButtonActionPerformed
+        editSectionErrorLabel.setText("");
+        
+        if (editSectionTextArea.getText().isEmpty()) // Quick data check
+        {
+            editSectionErrorLabel.setForeground(Color.red);
+            editSectionErrorLabel.setText("Nothing to apply.");
+            return;
+        }
+        
+        String section = editSectionTextArea.getText().replaceAll("\\s", "");
+        
+        /* Make sure data is not lost / there is no overflow */
+        PlainDocument pd = (PlainDocument) editSectionTextArea.getDocument();
+        
+        if (section.length() != 
+                ((WhitespaceLengthFilter) pd.getDocumentFilter()).getLimit())
+        {
+            editSectionErrorLabel.setForeground(Color.red);
+            editSectionErrorLabel.setText("Invalid data entered.");
+            return;
+        }
+        
+        /* Apply changes to map */
+        map.setPointRectangle(
+                sectionP.getX(),
+                sectionP.getY(),
+                sectionWidth,
+                section.toCharArray()
+        );
+        
+        editSectionErrorLabel.setForeground(Color.green);
+        editSectionErrorLabel.setText("Changes applied!");
+    }//GEN-LAST:event_applySectionButtonActionPerformed
+
+    private void editPointReplaceWithFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPointReplaceWithFieldActionPerformed
+        editPointActionHandler();
+    }//GEN-LAST:event_editPointReplaceWithFieldActionPerformed
+
     /**
      *  Hide all of the edit shape panels
      */
@@ -4666,7 +4875,27 @@ public class RemoteMapper extends javax.swing.JFrame {
         DefaultStyledDocument pd30 = (DefaultStyledDocument) editPointTextPane.getDocument();
         pd30.setDocumentFilter(new CoordinateFilter());
         
-        //PlainDocument pd30 = ()
+        PlainDocument pd31 = (PlainDocument) editSquareLengthField.getDocument();
+        pd31.setDocumentFilter(new PositiveIntFilter());
+        
+        PlainDocument pd32 = (PlainDocument) editSquareXField.getDocument();
+        pd32.setDocumentFilter(new PositiveIntFilter());
+        
+        PlainDocument pd33 = (PlainDocument) editSquareYField.getDocument();
+        pd33.setDocumentFilter(new PositiveIntFilter());
+        
+        PlainDocument pd34 = (PlainDocument) editSectionX1Field.getDocument();
+        pd34.setDocumentFilter(new PositiveIntFilter());
+        
+        PlainDocument pd35 = (PlainDocument) editSectionY1Field.getDocument();
+        pd35.setDocumentFilter(new PositiveIntFilter());
+        
+        PlainDocument pd36 = (PlainDocument) editSectionX2Field.getDocument();
+        pd36.setDocumentFilter(new PositiveIntFilter());
+        
+        PlainDocument pd37 = (PlainDocument) editSectionY2Field.getDocument();
+        pd37.setDocumentFilter(new PositiveIntFilter());
+        
         //</editor-fold>
         
         propertiesPage.setAlwaysOnTop(true);
@@ -4768,6 +4997,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JFrame about;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JCheckBoxMenuItem alwaysOnTopMenuItem;
+    private javax.swing.JButton applySectionButton;
     private javax.swing.JCheckBoxMenuItem autoSaveCheckBox;
     private javax.swing.JButton backwardsCommandButton;
     private javax.swing.JComboBox<String> baudRateSelector;
@@ -4794,6 +5024,16 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel editRectangleXLabel;
     private javax.swing.JTextField editRectangleYField;
     private javax.swing.JLabel editRectangleYLabel;
+    private javax.swing.JLabel editSectionErrorLabel;
+    private javax.swing.JTextArea editSectionTextArea;
+    private javax.swing.JTextField editSectionX1Field;
+    private javax.swing.JLabel editSectionX1Label;
+    private javax.swing.JTextField editSectionX2Field;
+    private javax.swing.JLabel editSectionX2Label;
+    private javax.swing.JTextField editSectionY1Field;
+    private javax.swing.JLabel editSectionY1Label;
+    private javax.swing.JTextField editSectionY2Field;
+    private javax.swing.JLabel editSectionY2Label;
     private javax.swing.JButton editShapeApplyButton;
     private javax.swing.JLabel editShapeErrorLabel;
     private javax.swing.JTextField editShapeReplaceWithField;
@@ -4815,20 +5055,13 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField headingFormattedField;
     private javax.swing.JLabel headingLabel;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel101;
     private javax.swing.JLabel jLabel102;
-    private javax.swing.JLabel jLabel103;
-    private javax.swing.JLabel jLabel104;
-    private javax.swing.JLabel jLabel105;
-    private javax.swing.JLabel jLabel106;
     private javax.swing.JLabel jLabel107;
-    private javax.swing.JLabel jLabel108;
     private javax.swing.JLabel jLabel109;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel110;
@@ -4967,11 +5200,11 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -4998,15 +5231,11 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTextPane jTextPane2;
-    private javax.swing.JTextPane jTextPane4;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JButton leftTurnCommandButton;
+    private javax.swing.JButton loadSectionButton;
     private javax.swing.JTextArea loadingConsole;
     private javax.swing.JProgressBar loadingProgressBar;
     private javax.swing.JFrame loadingScreen;
