@@ -14,12 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package remotemapper.classes;
+package remotemapper.classes.mapping;
 
 import remotemapper.classes.Vector;
 import java.util.ArrayList;
-import remoteMapper.classes.Map;
-import remotemapper.classes.Node;
+import remotemapper.classes.Vector;
+import remotemapper.classes.mapping.CharMap;
+import remotemapper.classes.mapping.Node;
 
 /**
  * Defines a route on a map.
@@ -28,20 +29,20 @@ import remotemapper.classes.Node;
  */
 public class Route
 {
-    private final Map map;
+    private final CharMap map;
     private final Node[] nodes;
     private final ArrayList<Vector> path;
     
     /**
      * Creates a new Route object.
      * 
-     * @param map Map to display route on
+     * @param map CharMap to display route on
      * @param path Path of nodes
      * @param routeMark Char to mark the route on the map with
      */
-    public Route (Map map, Node[] path, char routeMark)
+    public Route (CharMap map, Node[] path, char routeMark)
     {
-        this.map = new Map (map);
+        this.map = new CharMap (map);
         this.nodes = path;
         
         for (Node n : path)
@@ -82,7 +83,7 @@ public class Route
      *
      * @return
      */
-    public Map getMap() {
+    public CharMap getMap() {
         return map;
     }
 
