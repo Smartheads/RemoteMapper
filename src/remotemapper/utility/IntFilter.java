@@ -28,7 +28,7 @@ import javax.swing.text.DocumentFilter;
  * @author Robert Hutter
  */
 public class IntFilter extends DocumentFilter {
-  final int limit = 10;
+  protected int limit = 10;
   
   /**
    * 
