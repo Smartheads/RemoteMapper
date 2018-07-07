@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package remotemapper.utility;
 
 import javax.swing.text.AttributeSet;
@@ -23,30 +22,23 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
 /**
- *
- * @author rohu7
+ * A document filter that only allows a certain amount of characters to be
+ * entered. Counts whitespace.
+ * 
+ * @author Robert Hutter
  */
 public class LengthFilter extends DocumentFilter
 {
-   int limit = 5;
+    protected int limit = 10;
+    /**
+     *
+     * @param limit
+     */
+    public LengthFilter(int limit) {
+        this.limit = limit;
+    }
     
-  public LengthFilter (int limit)
-  {
-      this.limit = limit;
-  }
-  
-  @Override
-  public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException
-  {
-    Document doc = fb.getDocument();
-    StringBuilder sb = new StringBuilder();
-    sb.append(doc.getText(0, doc.getLength()));
-    sb.insert(offset, string);
-
-    super.insertString(fb, offset, string, attr);
-  }
-
-  @Override
+    @Override
   public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException
   {  
     Document doc = fb.getDocument();
@@ -54,20 +46,27 @@ public class LengthFilter extends DocumentFilter
     sb.append(doc.getText(0, doc.getLength()));
     sb.replace(offset, offset + length, text);
 
-      if(doc.getLength()  +  text.length() - length <= limit)
-      {
+    if(doc.getLength()  +  text.length() - length <= limit)
+    {
         super.replace(fb, offset, length, text, attrs);
-      }
+    }
   }
-
-  @Override
-  public void remove(FilterBypass fb, int offset, int length) throws BadLocationException
-  {
-    Document doc = fb.getDocument();
-    StringBuilder sb = new StringBuilder();
-    sb.append(doc.getText(0, doc.getLength()));
-    sb.delete(offset, offset + length);
     
-    super.remove(fb, offset, length);
-  }
+    /**
+     *
+     * @return
+     */
+    public int getLimit()
+    {
+        return limit;
+    }
+    
+    /**
+     *
+     * @param limit
+     */
+    public void setLimit(int limit)
+    {
+        this.limit = limit;
+    }
 }
