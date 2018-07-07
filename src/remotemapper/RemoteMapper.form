@@ -3434,7 +3434,7 @@
                                       <Component id="jSeparator16" max="32767" attributes="0"/>
                                       <Component id="jSeparator15" alignment="1" max="32767" attributes="0"/>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jLabel111" max="32767" attributes="0"/>
+                                          <Component id="editShapeErrorLabel" max="32767" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="editShapeApplyButton" min="-2" max="-2" attributes="0"/>
                                       </Group>
@@ -3446,7 +3446,7 @@
                                                   <Component id="selectShapeBox" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel112" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="editShapeReplaceWithLabel" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="editShapeReplaceWithField" min="-2" pref="32" max="-2" attributes="0"/>
                                               </Group>
@@ -3469,7 +3469,7 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel112" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editShapeReplaceWithLabel" min="-2" max="-2" attributes="0"/>
                                       <Component id="editShapeReplaceWithField" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -3480,7 +3480,7 @@
                                   <Component id="jSeparator16" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel111" min="-2" pref="15" max="-2" attributes="0"/>
+                                      <Component id="editShapeErrorLabel" min="-2" pref="15" max="-2" attributes="0"/>
                                       <Component id="editShapeApplyButton" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
@@ -3559,18 +3559,18 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" attributes="0">
                                                   <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                                  <Component id="jLabel115" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="editSquareXLabel" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jTextField12" min="-2" pref="32" max="-2" attributes="0"/>
+                                                  <Component id="editSquareXField" min="-2" pref="32" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jLabel116" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="editSquareYLabel" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jTextField13" min="-2" pref="32" max="-2" attributes="0"/>
+                                                  <Component id="editSquareYField" min="-2" pref="32" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel113" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="editSquareLengthLabel" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jTextField11" min="-2" pref="32" max="-2" attributes="0"/>
+                                                  <Component id="editSquareLengthField" min="-2" pref="32" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="jLabel114" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
@@ -3582,17 +3582,17 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jLabel113" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jTextField11" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editSquareLengthLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editSquareLengthField" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jLabel114" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jLabel115" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jTextField12" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel116" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jTextField13" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editSquareXLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editSquareXField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editSquareYLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editSquareYField" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace pref="50" max="32767" attributes="0"/>
                                       </Group>
@@ -3600,31 +3600,31 @@
                                 </DimensionLayout>
                               </Layout>
                               <SubComponents>
-                                <Component class="javax.swing.JLabel" name="jLabel113">
+                                <Component class="javax.swing.JLabel" name="editSquareLengthLabel">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="Side length:"/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JTextField" name="jTextField11">
+                                <Component class="javax.swing.JTextField" name="editSquareLengthField">
                                 </Component>
                                 <Component class="javax.swing.JLabel" name="jLabel114">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="Left top corner position:"/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="jLabel115">
+                                <Component class="javax.swing.JLabel" name="editSquareXLabel">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="x"/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JTextField" name="jTextField12">
+                                <Component class="javax.swing.JTextField" name="editSquareXField">
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="jLabel116">
+                                <Component class="javax.swing.JLabel" name="editSquareYLabel">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="y"/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JTextField" name="jTextField13">
+                                <Component class="javax.swing.JTextField" name="editSquareYField">
                                 </Component>
                               </SubComponents>
                             </Container>
@@ -3639,12 +3639,12 @@
                                               <Group type="102" attributes="0">
                                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                                       <Group type="102" attributes="0">
-                                                          <Component id="jLabel118" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="editRectangleVSizeLabel" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace max="32767" attributes="0"/>
-                                                          <Component id="editRectangleVSideField" min="-2" pref="32" max="-2" attributes="0"/>
+                                                          <Component id="editRectangleVSizeField" min="-2" pref="32" max="-2" attributes="0"/>
                                                       </Group>
                                                       <Group type="102" attributes="0">
-                                                          <Component id="jLabel117" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="editRectangleHSizeLabel" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                           <Component id="editRectangleHSizeField" min="-2" pref="32" max="-2" attributes="0"/>
                                                       </Group>
@@ -3655,11 +3655,11 @@
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Group type="102" attributes="0">
                                                           <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                                          <Component id="jLabel120" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="editRectangleXLabel" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="editRectangleXField" min="-2" pref="32" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="jLabel121" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="editRectangleYLabel" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="editRectangleYField" min="-2" pref="32" max="-2" attributes="0"/>
                                                       </Group>
@@ -3675,21 +3675,21 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jLabel117" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editRectangleHSizeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="editRectangleHSizeField" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jLabel118" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="editRectangleVSideField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editRectangleVSizeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editRectangleVSizeField" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jLabel119" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jLabel120" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editRectangleXLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="editRectangleXField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel121" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="editRectangleYLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="editRectangleYField" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="0" pref="24" max="32767" attributes="0"/>
@@ -3698,33 +3698,33 @@
                                 </DimensionLayout>
                               </Layout>
                               <SubComponents>
-                                <Component class="javax.swing.JLabel" name="jLabel117">
+                                <Component class="javax.swing.JLabel" name="editRectangleHSizeLabel">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="Horizontal side length:"/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="jLabel118">
+                                <Component class="javax.swing.JLabel" name="editRectangleVSizeLabel">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="Vertical side length:"/>
                                   </Properties>
                                 </Component>
                                 <Component class="javax.swing.JTextField" name="editRectangleHSizeField">
                                 </Component>
-                                <Component class="javax.swing.JTextField" name="editRectangleVSideField">
+                                <Component class="javax.swing.JTextField" name="editRectangleVSizeField">
                                 </Component>
                                 <Component class="javax.swing.JLabel" name="jLabel119">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="Left top corner position:"/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="jLabel120">
+                                <Component class="javax.swing.JLabel" name="editRectangleXLabel">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="x"/>
                                   </Properties>
                                 </Component>
                                 <Component class="javax.swing.JTextField" name="editRectangleXField">
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="jLabel121">
+                                <Component class="javax.swing.JLabel" name="editRectangleYLabel">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="y"/>
                                   </Properties>
@@ -3743,7 +3743,7 @@
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editShapeApplyButtonActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel112">
+                        <Component class="javax.swing.JLabel" name="editShapeReplaceWithLabel">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Replace with:"/>
                           </Properties>
@@ -3752,7 +3752,7 @@
                         </Component>
                         <Component class="javax.swing.JSeparator" name="jSeparator15">
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel111">
+                        <Component class="javax.swing.JLabel" name="editShapeErrorLabel">
                         </Component>
                         <Component class="javax.swing.JSeparator" name="jSeparator16">
                         </Component>
@@ -4451,7 +4451,7 @@
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="clock" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="4" max="32767" attributes="0"/>
+                          <EmptySpace min="4" pref="12" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="jSeparator9" max="32767" attributes="0"/>
