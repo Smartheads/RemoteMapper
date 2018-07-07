@@ -17,7 +17,6 @@
 package remotemapper.classes.mapping;
 
 import java.util.ArrayList;
-import remotemapper.classes.mapping.CharMap;
 
 /**
  *  Node.java
@@ -28,11 +27,9 @@ import remotemapper.classes.mapping.CharMap;
  *      updated: 2018.07.04
  * 
 */
-public class Node
+public class Node extends Point
 {
     protected Node parent;
-    protected int x;
-    protected int y;
     protected double f;
     protected double g;
     protected double cost = 1;
@@ -45,8 +42,7 @@ public class Node
      */
     public Node (int x, int y)
     {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.g = this.cost;
     }
 
@@ -59,8 +55,7 @@ public class Node
      */
     public Node(int x, int y, double cost)
     {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.cost = cost;
         this.g = cost;
     }
@@ -239,38 +234,6 @@ public class Node
      */
     public void setParent(Node parent) {
             this.parent = parent;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getX() {
-            return x;
-    }
-
-    /**
-     *
-     * @param x
-     */
-    public void setX(int x) {
-            this.x = x;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getY() {
-            return y;
-    }
-
-    /**
-     *
-     * @param y
-     */
-    public void setY(int y) {
-            this.y = y;
     }
 
     /**

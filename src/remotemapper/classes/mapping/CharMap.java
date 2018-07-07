@@ -311,7 +311,27 @@ public final class CharMap
         {
             for (int x2 = x; x2 < x + width; x2++)
             {
-                this.setPoint(y2, x2, val);
+                this.setPoint(x2, y2, val);
+            }
+        }
+    }
+    
+    /**
+     * Changes a section of the map according to the specified arguments.
+     * 
+     * @param x x coordinate of the sections top left corner
+     * @param y y coordinate of the sections top left corner
+     * @param width the sections width
+     * @param val values to replace update map section with
+     */
+    public void setPointRectangle (int x, int y, int width, char[] val)
+    {
+        int i = 0;
+        for (int y2 = y; y2 < y + ((int) val.length / width); y2++)
+        {
+            for (int x2 = x; x2 < x + width; x2++)
+            {
+                setPoint(x2, y2, val[i++]);
             }
         }
     }
@@ -335,8 +355,9 @@ public final class CharMap
             int x3 = 0;
             for (int x2 = x; x2 < x + width; x2++)
             {
-                sel[y3++][x3++] = this.getPoint(x2, y2);
+                sel[y3][x3++] = this.getPoint(x2, y2);
             }
+            y3++;
         }
         
         return sel;
