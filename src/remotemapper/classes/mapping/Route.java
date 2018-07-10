@@ -17,10 +17,6 @@
 package remotemapper.classes.mapping;
 
 import remotemapper.classes.Vector;
-import java.util.ArrayList;
-import remotemapper.classes.Vector;
-import remotemapper.classes.mapping.CharMap;
-import remotemapper.classes.mapping.Node;
 
 /**
  * Defines a route on a map.
@@ -31,7 +27,7 @@ public class Route
 {
     private final CharMap map;
     private final Node[] nodes;
-    private final ArrayList<Vector> path;
+    private final Vector[] path;
     
     /**
      * Creates a new Route object.
@@ -50,12 +46,12 @@ public class Route
             this.map.setPoint(n.getX(), n.getY(), routeMark);
         }
         
-        this.path = new ArrayList<>();
+        this.path = new Vector[path.length];
         
         for (int i = 0; i < path.length-1; i++)
         {
-            this.path.add(new Vector (path[i].getX() - path[i+1].getX(),
-                                      path[i].getY() - path[i+1].getY()));
+            this.path[i] = new Vector (path[i].getX() - path[i+1].getX(),
+                                      path[i].getY() - path[i+1].getY());
         }
     }
     
@@ -65,7 +61,7 @@ public class Route
      */
     public double getDisplacement ()
     {
-        return Vector.addition(path.toArray(new Vector[path.size()])).getLength();
+        return Vector.addition(path).getLength();
     }
     
     /**
@@ -75,7 +71,10 @@ public class Route
     public double getDistance ()
     {       
         double d = 0.0;
-        d = path.stream().map((v) -> v.getLength()).reduce(d, (accumulator, _item) -> accumulator + _item);
+        for (Vector v : path)
+        {
+            d += v.getLength();
+        }
         return d;
     }
 
@@ -99,7 +98,7 @@ public class Route
      *
      * @return
      */
-    public ArrayList<Vector> getPath() {
+    public Vector[] getPath() {
         return path;
     }
 }
