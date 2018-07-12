@@ -22,13 +22,12 @@ package remotemapper.classes;
  * @author rohu7
  */
 public class Angle {
-    protected float size;
-    protected final int vollWinkel;
+    private float size;
+    private final int vollWinkel;
     
     public Angle (float size)
     {
-        this.vollWinkel = 360;
-        setAngel (size);
+        this(size, 360);
     }
     
     public Angle (float size, int vollWinkel)

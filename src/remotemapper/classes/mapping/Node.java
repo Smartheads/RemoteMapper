@@ -17,6 +17,7 @@
 package remotemapper.classes.mapping;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  Node.java
@@ -29,10 +30,10 @@ import java.util.ArrayList;
 */
 public class Node extends Point
 {
-    protected Node parent;
-    protected double f;
-    protected double g;
-    protected double cost = 1;
+    private Node parent;
+    private double f;
+    private double g;
+    private double cost;
 
     /**
      * Constructor for creating a new Node.
@@ -42,8 +43,7 @@ public class Node extends Point
      */
     public Node (int x, int y)
     {
-        super(x, y);
-        this.g = this.cost;
+        this(x, y, 1);
     }
 
     /**
@@ -89,7 +89,7 @@ public class Node extends Point
     public static Node[] constructPath (Node goal)
     {
         Node n = goal;
-        ArrayList<Node> path = new ArrayList<>();
+        List<Node> path = new ArrayList<>();
         path.add(n);
 
         while (n.getParent() != null)
@@ -143,7 +143,7 @@ public class Node extends Point
      */
     public static Node[] neighbors(Node center, CharMap map, char ch)
     {
-        ArrayList<Node> neighbors = new ArrayList<>();
+        List<Node> neighbors = new ArrayList<>();
 
         /* XXX
          * XXX
@@ -206,7 +206,7 @@ public class Node extends Point
      */
     public boolean equals (Node o)
     {
-        return (o.getX() == this.x) && (o.getY() == this.y);
+        return (o.getX() == getX()) && (o.getY() == getY());
     }
 
     /**
@@ -217,7 +217,7 @@ public class Node extends Point
      */
     public int heuristic (Node goal)
     {
-            return Math.abs(x - goal.getX()) + Math.abs(y - goal.getY());
+            return Math.abs(getX() - goal.getX()) + Math.abs(getY() - goal.getY());
     }
 
     /**

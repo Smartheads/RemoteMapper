@@ -28,12 +28,12 @@ public class Point
     /**
      * Point's x value
      */
-    protected int x;
+    private int x;
 
     /**
      * Points's y value
      */
-    protected int y;
+    private int y;
     private char val;
     
     /**

@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  CharMap.java - Java file defining a map using characters as points.
@@ -37,17 +38,17 @@ public final class CharMap
     /**
      * The character array containing the maps data.
      */
-    protected char[][] map;
+    private char[][] map;
 
     /**
      * A character defining an obstical on the map
      */
-    protected final char obsticalMark;
+    private final char obsticalMark;
 
     /**
      * A character defining empty space on the map
      */
-    protected final char emptySpaceMark;
+    private final char emptySpaceMark;
 	
     /**
      * Create a new empty map.
@@ -82,9 +83,7 @@ public final class CharMap
      */
     public CharMap (CharMap preloaded)
     {
-        this.map = preloaded.getMap();
-        this.obsticalMark = preloaded.getObsticalMark();
-        this.emptySpaceMark = preloaded.getEmptySpaceMark();
+        this(preloaded.getMap(), preloaded.getObsticalMark(), preloaded.getEmptySpaceMark());
     }
 	
     /**
@@ -95,10 +94,7 @@ public final class CharMap
      */
     public CharMap (File mapfile) throws IOException
     {
-        CharMap m = parseMapfile(mapfile);
-        this.map = m.getMap();
-        this.obsticalMark = m.getObsticalMark();
-        this.emptySpaceMark = m.getEmptySpaceMark();
+        this(parseMapfile(mapfile));
     }
 
     /**
@@ -124,8 +120,8 @@ public final class CharMap
      */
     public Node[] Astar (Node start, Node goal)
     {
-        ArrayList<Node> openList = new ArrayList<>();
-        ArrayList<Node> closedList = new ArrayList<>();
+        List<Node> openList = new ArrayList<>();
+        List<Node> closedList = new ArrayList<>();
 
         start.setG(0);
         start.setF(start.getG() + start.heuristic(goal));
@@ -246,10 +242,10 @@ public final class CharMap
      * @return
      * @throws IOException
      */
-    protected CharMap parseMapfile(File mapFile) throws IOException
+    private static CharMap parseMapfile(File mapFile) throws IOException
     {
         int y;
-        ArrayList<ArrayList<Character>> b;
+        List<List<Character>> b;
         char obM;
         char esM;
         

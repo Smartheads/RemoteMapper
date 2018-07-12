@@ -25,7 +25,8 @@ import java.util.ArrayList;
  */
 public class Coord
 {
-    int x, y;
+    private int x;
+    private int y;
     
     /**
      * Creates a new coordinate.

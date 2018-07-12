@@ -28,42 +28,42 @@ public class Rover
     /**
      *
      */
-    protected int x;
+    private int x;
 
     /**
      *
      */
-    protected int y;
+    private int y;
 
     /**
      * Rover width in mm
      */
-    protected int width;
+    private int width;
     
     /**
      * Rover length in mm
      */
-    protected int length;
+    private int length;
 
     /**
      * Rover height in mm
      */
-    protected int height;
+    private int height;
 
     /**
      * Rover diagonal between width and length
      */
-    protected double flatDiagonal;
+    private double flatDiagonal;
 
     /**
      * Rover diagonal between width, length and height
      */
-    protected double diagonal;
+    private double diagonal;
 
     /**
      * Heading the rover is facing in. 0° = up
      */
-    protected Angle direction;
+    private Angle direction;
     
     /**
      *
@@ -75,12 +75,7 @@ public class Rover
      */
     public Rover (int x, int y, float dir, int width, int length)
     {
-        this.x = x;
-        this.y = y;
-        this.direction = new Angle (dir);
-        this.width = width;
-        this.length = length;
-        updateDiagonals();
+        this(x, y, dir, width, length, 0);
     }
     
     /**
@@ -207,7 +202,7 @@ public class Rover
      */
     public float getDirection ()
     {
-        return this.direction.size;
+        return this.direction.size();
     }
 
     /**

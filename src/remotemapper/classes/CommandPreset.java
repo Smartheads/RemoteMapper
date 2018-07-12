@@ -85,10 +85,7 @@ public class CommandPreset implements Comparable<CommandPreset>
      */
     public CommandPreset (String name, int id)
     {
-        this.name = name;
-        this.command = "";
-        this.description = "";
-        this.id = id;
+        this(name, "", "", id);
     }
     
     /**
@@ -96,10 +93,7 @@ public class CommandPreset implements Comparable<CommandPreset>
      */
     public CommandPreset ()
     {
-        this.command = "";
-        this.name = "";
-        this.description = "";
-        this.id = 0;
+        this("", 0);
     }
     
     /**
@@ -108,6 +102,7 @@ public class CommandPreset implements Comparable<CommandPreset>
      * @param out File to save to
      * @throws IOException
      */
+    @SuppressWarnings("null")
     public void saveToFile (File out) throws IOException
     {
         /*
@@ -294,15 +289,11 @@ public class CommandPreset implements Comparable<CommandPreset>
         return this.id - oId;
     }
     
+    /**
+     * A comparator comparing the two command presets
+     */
     public static Comparator<CommandPreset> CommandPresetComparator 
-                          = new Comparator<CommandPreset>() 
-        {
-            @Override
-	    public int compare(CommandPreset p1, CommandPreset p2) 
-            {
-	      return p1.compareTo(p2);
-	    }
-	};
+                          = (CommandPreset p1, CommandPreset p2) -> p1.compareTo(p2);
     
     /**
      * 

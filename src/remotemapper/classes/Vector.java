@@ -47,9 +47,9 @@ public class Vector
      */
     public Vector (Angle direction, int length)
     {
-        this.length = length;
-        this.x = length * Math.cos(Math.toRadians(90-direction.size()));
-        this.y = length * Math.cos(Math.toRadians(direction.size()));
+        this((length * Math.cos(Math.toRadians(90-direction.size()))),
+             (length * Math.cos(Math.toRadians(direction.size())))
+        );
     }
     
     /**
