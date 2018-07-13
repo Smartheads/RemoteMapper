@@ -4217,7 +4217,7 @@
                       <Component id="jLabel80" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jPanel25" min="-2" max="-2" attributes="0"/>
+                          <Component id="fullMapPanel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jPanel26" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -4226,7 +4226,7 @@
                               <Component id="jSeparator20" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                                  <Component id="jPanel32" min="-2" max="-2" attributes="0"/>
+                                  <Component id="simpleMapPanel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jPanel27" max="32767" attributes="0"/>
                               </Group>
@@ -4239,7 +4239,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jPanel25" max="32767" attributes="0"/>
+                              <Component id="fullMapPanel" max="32767" attributes="0"/>
                               <Component id="jPanel26" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
@@ -4249,7 +4249,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jPanel32" min="-2" max="-2" attributes="0"/>
+                                  <Component id="simpleMapPanel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Component id="jPanel27" max="32767" attributes="0"/>
@@ -4494,63 +4494,37 @@
                     <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;h4&gt;Simplefied&lt;/h4&gt;&lt;/html&gt;"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JPanel" name="jPanel25">
+                <Container class="javax.swing.JPanel" name="fullMapPanel">
 
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane10" alignment="0" pref="263" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="263" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane10" alignment="0" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
-                  <SubComponents>
-                    <Container class="javax.swing.JScrollPane" name="jScrollPane10">
-                      <AuxValues>
-                        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                      </AuxValues>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                      <SubComponents>
-                        <Component class="javax.swing.JEditorPane" name="jEditorPane1">
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                  </SubComponents>
                 </Container>
                 <Component class="javax.swing.JSeparator" name="jSeparator20">
                 </Component>
-                <Container class="javax.swing.JPanel" name="jPanel32">
+                <Container class="javax.swing.JPanel" name="simpleMapPanel">
 
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane11" alignment="0" pref="263" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="263" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane11" alignment="0" pref="263" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="263" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
-                  <SubComponents>
-                    <Container class="javax.swing.JScrollPane" name="jScrollPane11">
-                      <AuxValues>
-                        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                      </AuxValues>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                      <SubComponents>
-                        <Component class="javax.swing.JEditorPane" name="jEditorPane2">
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                  </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="jPanel27">
 
@@ -4569,24 +4543,22 @@
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jLabel97" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jLabel103" min="-2" max="-2" attributes="0"/>
+                                              <Component id="simpleMapDetailsWidth" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jLabel104" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jLabel105" min="-2" max="-2" attributes="0"/>
+                                              <Component id="simpleMapDetailsHeight" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jLabel106" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" attributes="0">
                                               <Component id="jLabel90" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jLabel91" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jLabel92" min="-2" max="-2" attributes="0"/>
+                                              <Component id="simpleMapDetailsSimplificationCoefficient" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" attributes="0">
                                               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                              <Component id="jLabel108" min="-2" max="-2" attributes="0"/>
+                                              <Component id="simpleMapDetailsByteSize" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jLabel111" min="-2" max="-2" attributes="0"/>
                                           </Group>
@@ -4613,21 +4585,20 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel90" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel91" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel92" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="simpleMapDetailsSimplificationCoefficient" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel96" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel97" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel103" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="simpleMapDetailsWidth" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel104" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel105" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="simpleMapDetailsHeight" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel106" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel108" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="simpleMapDetailsByteSize" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel111" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -4650,14 +4621,9 @@
                         <Property name="text" type="java.lang.String" value="Simplification coefficient:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel91">
+                    <Component class="javax.swing.JLabel" name="simpleMapDetailsSimplificationCoefficient">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="XXX.XX"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel92">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="mm"/>
+                        <Property name="text" type="java.lang.String" value="XXX"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel96">
@@ -4670,7 +4636,7 @@
                         <Property name="text" type="java.lang.String" value="width:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel103">
+                    <Component class="javax.swing.JLabel" name="simpleMapDetailsWidth">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="XXX"/>
                       </Properties>
@@ -4680,7 +4646,7 @@
                         <Property name="text" type="java.lang.String" value="cm, height:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel105">
+                    <Component class="javax.swing.JLabel" name="simpleMapDetailsHeight">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="XXX"/>
                       </Properties>
@@ -4690,14 +4656,14 @@
                         <Property name="text" type="java.lang.String" value="cm"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel108">
+                    <Component class="javax.swing.JLabel" name="simpleMapDetailsByteSize">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="XXXX"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel111">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="kb"/>
+                        <Property name="text" type="java.lang.String" value="b"/>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JPanel" name="jPanel38">
