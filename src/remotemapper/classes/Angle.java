@@ -18,46 +18,80 @@
 package remotemapper.classes;
 
 /**
- *
- * @author rohu7
+ * A geometric angle.
+ * 
+ * @author Robert Hutter
  */
 public class Angle {
     private float size;
     private final int vollWinkel;
     
+    /**
+     *
+     * @param size Initial size of the angle
+     */
     public Angle (float size)
     {
         this(size, 360);
     }
     
+    /**
+     *
+     * @param size Initial size of the angle
+     * @param vollWinkel Max value of the angle. Default: 360
+     */
     public Angle (float size, int vollWinkel)
     {
         this.vollWinkel = vollWinkel;
         setAngel (size);
     }
     
+    /**
+     * 
+     * @param b Add b to the size of the angle
+     */
     public void add (float b)
     {
         setAngel (this.size + b);
     }
     
+    /**
+     *
+     * @param b Subtract b for the sie of the angle
+     */
     public void subtract (float b)
     {
         setAngel (this.size - b);
     }
             
+    /**
+     *
+     * @param size Set the size of the angle
+     */
     public final void setAngel (float size)
     {
         if (size > 0)
+        {
             this.size = vollWinkel % size;
+        }
         else if (size < 0)
+        {
             this.size = vollWinkel - (vollWinkel % Math.abs(size));
+        }
         else
+        {
             this.size = 0;
+        }
     }
     
+    /**
+     * 
+     * @return
+     * 
+     * The size of the angle
+     */
     public float size ()
     {
-        return this.size;
+        return size;
     }
 }

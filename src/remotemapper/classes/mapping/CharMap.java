@@ -177,7 +177,7 @@ public final class CharMap
      */
     public static CharMap simplfyMap (CharMap in, int w)
     {
-        CharMap s = new CharMap ((int) in.getWidth() / w, (int) in.getLength() / w, in.getObsticalMark(), in.getEmptySpaceMark());
+        CharMap s = new CharMap((int) in.getWidth() / w, (int) in.getLength() / w, in.getObsticalMark(), in.getEmptySpaceMark());
 
         int rY = in.getLength() % w;
         int rX = in.getWidth() % w;
@@ -195,7 +195,7 @@ public final class CharMap
                     }
                 }
 
-                if (new String (b).contains(Character.toString( in.obsticalMark)))
+                if (new String (b).contains(Character.toString(in.obsticalMark)))
                 {
                      s.setPoint(x / w + 1, y / w + 1, in.obsticalMark);
                 }
