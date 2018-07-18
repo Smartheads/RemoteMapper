@@ -46,9 +46,9 @@ public class Route
             this.map.setPoint(n.getX(), n.getY(), routeMark);
         }
         
-        this.path = new Vector[path.length];
+        this.path = new Vector[path.length - 1];
         
-        for (int i = 0; i < path.length-1; i++)
+        for (int i = 0; i < path.length - 1; i++)
         {
             this.path[i] = new Vector (path[i].getX() - path[i+1].getX(),
                                       path[i].getY() - path[i+1].getY());

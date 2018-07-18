@@ -33,6 +33,11 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.text.Text;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
@@ -503,26 +508,21 @@ public class RemoteMapper extends javax.swing.JFrame {
         jPanel36 = new javax.swing.JPanel();
         jPanel37 = new javax.swing.JPanel();
         jLabel80 = new javax.swing.JLabel();
-        jPanel25 = new javax.swing.JPanel();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
+        fullMapPanel = new javax.swing.JPanel();
         jSeparator20 = new javax.swing.JSeparator();
-        jPanel32 = new javax.swing.JPanel();
-        jScrollPane11 = new javax.swing.JScrollPane();
-        jEditorPane2 = new javax.swing.JEditorPane();
+        simpleMapPanel = new javax.swing.JPanel();
         jPanel27 = new javax.swing.JPanel();
         jLabel87 = new javax.swing.JLabel();
         jSeparator21 = new javax.swing.JSeparator();
         jLabel90 = new javax.swing.JLabel();
-        jLabel91 = new javax.swing.JLabel();
-        jLabel92 = new javax.swing.JLabel();
+        simpleMapDetailsSimplificationCoefficient = new javax.swing.JLabel();
         jLabel96 = new javax.swing.JLabel();
         jLabel97 = new javax.swing.JLabel();
-        jLabel103 = new javax.swing.JLabel();
+        simpleMapDetailsWidth = new javax.swing.JLabel();
         jLabel104 = new javax.swing.JLabel();
-        jLabel105 = new javax.swing.JLabel();
+        simpleMapDetailsHeight = new javax.swing.JLabel();
         jLabel106 = new javax.swing.JLabel();
-        jLabel108 = new javax.swing.JLabel();
+        simpleMapDetailsByteSize = new javax.swing.JLabel();
         jLabel111 = new javax.swing.JLabel();
         jPanel38 = new javax.swing.JPanel();
         jLabel112 = new javax.swing.JLabel();
@@ -3209,30 +3209,26 @@ public class RemoteMapper extends javax.swing.JFrame {
         jLabel80.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel80.setText("<html><h4>Simplefied</h4></html>");
 
-        jScrollPane10.setViewportView(jEditorPane1);
-
-        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
-        jPanel25.setLayout(jPanel25Layout);
-        jPanel25Layout.setHorizontalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+        javax.swing.GroupLayout fullMapPanelLayout = new javax.swing.GroupLayout(fullMapPanel);
+        fullMapPanel.setLayout(fullMapPanelLayout);
+        fullMapPanelLayout.setHorizontalGroup(
+            fullMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 263, Short.MAX_VALUE)
         );
-        jPanel25Layout.setVerticalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane10)
+        fullMapPanelLayout.setVerticalGroup(
+            fullMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jScrollPane11.setViewportView(jEditorPane2);
-
-        javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
-        jPanel32.setLayout(jPanel32Layout);
-        jPanel32Layout.setHorizontalGroup(
-            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+        javax.swing.GroupLayout simpleMapPanelLayout = new javax.swing.GroupLayout(simpleMapPanel);
+        simpleMapPanel.setLayout(simpleMapPanelLayout);
+        simpleMapPanelLayout.setHorizontalGroup(
+            simpleMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 263, Short.MAX_VALUE)
         );
-        jPanel32Layout.setVerticalGroup(
-            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+        simpleMapPanelLayout.setVerticalGroup(
+            simpleMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 263, Short.MAX_VALUE)
         );
 
         jLabel87.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -3240,25 +3236,23 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel90.setText("Simplification coefficient:");
 
-        jLabel91.setText("XXX.XX");
-
-        jLabel92.setText("mm");
+        simpleMapDetailsSimplificationCoefficient.setText("XXX");
 
         jLabel96.setText("Size:");
 
         jLabel97.setText("width:");
 
-        jLabel103.setText("XXX");
+        simpleMapDetailsWidth.setText("XXX");
 
         jLabel104.setText("cm, height:");
 
-        jLabel105.setText("XXX");
+        simpleMapDetailsHeight.setText("XXX");
 
         jLabel106.setText("cm");
 
-        jLabel108.setText("XXXX");
+        simpleMapDetailsByteSize.setText("XXXX");
 
-        jLabel111.setText("kb");
+        jLabel111.setText("b");
 
         jLabel112.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel112.setText("<html><h4>Tools</h4></html>");
@@ -3310,22 +3304,20 @@ public class RemoteMapper extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel97)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel103)
+                                .addComponent(simpleMapDetailsWidth)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel104)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel105)
+                                .addComponent(simpleMapDetailsHeight)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel106))
                             .addGroup(jPanel27Layout.createSequentialGroup()
                                 .addComponent(jLabel90)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel91)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel92))
+                                .addComponent(simpleMapDetailsSimplificationCoefficient))
                             .addGroup(jPanel27Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(jLabel108)
+                                .addComponent(simpleMapDetailsByteSize)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel111)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -3344,19 +3336,18 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel90)
-                    .addComponent(jLabel91)
-                    .addComponent(jLabel92))
+                    .addComponent(simpleMapDetailsSimplificationCoefficient))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel96)
                     .addComponent(jLabel97)
-                    .addComponent(jLabel103)
+                    .addComponent(simpleMapDetailsWidth)
                     .addComponent(jLabel104)
-                    .addComponent(jLabel105)
+                    .addComponent(simpleMapDetailsHeight)
                     .addComponent(jLabel106))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel108)
+                    .addComponent(simpleMapDetailsByteSize)
                     .addComponent(jLabel111))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -3369,7 +3360,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addComponent(jLabel80)
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fullMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel33Layout.createSequentialGroup()
@@ -3377,7 +3368,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                     .addComponent(jSeparator20)
                     .addGroup(jPanel33Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(simpleMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -3386,7 +3377,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fullMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(14, 14, 14)
                 .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3395,7 +3386,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel33Layout.createSequentialGroup()
-                        .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(simpleMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -5066,6 +5057,18 @@ public class RemoteMapper extends javax.swing.JFrame {
         loadingScreen.dispose();
     }
     
+    private Scene fullMapScene;
+    private Scene simpleMapScene;
+    
+    private void initFX(JFXPanel fxPanel, JFXPanel fxPanel2) {
+        // This method is invoked on the JavaFX thread
+        fullMapScene = new Scene(new Group());
+        simpleMapScene = new Scene(new Group());
+        
+        fxPanel.setScene(fullMapScene);
+        fxPanel2.setScene(simpleMapScene);
+    }
+    
     /**
      * Load the main window.
      */
@@ -5074,12 +5077,29 @@ public class RemoteMapper extends javax.swing.JFrame {
         cleanupWizard ();
         setTitle("Remote Mapper ["+workspace.getName()+"] on ["+port.portName()+"]");
         
+        final JFXPanel fxPanel1 = new JFXPanel(); // Full-scale map jfx
+        final JFXPanel fxPanel2 = new JFXPanel(); // Simple map jfx
+        
+        fullMapPanel.add(fxPanel1, Color.WHITE);
+        simpleMapPanel.add(fxPanel2);
+        
+        Platform.runLater(() -> {
+            initFX(fxPanel1, fxPanel2);
+        });
+        
         // Setup background functions
         TimeKeeper tk = new TimeKeeper (clock);
         tk.execute();
         
         AutoSaver as = new AutoSaver (map, mapFile, presetFile);
         as.execute();
+        
+        UpdateRoverStatus urs = new UpdateRoverStatus(
+                rover.getX(),
+                rover.getY(),
+                rover.getDirection()
+        );
+        urs.execute();
         
         // Setup formatted textfields / documentListeners
         //<editor-fold>
@@ -5307,23 +5327,19 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel fullMapDetailsByteSize;
     private javax.swing.JLabel fullMapDetailsHeight;
     private javax.swing.JLabel fullMapDetailsWidth;
+    private javax.swing.JPanel fullMapPanel;
     private javax.swing.JFormattedTextField headingFormattedField;
     private javax.swing.JLabel headingLabel;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JEditorPane jEditorPane1;
-    private javax.swing.JEditorPane jEditorPane2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel101;
     private javax.swing.JLabel jLabel102;
-    private javax.swing.JLabel jLabel103;
     private javax.swing.JLabel jLabel104;
-    private javax.swing.JLabel jLabel105;
     private javax.swing.JLabel jLabel106;
     private javax.swing.JLabel jLabel107;
-    private javax.swing.JLabel jLabel108;
     private javax.swing.JLabel jLabel109;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel110;
@@ -5418,8 +5434,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel90;
-    private javax.swing.JLabel jLabel91;
-    private javax.swing.JLabel jLabel92;
     private javax.swing.JLabel jLabel93;
     private javax.swing.JLabel jLabel94;
     private javax.swing.JLabel jLabel95;
@@ -5452,7 +5466,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel28;
@@ -5460,7 +5473,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel31;
-    private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel35;
@@ -5476,8 +5488,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -5622,6 +5632,11 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JButton sendCommandButton;
     private javax.swing.JTextField sendCommandField;
     private javax.swing.JPanel shapeBoundsPanel;
+    private javax.swing.JLabel simpleMapDetailsByteSize;
+    private javax.swing.JLabel simpleMapDetailsHeight;
+    private javax.swing.JLabel simpleMapDetailsSimplificationCoefficient;
+    private javax.swing.JLabel simpleMapDetailsWidth;
+    private javax.swing.JPanel simpleMapPanel;
     private javax.swing.JPanel squareBoundsPanel;
     private javax.swing.JButton start;
     private javax.swing.JPanel statusBar;
@@ -6099,5 +6114,53 @@ public class RemoteMapper extends javax.swing.JFrame {
                 editPointCurrentValueField.setText("");
             }
         }
+    }
+   
+    class UpdateRoverStatus extends SwingWorker<Void, Void>
+    {
+        private final int x;
+        private final int y;
+        private final double angle;
+        
+        public UpdateRoverStatus(int x, int y, double angle)
+        {
+            this.x = x;
+            this.y = y;
+            this.angle = angle;
+        }
+        
+        @Override
+        protected Void doInBackground() {
+            /* Update rover status and maps */
+            statusPosX.setText(Integer.toString(x));
+            statusPosY.setText(Integer.toString(y));
+            statusPosHeading.setText(Double.toString(angle));
+            
+            // Update simpleMap
+            simpleMap = CharMap.simplfyMap(map, ((int) (rover.getFlatDiagonal() / CONVERSION_CM_MM)) + 1);
+            
+            // Update full-scale map details
+            fullMapDetailsWidth.setText(Integer.toString(map.getWidth()));
+            fullMapDetailsHeight.setText(Integer.toString(map.getLength()));
+            fullMapDetailsByteSize.setText(Integer.toString(
+                ((map.getWidth() * map.getLength() + 2) * Character.BYTES) / 1024)
+            );
+            
+            // Update simple map details
+            simpleMapDetailsSimplificationCoefficient.setText(Integer.toString(
+                    ((int) (rover.getFlatDiagonal() / CONVERSION_CM_MM)) + 1)
+            );
+            simpleMapDetailsWidth.setText(Integer.toString(simpleMap.getWidth()));
+            simpleMapDetailsHeight.setText(Integer.toString(simpleMap.getLength()));
+            simpleMapDetailsByteSize.setText(Integer.toString(
+                ((simpleMap.getWidth() * simpleMap.getLength() + 2) * Character.BYTES)
+            ));
+            
+            // Update "moving maps"
+            fullMapScene.setRoot(new Group(new Text("<html><span style\"background-color:red;\">&nbsp&nbsp</span></html>")));
+            
+            return null;
+        }
+        
     }
 }
