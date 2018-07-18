@@ -37,7 +37,7 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.text.Text;
+import javafx.scene.web.WebView;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
@@ -4079,12 +4079,17 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
             // Save buffered values and close
             roverPropertiesErrorLabel.setText("");
-            rover.setX(Integer.parseInt(roverPropertiesX.getText()));
-            rover.setY(Integer.parseInt(roverPropertiesY.getText()));
             rover.setWidth(Integer.parseInt(roverPropertiesWidth.getText()));
             rover.setHeight(Integer.parseInt(roverPropertiesHeight.getText()));
             rover.setLength(Integer.parseInt(roverPropertiesLength.getText()));
-            rover.setDirection(Float.parseFloat(roverPropertiesHeading.getText()));
+            
+            UpdateRoverStatus urs = new UpdateRoverStatus(
+                    Integer.parseInt(roverPropertiesX.getText()),
+                    Integer.parseInt(roverPropertiesY.getText()),
+                    Float.parseFloat(roverPropertiesHeading.getText()
+            ));
+            
+            urs.execute();
             
             propertiesPage.setVisible(false);
     }//GEN-LAST:event_roverPropertiesOkActionPerformed
@@ -5057,16 +5062,30 @@ public class RemoteMapper extends javax.swing.JFrame {
         loadingScreen.dispose();
     }
     
-    private Scene fullMapScene;
-    private Scene simpleMapScene;
+    private WebView fullMapView;
+    private WebView simpleMapView;
     
     private void initFX(JFXPanel fxPanel, JFXPanel fxPanel2) {
         // This method is invoked on the JavaFX thread
-        fullMapScene = new Scene(new Group());
-        simpleMapScene = new Scene(new Group());
+        fullMapView = new WebView();
+        simpleMapView = new WebView();
+        
+        final Scene fullMapScene = new Scene(new Group());
+        final Scene simpleMapScene = new Scene(new Group());
+        
+        fullMapScene.setRoot(fullMapView);
+        simpleMapScene.setRoot(simpleMapView);
         
         fxPanel.setScene(fullMapScene);
         fxPanel2.setScene(simpleMapScene);
+        
+        /* Update rover status here, because we need the webViews to be ready */
+        UpdateRoverStatus urs = new UpdateRoverStatus(
+                rover.getX(),
+                rover.getY(),
+                rover.getDirection()
+        );
+        urs.execute();
     }
     
     /**
@@ -5080,8 +5099,11 @@ public class RemoteMapper extends javax.swing.JFrame {
         final JFXPanel fxPanel1 = new JFXPanel(); // Full-scale map jfx
         final JFXPanel fxPanel2 = new JFXPanel(); // Simple map jfx
         
+        fxPanel1.setBounds(0, 0, fullMapPanel.getWidth(), fullMapPanel.getHeight());
+        fxPanel2.setBounds(0, 0, simpleMapPanel.getWidth(), simpleMapPanel.getHeight());
+        
         fullMapPanel.add(fxPanel1, Color.WHITE);
-        simpleMapPanel.add(fxPanel2);
+        simpleMapPanel.add(fxPanel2, Color.WHITE);
         
         Platform.runLater(() -> {
             initFX(fxPanel1, fxPanel2);
@@ -5093,13 +5115,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         AutoSaver as = new AutoSaver (map, mapFile, presetFile);
         as.execute();
-        
-        UpdateRoverStatus urs = new UpdateRoverStatus(
-                rover.getX(),
-                rover.getY(),
-                rover.getDirection()
-        );
-        urs.execute();
         
         // Setup formatted textfields / documentListeners
         //<editor-fold>
@@ -6157,7 +6172,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             ));
             
             // Update "moving maps"
-            fullMapScene.setRoot(new Group(new Text("<html><span style\"background-color:red;\">&nbsp&nbsp</span></html>")));
+            fullMapView.getEngine().loadContent("<html><p>I'm still working!</p></html>");
             
             return null;
         }
