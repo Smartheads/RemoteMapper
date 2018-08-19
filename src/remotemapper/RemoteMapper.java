@@ -72,9 +72,10 @@ import remotemapper.utility.WhitespaceLengthFilter;
  */
 public class RemoteMapper extends javax.swing.JFrame {  
     static final int CONVERSION_CM_MM = 10;
-    static final int MOVING_MAP_WIDTH = 25;
-    static final int MOVING_MAP_HEIGHT = 23;
-    static final String MOVING_MAP_NODE = "&nbsp&nbsp&nbsp&nbsp";
+    static final int MOVING_MAP_WIDTH = 245;
+    static final int MOVING_MAP_HEIGHT = 245;
+    static final String MOVING_MAP_NODE = "<div class=\"node\"></div>";
+    static final float MOVING_MAP_NODE_SIZE = 1.0f; // Size in px. Used in font size.
     
     private SerialHandler port;
     private CharMap map;
@@ -6214,16 +6215,16 @@ public class RemoteMapper extends javax.swing.JFrame {
             int queryLength = MOVING_MAP_WIDTH;
             int queryHeight = MOVING_MAP_HEIGHT;
             
-            if (queryX < 0)
+            if (queryX < 1)
             {
-                queryLength -= queryX;
-                queryX = 0;
+                queryLength -= (1 - queryX);
+                queryX = 1;
             }
             
-            if (queryY < 0)
+            if (queryY < 1)
             {
-                queryHeight -= queryY;
-                queryY = 0;
+                queryHeight -= (1 - queryY);
+                queryY = 1;
             }
             
             if (queryX + queryLength > map.getWidth())
@@ -6251,11 +6252,13 @@ public class RemoteMapper extends javax.swing.JFrame {
             {
                 for (int x = 0; x < fullMSegment[0].length; x++)
                 {
-                    fullMap[y + queryY - ((int) MOVING_MAP_HEIGHT / 2)][x + queryX - ((int) MOVING_MAP_WIDTH / 2)] = fullMSegment[y][x];
+                    fullMap[y + queryY - this.y + ((int) MOVING_MAP_HEIGHT / 2)][x + queryX - this.x + ((int) MOVING_MAP_WIDTH / 2)] = fullMSegment[y][x];
                 }
             }
             
             Platform.runLater(() -> fullMapView.getEngine().loadContent(getHTML(fullMap, map.getObsticalMark(), map.getEmptySpaceMark())));
+            
+            
             
             return null;
         }
@@ -6263,7 +6266,16 @@ public class RemoteMapper extends javax.swing.JFrame {
         @SuppressWarnings("LocalVariableHidesMemberVariable")
         private String getHTML(char[][] data, char obsticalMark, char emptyMark)
         {
-            StringBuilder sb = new StringBuilder("<html><font style=\"background-color:green; font-size: 10px\">");
+            StringBuilder sb = new StringBuilder("<html>" + 
+                "<style> .node {" +
+                "height: "+ MOVING_MAP_NODE_SIZE +"px;" +
+                "width: "+ MOVING_MAP_NODE_SIZE +"px;" +
+                "background-color: green;" + 
+                "line-height: " + MOVING_MAP_NODE_SIZE + "px;" +
+                "display: table-cell;" +
+                "}" +
+                "</style>"
+            );
             
             for (int y = 0; y < data.length; y++)
             {
@@ -6271,11 +6283,11 @@ public class RemoteMapper extends javax.swing.JFrame {
                 {
                     if (data[y][x] == obsticalMark)
                     {
-                        sb.append("<font style=\"background-color: red;\">"+MOVING_MAP_NODE+"</font>");
+                        sb.append("<div class=\"node\" style=\"background-color: red;\"></div>");
                     }
                     else if (data[y][x] != emptyMark)
                     {
-                        sb.append("<font style=\"background-color: yellow;\">"+MOVING_MAP_NODE+"</font>");
+                        sb.append("<div class=\"node\" style=\"background-color: yellow;\"></div>");
                     }
                     else
                     {
@@ -6285,7 +6297,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 
                 if (y != data.length - 1)
                 {
-                    sb.append("<br />");
+                    sb.append("<div class=\"node\" style=\"display: inline;\"></div>");
                 }
             }
             
