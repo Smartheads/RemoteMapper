@@ -72,11 +72,11 @@ public class Angle {
     {
         if (size > 0)
         {
-            this.size = vollWinkel % size;
+            this.size = size % vollWinkel;
         }
         else if (size < 0)
         {
-            this.size = vollWinkel - (vollWinkel % Math.abs(size));
+            this.size = vollWinkel - (Math.abs(size) % vollWinkel);
         }
         else
         {

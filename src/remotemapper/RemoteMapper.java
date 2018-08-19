@@ -55,6 +55,7 @@ import remotemapper.classes.Coord;
 import remotemapper.classes.mapping.Node;
 import remotemapper.classes.Rover;
 import remotemapper.classes.mapping.Point;
+import remotemapper.data.RoverCommands;
 import remotemapper.exceptions.InternalException;
 import remotemapper.exceptions.LoadWorkspaceException;
 import remotemapper.utility.AngleFilter;
@@ -71,6 +72,10 @@ import remotemapper.utility.WhitespaceLengthFilter;
  */
 public class RemoteMapper extends javax.swing.JFrame {  
     static final int CONVERSION_CM_MM = 10;
+    static final int MOVING_MAP_WIDTH = 25;
+    static final int MOVING_MAP_HEIGHT = 23;
+    static final String MOVING_MAP_NODE = "&nbsp&nbsp&nbsp&nbsp";
+    
     private SerialHandler port;
     private CharMap map;
     private CharMap simpleMap;
@@ -1954,6 +1959,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remote Mapper");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
+        setResizable(false);
         setSize(new java.awt.Dimension(830, 550));
 
         jSeparator11.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -4120,7 +4126,12 @@ public class RemoteMapper extends javax.swing.JFrame {
             movementCommandAngle.setForeground(Color.black);
             movementCommandDegLabel.setForeground(Color.black);
             
-            // Send command
+            try {
+                // Send command
+                port.send(RoverCommands.LEFT.getText()+"("+movementCommandAngle.getText()+");", (String) encodeCharsetSelector.getSelectedItem());
+            } catch (SerialException ex) {
+                Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else
         {
@@ -4137,7 +4148,12 @@ public class RemoteMapper extends javax.swing.JFrame {
             movementCommandDegLabel.setForeground(Color.black);
             movementCommandAngle.setForeground(Color.black);
             
-            // Send command
+            try {
+                // Send command
+                port.send(RoverCommands.RIGHT.getText()+"("+movementCommandAngle.getText()+");", (String) encodeCharsetSelector.getSelectedItem());
+            } catch (SerialException ex) {
+                Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else
         {
@@ -4154,7 +4170,12 @@ public class RemoteMapper extends javax.swing.JFrame {
             movementCommandDistance.setForeground(Color.black);
             movementCommandMM.setForeground(Color.black);
             
-            // Send command
+            try {
+                // Send command
+                port.send(RoverCommands.BACKWARDS.getText()+"("+movementCommandDistance.getText()+");", (String) encodeCharsetSelector.getSelectedItem());
+            } catch (SerialException ex) {
+                Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else
         {
@@ -4170,8 +4191,12 @@ public class RemoteMapper extends javax.swing.JFrame {
             movementCommandDistance.setForeground(Color.black);
             movementCommandMM.setForeground(Color.black);
             
-            // Send command
-            
+            try {
+                // Send command
+                port.send(RoverCommands.FORWARDS.getText()+"("+movementCommandDistance.getText()+");", (String) encodeCharsetSelector.getSelectedItem());
+            } catch (SerialException ex) {
+                Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else
         {
@@ -4597,6 +4622,9 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         editPointErrorLabel.setForeground(Color.green);
         editPointErrorLabel.setText("Point changed");
+        
+        UpdateRoverStatus urs = new UpdateRoverStatus(rover.getX(), rover.getY(), rover.getDirection());
+        urs.execute();
     }
     
     @SuppressWarnings("UnnecessaryReturnStatement")
@@ -4633,6 +4661,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         editPointErrorLabel.setForeground(Color.green);
         editPointErrorLabel.setText("All valid points were changed.");
         
+        UpdateRoverStatus urs = new UpdateRoverStatus(rover.getX(), rover.getY(), rover.getDirection());
+        urs.execute();
     }//GEN-LAST:event_editPointBottomReplaceButtonActionPerformed
 
     private void editShapeApplyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editShapeApplyButtonActionPerformed
@@ -4648,6 +4678,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         {
             editShapeReplaceWithLabel.setForeground(Color.black);
         }
+        
+        UpdateRoverStatus urs = new UpdateRoverStatus(rover.getX(), rover.getY(), rover.getDirection());
         
         switch ((String) selectShapeBox.getSelectedItem())
         {
@@ -4712,6 +4744,8 @@ public class RemoteMapper extends javax.swing.JFrame {
                 
                 editShapeErrorLabel.setForeground(Color.green);
                 editShapeErrorLabel.setText("Changed points!");
+                
+                urs.execute();
                 break;
                 
             case "Rectangle":
@@ -4782,9 +4816,12 @@ public class RemoteMapper extends javax.swing.JFrame {
                         Integer.parseInt(editRectangleYField.getText()),
                         Integer.parseInt(editRectangleHSizeField.getText()),
                         Integer.parseInt(editRectangleVSizeField.getText()),
-                        editShapeReplaceWithField.getText().charAt(0));
+                        editShapeReplaceWithField.getText().charAt(0)
+                );
                 editShapeErrorLabel.setForeground(Color.green);
                 editShapeErrorLabel.setText("Points changed!");
+                
+                urs.execute();
                 break;
                 
             default:
@@ -6171,10 +6208,90 @@ public class RemoteMapper extends javax.swing.JFrame {
                 ((simpleMap.getWidth() * simpleMap.getLength() + 2) * Character.BYTES)
             ));
             
-            // Update "moving maps"
-            fullMapView.getEngine().loadContent("<html><p>I'm still working!</p></html>");
+            /* Update "moving maps" */
+            int queryX = x - ((int) MOVING_MAP_WIDTH / 2);
+            int queryY = y - ((int) MOVING_MAP_HEIGHT / 2);
+            int queryLength = MOVING_MAP_WIDTH;
+            int queryHeight = MOVING_MAP_HEIGHT;
+            
+            if (queryX < 0)
+            {
+                queryLength -= queryX;
+                queryX = 0;
+            }
+            
+            if (queryY < 0)
+            {
+                queryHeight -= queryY;
+                queryY = 0;
+            }
+            
+            if (queryX + queryLength > map.getWidth())
+            {
+                queryLength = map.getWidth() - queryX;
+            }
+            
+            if (queryY + queryHeight > map.getLength())
+            {
+                queryHeight = map.getLength() - queryY;
+            }
+            
+            char[][] fullMap = new char[MOVING_MAP_HEIGHT][MOVING_MAP_WIDTH];
+            char[][] fullMSegment = map.getPointRectangle(queryX, queryY, queryLength, queryHeight);
+            
+            for (int y = 0; y < fullMap.length; y++)
+            {
+                for (int x = 0; x < fullMap[0].length; x++)
+                {
+                    fullMap[y][x] = '@';
+                }
+            }
+            
+            for (int y = 0; y < fullMSegment.length; y++)
+            {
+                for (int x = 0; x < fullMSegment[0].length; x++)
+                {
+                    fullMap[y + queryY - ((int) MOVING_MAP_HEIGHT / 2)][x + queryX - ((int) MOVING_MAP_WIDTH / 2)] = fullMSegment[y][x];
+                }
+            }
+            
+            Platform.runLater(() -> fullMapView.getEngine().loadContent(getHTML(fullMap, map.getObsticalMark(), map.getEmptySpaceMark())));
             
             return null;
+        }
+        
+        @SuppressWarnings("LocalVariableHidesMemberVariable")
+        private String getHTML(char[][] data, char obsticalMark, char emptyMark)
+        {
+            StringBuilder sb = new StringBuilder("<html><font style=\"background-color:green; font-size: 10px\">");
+            
+            for (int y = 0; y < data.length; y++)
+            {
+                for (int x = 0; x < data[0].length; x++)
+                {
+                    if (data[y][x] == obsticalMark)
+                    {
+                        sb.append("<font style=\"background-color: red;\">"+MOVING_MAP_NODE+"</font>");
+                    }
+                    else if (data[y][x] != emptyMark)
+                    {
+                        sb.append("<font style=\"background-color: yellow;\">"+MOVING_MAP_NODE+"</font>");
+                    }
+                    else
+                    {
+                        sb.append(MOVING_MAP_NODE);
+                    }
+                }
+                
+                if (y != data.length - 1)
+                {
+                    sb.append("<br />");
+                }
+            }
+            
+            sb.append("</font></html>");
+            
+            return sb.toString();
         }
         
     }
