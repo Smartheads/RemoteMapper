@@ -45,7 +45,7 @@ public class Vector
      * @param direction
      * @param length
      */
-    public Vector (Angle direction, int length)
+    public Vector (Angle direction, double length)
     {
         this((length * Math.cos(Math.toRadians(90-direction.size()))),
              (length * Math.cos(Math.toRadians(direction.size())))
