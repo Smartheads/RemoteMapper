@@ -22,10 +22,10 @@ package remotemapper.data;
  * @author Robert Hutter
  */
 public enum RoverCommands {
-    FORWARDS("f"),
-    BACKWARDS("b"),
-    LEFT("l"),
-    RIGHT("r");
+    FORWARDS("forward"),
+    BACKWARDS("backward"),
+    LEFT("left"),
+    RIGHT("right");
     
     private final String command;
     
