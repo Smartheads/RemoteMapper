@@ -74,6 +74,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     static final int CONVERSION_CM_MM = 10;
     static final int MOVING_MAP_WIDTH = 25;
     static final int MOVING_MAP_HEIGHT = 23;
+    static final String MOVING_MAP_NODE = "&nbsp&nbsp&nbsp&nbsp";
     
     private SerialHandler port;
     private CharMap map;
@@ -4621,6 +4622,9 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         editPointErrorLabel.setForeground(Color.green);
         editPointErrorLabel.setText("Point changed");
+        
+        UpdateRoverStatus urs = new UpdateRoverStatus(rover.getX(), rover.getY(), rover.getDirection());
+        urs.execute();
     }
     
     @SuppressWarnings("UnnecessaryReturnStatement")
@@ -4657,6 +4661,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         editPointErrorLabel.setForeground(Color.green);
         editPointErrorLabel.setText("All valid points were changed.");
         
+        UpdateRoverStatus urs = new UpdateRoverStatus(rover.getX(), rover.getY(), rover.getDirection());
+        urs.execute();
     }//GEN-LAST:event_editPointBottomReplaceButtonActionPerformed
 
     private void editShapeApplyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editShapeApplyButtonActionPerformed
@@ -4672,6 +4678,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         {
             editShapeReplaceWithLabel.setForeground(Color.black);
         }
+        
+        UpdateRoverStatus urs = new UpdateRoverStatus(rover.getX(), rover.getY(), rover.getDirection());
         
         switch ((String) selectShapeBox.getSelectedItem())
         {
@@ -4736,6 +4744,8 @@ public class RemoteMapper extends javax.swing.JFrame {
                 
                 editShapeErrorLabel.setForeground(Color.green);
                 editShapeErrorLabel.setText("Changed points!");
+                
+                urs.execute();
                 break;
                 
             case "Rectangle":
@@ -4806,9 +4816,12 @@ public class RemoteMapper extends javax.swing.JFrame {
                         Integer.parseInt(editRectangleYField.getText()),
                         Integer.parseInt(editRectangleHSizeField.getText()),
                         Integer.parseInt(editRectangleVSizeField.getText()),
-                        editShapeReplaceWithField.getText().charAt(0));
+                        editShapeReplaceWithField.getText().charAt(0)
+                );
                 editShapeErrorLabel.setForeground(Color.green);
                 editShapeErrorLabel.setText("Points changed!");
+                
+                urs.execute();
                 break;
                 
             default:
@@ -6196,12 +6209,89 @@ public class RemoteMapper extends javax.swing.JFrame {
             ));
             
             /* Update "moving maps" */
-            char[][] fullM = map.getPointRectangle(rover.getX()-(Math.floor(MOVING_MAP_WIDTH / 2)), rover.getY() - (Math.floor(MOVING_MAP_HEIGHT / 2)), MOVING_MAP_WIDTH, MOVING_MAP_HEIGHT);
+            int queryX = x - ((int) MOVING_MAP_WIDTH / 2);
+            int queryY = y - ((int) MOVING_MAP_HEIGHT / 2);
+            int queryLength = MOVING_MAP_WIDTH;
+            int queryHeight = MOVING_MAP_HEIGHT;
             
+            if (queryX < 0)
+            {
+                queryLength -= queryX;
+                queryX = 0;
+            }
             
-            Platform.runLater(() -> fullMapView.getEngine().loadContent("<html><font style=\"background-color:red; font-size:10px\"></font></html>"));
+            if (queryY < 0)
+            {
+                queryHeight -= queryY;
+                queryY = 0;
+            }
+            
+            if (queryX + queryLength > map.getWidth())
+            {
+                queryLength = map.getWidth() - queryX;
+            }
+            
+            if (queryY + queryHeight > map.getLength())
+            {
+                queryHeight = map.getLength() - queryY;
+            }
+            
+            char[][] fullMap = new char[MOVING_MAP_HEIGHT][MOVING_MAP_WIDTH];
+            char[][] fullMSegment = map.getPointRectangle(queryX, queryY, queryLength, queryHeight);
+            
+            for (int y = 0; y < fullMap.length; y++)
+            {
+                for (int x = 0; x < fullMap[0].length; x++)
+                {
+                    fullMap[y][x] = '@';
+                }
+            }
+            
+            for (int y = 0; y < fullMSegment.length; y++)
+            {
+                for (int x = 0; x < fullMSegment[0].length; x++)
+                {
+                    fullMap[y + queryY - ((int) MOVING_MAP_HEIGHT / 2)][x + queryX - ((int) MOVING_MAP_WIDTH / 2)] = fullMSegment[y][x];
+                }
+            }
+            
+            Platform.runLater(() -> fullMapView.getEngine().loadContent(getHTML(fullMap, map.getObsticalMark(), map.getEmptySpaceMark())));
             
             return null;
+        }
+        
+        @SuppressWarnings("LocalVariableHidesMemberVariable")
+        private String getHTML(char[][] data, char obsticalMark, char emptyMark)
+        {
+            StringBuilder sb = new StringBuilder("<html><font style=\"background-color:green; font-size: 10px\">");
+            
+            for (int y = 0; y < data.length; y++)
+            {
+                for (int x = 0; x < data[0].length; x++)
+                {
+                    if (data[y][x] == obsticalMark)
+                    {
+                        sb.append("<font style=\"background-color: red;\">"+MOVING_MAP_NODE+"</font>");
+                    }
+                    else if (data[y][x] != emptyMark)
+                    {
+                        sb.append("<font style=\"background-color: yellow;\">"+MOVING_MAP_NODE+"</font>");
+                    }
+                    else
+                    {
+                        sb.append(MOVING_MAP_NODE);
+                    }
+                }
+                
+                if (y != data.length - 1)
+                {
+                    sb.append("<br />");
+                }
+            }
+            
+            sb.append("</font></html>");
+            
+            return sb.toString();
         }
         
     }
