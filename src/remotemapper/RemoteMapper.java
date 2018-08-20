@@ -74,8 +74,11 @@ public class RemoteMapper extends javax.swing.JFrame {
     static final int CONVERSION_CM_MM = 10;
     static final int MOVING_MAP_WIDTH = 245;
     static final int MOVING_MAP_HEIGHT = 245;
+    static final int MOVING_MAP_SWIDTH = 41;
+    static final int MOVING_MAP_SHEIGHT = 41;
     static final String MOVING_MAP_NODE = "<div class=\"node\"></div>";
     static final float MOVING_MAP_NODE_SIZE = 1.0f; // Size in px. Used in font size.
+    static final float MOVING_MAP_SNODE_SIZE = 6f;
     
     private SerialHandler port;
     private CharMap map;
@@ -3106,7 +3109,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         );
         jPanel35Layout.setVerticalGroup(
             jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 122, Short.MAX_VALUE)
+            .addGap(0, 123, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("Expand", jPanel35);
@@ -3119,7 +3122,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         );
         jPanel36Layout.setVerticalGroup(
             jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 122, Short.MAX_VALUE)
+            .addGap(0, 123, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("Trim", jPanel36);
@@ -3132,7 +3135,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         );
         jPanel37Layout.setVerticalGroup(
             jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 122, Short.MAX_VALUE)
+            .addGap(0, 123, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("Export", jPanel37);
@@ -3216,6 +3219,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         jLabel80.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel80.setText("<html><h4>Simplefied</h4></html>");
 
+        fullMapPanel.setPreferredSize(new java.awt.Dimension(263, 263));
+
         javax.swing.GroupLayout fullMapPanelLayout = new javax.swing.GroupLayout(fullMapPanel);
         fullMapPanel.setLayout(fullMapPanelLayout);
         fullMapPanelLayout.setHorizontalGroup(
@@ -3235,7 +3240,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         );
         simpleMapPanelLayout.setVerticalGroup(
             simpleMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 263, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jLabel87.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -3384,18 +3389,16 @@ public class RemoteMapper extends javax.swing.JFrame {
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(fullMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(14, 14, 14)
+                    .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fullMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(13, 13, 13)
                 .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addComponent(jSeparator20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel33Layout.createSequentialGroup()
-                        .addComponent(simpleMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(simpleMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -3496,7 +3499,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(clock)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(4, 12, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(jSeparator9)
                         .addGap(3, 3, 3))))
@@ -6210,10 +6213,23 @@ public class RemoteMapper extends javax.swing.JFrame {
             ));
             
             /* Update "moving maps" */
-            int queryX = x - ((int) MOVING_MAP_WIDTH / 2);
-            int queryY = y - ((int) MOVING_MAP_HEIGHT / 2);
-            int queryLength = MOVING_MAP_WIDTH;
-            int queryHeight = MOVING_MAP_HEIGHT;
+            updateMovingMap(x, y, map, MOVING_MAP_WIDTH, MOVING_MAP_HEIGHT, fullMapView, MOVING_MAP_NODE_SIZE);
+            
+            int simpleX = (int) Math.ceil(x / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
+            int simpleY = (int) Math.ceil(y / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
+            
+            updateMovingMap(simpleX, simpleY, simpleMap, MOVING_MAP_SWIDTH, MOVING_MAP_SHEIGHT, simpleMapView, MOVING_MAP_SNODE_SIZE);
+            
+            return null;
+        }
+        
+        private void updateMovingMap(int posX, int posY, CharMap map, int movingMapWidth, int movingMapHeight, WebView view, float nodeSize)
+        {
+            int queryX = posX - ((int) movingMapWidth / 2);
+            int queryY = posY - ((int) movingMapHeight / 2);
+            
+            int queryLength = movingMapWidth;
+            int queryHeight = movingMapHeight;
             
             if (queryX < 1)
             {
@@ -6237,10 +6253,10 @@ public class RemoteMapper extends javax.swing.JFrame {
                 queryHeight = map.getLength() - queryY;
             }
             
-            char[][] fullMap = new char[MOVING_MAP_HEIGHT][MOVING_MAP_WIDTH];
+            char[][] fullMap = new char[movingMapHeight][movingMapWidth];
             char[][] fullMSegment = map.getPointRectangle(queryX, queryY, queryLength, queryHeight);
             
-            for (int y = 0; y < fullMap.length; y++)
+             for (int y = 0; y < fullMap.length; y++)
             {
                 for (int x = 0; x < fullMap[0].length; x++)
                 {
@@ -6252,26 +6268,22 @@ public class RemoteMapper extends javax.swing.JFrame {
             {
                 for (int x = 0; x < fullMSegment[0].length; x++)
                 {
-                    fullMap[y + queryY - this.y + ((int) MOVING_MAP_HEIGHT / 2)][x + queryX - this.x + ((int) MOVING_MAP_WIDTH / 2)] = fullMSegment[y][x];
+                    fullMap[y + queryY - this.y + ((int) movingMapHeight / 2)][x + queryX - this.x + ((int) movingMapWidth / 2)] = fullMSegment[y][x];
                 }
             }
             
-            Platform.runLater(() -> fullMapView.getEngine().loadContent(getHTML(fullMap, map.getObsticalMark(), map.getEmptySpaceMark())));
-            
-            
-            
-            return null;
+            Platform.runLater(() -> view.getEngine().loadContent(getHTML(fullMap, map.getObsticalMark(), map.getEmptySpaceMark(), nodeSize)));
         }
         
         @SuppressWarnings("LocalVariableHidesMemberVariable")
-        private String getHTML(char[][] data, char obsticalMark, char emptyMark)
+        private String getHTML(char[][] data, char obsticalMark, char emptyMark, float nodeSize)
         {
             StringBuilder sb = new StringBuilder("<html>" + 
                 "<style> .node {" +
-                "height: "+ MOVING_MAP_NODE_SIZE +"px;" +
-                "width: "+ MOVING_MAP_NODE_SIZE +"px;" +
+                "height: "+ nodeSize +"px;" +
+                "width: "+ nodeSize +"px;" +
                 "background-color: green;" + 
-                "line-height: " + MOVING_MAP_NODE_SIZE + "px;" +
+                "line-height: " + nodeSize + "px;" +
                 "display: table-cell;" +
                 "}" +
                 "</style>"
