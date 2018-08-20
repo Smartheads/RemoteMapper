@@ -3882,11 +3882,14 @@ public class RemoteMapper extends javax.swing.JFrame {
             lm.execute();
 
             // Create new rover
-            rover = new Rover (Integer.parseInt(positionXFormattedField.getText()),
-                               Integer.parseInt(positionYFormattedField.getText()),
-                               Float.parseFloat(headingFormattedField.getText()),
-                               Integer.parseInt(roverWidthFormattedField.getText()),
-                               Integer.parseInt(roverLengthFormattedField.getText()));
+            rover = new Rover (
+                   Integer.parseInt(positionXFormattedField.getText()),
+                   Integer.parseInt(positionYFormattedField.getText()),
+                   Float.parseFloat(headingFormattedField.getText()),
+                   Integer.parseInt(roverWidthFormattedField.getText()),
+                   Integer.parseInt(roverLengthFormattedField.getText()),
+                   Integer.parseInt(roverHeightFormattedField.getText())
+            );
         }
         else
         {
@@ -3904,7 +3907,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 return;
             }
 
-            // Instancise files
+            // Instatiate files
             mapFile = new File (workspace.getPath() + File.separator + ConfigFiles.MAP.getName());
             presetFile = new File (workspace.getPath() + File.separator + ConfigFiles.CMD_PRESETS.getName());
 
@@ -3923,7 +3926,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             sm.execute();
 
             // Create new rover
-            rover = new Rover (Integer.parseInt(positionXFormattedField.getText()), Integer.parseInt(positionYFormattedField.getText()), Float.parseFloat(headingFormattedField.getText()), Integer.parseInt(roverWidthFormattedField.getText()), Integer.parseInt(roverLengthFormattedField.getText()));
+            rover = new Rover (Integer.parseInt(positionXFormattedField.getText()), Integer.parseInt(positionYFormattedField.getText()), Float.parseFloat(headingFormattedField.getText()), Integer.parseInt(roverWidthFormattedField.getText()), Integer.parseInt(roverLengthFormattedField.getText(), Integer.parseInt(roverHeightFormattedField.getText())));
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -5247,12 +5250,12 @@ public class RemoteMapper extends javax.swing.JFrame {
     private void loadRoverPropertiesPage ()
     {
         // Load current values:
-        roverPropertiesWidth.setText(""+rover.getWidth());
-        roverPropertiesHeight.setText(""+rover.getHeight());
-        roverPropertiesLength.setText(""+rover.getWidth());
-        roverPropertiesHeading.setText((""+rover.getDirection()).length() >= 4 ? (String)(""+rover.getDirection()).subSequence(0, 4) : (""+rover.getDirection()));
-        roverPropertiesX.setText(""+rover.getX());
-        roverPropertiesY.setText(""+rover.getY());
+        roverPropertiesWidth.setText(Integer.toString(rover.getWidth()));
+        roverPropertiesHeight.setText(Integer.toString(rover.getHeight()));
+        roverPropertiesLength.setText(Integer.toString(rover.getWidth()));
+        roverPropertiesHeading.setText(Float.toString(rover.getDirection()).length() >= 4 ? (String)(""+rover.getDirection()).subSequence(0, 4) : (""+rover.getDirection()));
+        roverPropertiesX.setText(Integer.toString(rover.getX()));
+        roverPropertiesY.setText(Integer.toString(rover.getY()));
         
         roverPropertiesPanel.setVisible(true);
     }
@@ -6188,12 +6191,17 @@ public class RemoteMapper extends javax.swing.JFrame {
         @Override
         protected Void doInBackground() {
             /* Update rover status and maps */
+            rover.setX(x);
+            rover.setY(y);
+            rover.setDirection((float) angle);
+            
+            /* Update rover position labels */
             statusPosX.setText(Integer.toString(x));
             statusPosY.setText(Integer.toString(y));
             statusPosHeading.setText(Double.toString(angle));
             
-            // Update simpleMap
-            simpleMap = CharMap.simplfyMap(map, ((int) (rover.getFlatDiagonal() / CONVERSION_CM_MM)) + 1);
+            /* Update simpleMap */
+            simpleMap = CharMap.simplfyMap(map, (int) Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
             
             // Update full-scale map details
             fullMapDetailsWidth.setText(Integer.toString(map.getWidth()));
@@ -6215,14 +6223,15 @@ public class RemoteMapper extends javax.swing.JFrame {
             /* Update "moving maps" */
             updateMovingMap(x, y, map, MOVING_MAP_WIDTH, MOVING_MAP_HEIGHT, fullMapView, MOVING_MAP_NODE_SIZE);
             
-            int simpleX = (int) Math.ceil(x / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
-            int simpleY = (int) Math.ceil(y / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
+            final int simpleX = (int) Math.ceil(x / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
+            final int simpleY = (int) Math.ceil(y / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
             
             updateMovingMap(simpleX, simpleY, simpleMap, MOVING_MAP_SWIDTH, MOVING_MAP_SHEIGHT, simpleMapView, MOVING_MAP_SNODE_SIZE);
             
             return null;
         }
         
+        @SuppressWarnings("LocalVariableHidesMemberVariable")
         private void updateMovingMap(int posX, int posY, CharMap map, int movingMapWidth, int movingMapHeight, WebView view, float nodeSize)
         {
             int queryX = posX - ((int) movingMapWidth / 2);
@@ -6256,11 +6265,11 @@ public class RemoteMapper extends javax.swing.JFrame {
             char[][] fullMap = new char[movingMapHeight][movingMapWidth];
             char[][] fullMSegment = map.getPointRectangle(queryX, queryY, queryLength, queryHeight);
             
-             for (int y = 0; y < fullMap.length; y++)
+            for (char[] fullMap1 : fullMap)
             {
                 for (int x = 0; x < fullMap[0].length; x++)
                 {
-                    fullMap[y][x] = '@';
+                    fullMap1[x] = '@';
                 }
             }
             
