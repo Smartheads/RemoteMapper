@@ -6284,13 +6284,13 @@ public class RemoteMapper extends javax.swing.JFrame {
             /* Update simpleMap */
             simpleMap = CharMap.simplfyMap(map, (int) Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
             
-            /* Update "moving maps" */
-            updateMovingMap(x, y, map, MOVING_MAP_WIDTH, MOVING_MAP_HEIGHT, fullMapView, MOVING_MAP_NODE_SIZE);
-            
             int simpleX = (int) Math.ceil(x / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
             int simpleY = (int) Math.ceil(y / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
             
-            updateMovingMap(simpleX, simpleY, simpleMap, MOVING_MAP_SWIDTH, MOVING_MAP_SHEIGHT, simpleMapView, MOVING_MAP_SNODE_SIZE);
+            Platform.runLater(() -> {
+                updateMovingMap(x, y, map, MOVING_MAP_WIDTH, MOVING_MAP_HEIGHT, fullMapView, MOVING_MAP_NODE_SIZE);
+                updateMovingMap(simpleX, simpleY, simpleMap, MOVING_MAP_SWIDTH, MOVING_MAP_SHEIGHT, simpleMapView, MOVING_MAP_SNODE_SIZE);
+            });
             
             return null;
         }
@@ -6345,7 +6345,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 }
             }
             
-            Platform.runLater(() -> view.getEngine().loadContent(getHTML(fullMap, map.getObsticalMark(), map.getEmptySpaceMark(), nodeSize)));
+            view.getEngine().loadContent(getHTML(fullMap, map.getObsticalMark(), map.getEmptySpaceMark(), nodeSize));
         }
         
         @SuppressWarnings("LocalVariableHidesMemberVariable")
