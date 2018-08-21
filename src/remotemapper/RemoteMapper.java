@@ -21,6 +21,9 @@ import remotemapper.classes.mapping.Route;
 import remotemapper.exceptions.SerialException;
 import com.fazecast.jSerialComm.SerialPort;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -88,6 +91,9 @@ public class RemoteMapper extends javax.swing.JFrame {
     private File workspace, mapFile, presetFile;
     private CommandPreset[] presets;
     MapPreviewer mp;
+    
+    boolean savingWorkspace = false;
+    boolean closing = false;
 
     /**
      * Creates new form RemoteMapper
@@ -155,6 +161,45 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         DefaultCaret caret = (DefaultCaret)loadingConsole.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        
+        WindowListener exitListener = new WindowAdapter() {
+
+            @Override
+            public synchronized void windowClosing(WindowEvent e)
+            {   
+                RemoteMapper.this.setVisible(false);
+                if (!savingWorkspace)
+                {   
+                    try
+                    {
+                        CharMap.exportToFile(map, mapFile);
+                        
+                        for (CommandPreset cp : presets)
+                        {
+                            cp.saveToFile(presetFile);
+                        }
+                        
+                        System.exit(0);
+                    }
+                    catch (IOException ex)
+                    {
+                        Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
+                        RemoteMapper.this.setVisible(true);
+                        int c = JOptionPane.showConfirmDialog(null, "Error saving workspace. Are you sure that you would like to exit?", "Error saving workspace", JOptionPane.ERROR_MESSAGE);
+                        
+                        if (c == JOptionPane.OK_OPTION)
+                        {
+                            System.exit(0);
+                        }
+                    }
+                }
+                else
+                {
+                    closing = true;
+                }
+            }
+        };
+        addWindowListener(exitListener);
         
         // Start application
         wizardPage1.setVisible(true);
@@ -1960,7 +2005,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Remote Mapper");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
         setResizable(false);
@@ -3499,7 +3544,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(clock)
-                        .addGap(4, 12, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(jSeparator9)
                         .addGap(3, 3, 3))))
@@ -3926,7 +3971,14 @@ public class RemoteMapper extends javax.swing.JFrame {
             sm.execute();
 
             // Create new rover
-            rover = new Rover (Integer.parseInt(positionXFormattedField.getText()), Integer.parseInt(positionYFormattedField.getText()), Float.parseFloat(headingFormattedField.getText()), Integer.parseInt(roverWidthFormattedField.getText()), Integer.parseInt(roverLengthFormattedField.getText(), Integer.parseInt(roverHeightFormattedField.getText())));
+            rover = new Rover(
+                    Integer.parseInt(positionXFormattedField.getText()),
+                    Integer.parseInt(positionYFormattedField.getText()),
+                    Float.parseFloat(headingFormattedField.getText()),
+                    Integer.parseInt(roverWidthFormattedField.getText()),
+                    Integer.parseInt(roverLengthFormattedField.getText()),
+                    Integer.parseInt(roverHeightFormattedField.getText())
+            );
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -4101,7 +4153,6 @@ public class RemoteMapper extends javax.swing.JFrame {
                     Integer.parseInt(roverPropertiesY.getText()),
                     Float.parseFloat(roverPropertiesHeading.getText()
             ));
-            
             urs.execute();
             
             propertiesPage.setVisible(false);
@@ -5232,6 +5283,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         propertiesPage.setAlwaysOnTop(true);
         squareBoundsPanel.setVisible(false);
         
+        simpleMap = CharMap.simplfyMap(map, (int) Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
+        updateMapInformation();
         
         // Set preset button texts
         preset1Button.setText(presets[0].getName());
@@ -5321,6 +5374,26 @@ public class RemoteMapper extends javax.swing.JFrame {
     public void resetPathfinder ()
     {
         findPathButton.setEnabled(true);
+    }
+    
+    private void updateMapInformation()
+    {
+        // Update full-scale map details
+        fullMapDetailsWidth.setText(Integer.toString(map.getWidth()));
+        fullMapDetailsHeight.setText(Integer.toString(map.getLength()));
+        fullMapDetailsByteSize.setText(Integer.toString(
+            ((map.getWidth() * map.getLength() + 2) * Character.BYTES) / 1024)
+        );
+
+        // Update simple map details
+        simpleMapDetailsSimplificationCoefficient.setText(Integer.toString(
+                ((int) (rover.getFlatDiagonal() / CONVERSION_CM_MM)) + 1)
+        );
+        simpleMapDetailsWidth.setText(Integer.toString(simpleMap.getWidth()));
+        simpleMapDetailsHeight.setText(Integer.toString(simpleMap.getLength()));
+        simpleMapDetailsByteSize.setText(Integer.toString(
+            ((simpleMap.getWidth() * simpleMap.getLength() + 2) * Character.BYTES)
+        ));
     }
 
     //<editor-fold>
@@ -5739,11 +5812,6 @@ public class RemoteMapper extends javax.swing.JFrame {
                 // Update clock
                 display.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm.ss")));
                 
-                // Update rover status
-                statusPosX.setText(""+rover.getX());
-                statusPosY.setText(""+rover.getY());
-                statusPosHeading.setText(""+rover.getDirection());
-                
                 try 
                 {
                     Thread.sleep(1000);
@@ -5960,8 +6028,15 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         @Override
         @SuppressWarnings("null")
-        protected Void doInBackground()
+        protected synchronized Void doInBackground()
         {
+            if (savingWorkspace)
+            {
+                return null;
+            }
+            
+            savingWorkspace = true;
+            
             FileWriter mapFileWriter = null;
             
             try
@@ -6025,7 +6100,6 @@ public class RemoteMapper extends javax.swing.JFrame {
                     Logger.getLogger(RemoteMapper.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
             return null;
         }
         
@@ -6038,8 +6112,10 @@ public class RemoteMapper extends javax.swing.JFrame {
         }
         
         @Override
-        protected void done ()
+        protected synchronized void done ()
         {
+            savingWorkspace = false;
+            
             // Write to log
             if (log != null)
             {
@@ -6051,6 +6127,11 @@ public class RemoteMapper extends javax.swing.JFrame {
                     loadingScreen.setVisible(false);
                     loadMainFrame();
                 }
+            }
+            
+            if (closing)
+            {
+                System.exit(0);
             }
         }
         
@@ -6203,28 +6284,11 @@ public class RemoteMapper extends javax.swing.JFrame {
             /* Update simpleMap */
             simpleMap = CharMap.simplfyMap(map, (int) Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
             
-            // Update full-scale map details
-            fullMapDetailsWidth.setText(Integer.toString(map.getWidth()));
-            fullMapDetailsHeight.setText(Integer.toString(map.getLength()));
-            fullMapDetailsByteSize.setText(Integer.toString(
-                ((map.getWidth() * map.getLength() + 2) * Character.BYTES) / 1024)
-            );
-            
-            // Update simple map details
-            simpleMapDetailsSimplificationCoefficient.setText(Integer.toString(
-                    ((int) (rover.getFlatDiagonal() / CONVERSION_CM_MM)) + 1)
-            );
-            simpleMapDetailsWidth.setText(Integer.toString(simpleMap.getWidth()));
-            simpleMapDetailsHeight.setText(Integer.toString(simpleMap.getLength()));
-            simpleMapDetailsByteSize.setText(Integer.toString(
-                ((simpleMap.getWidth() * simpleMap.getLength() + 2) * Character.BYTES)
-            ));
-            
             /* Update "moving maps" */
             updateMovingMap(x, y, map, MOVING_MAP_WIDTH, MOVING_MAP_HEIGHT, fullMapView, MOVING_MAP_NODE_SIZE);
             
-            final int simpleX = (int) Math.ceil(x / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
-            final int simpleY = (int) Math.ceil(y / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
+            int simpleX = (int) Math.ceil(x / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
+            int simpleY = (int) Math.ceil(y / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
             
             updateMovingMap(simpleX, simpleY, simpleMap, MOVING_MAP_SWIDTH, MOVING_MAP_SHEIGHT, simpleMapView, MOVING_MAP_SNODE_SIZE);
             
@@ -6234,8 +6298,8 @@ public class RemoteMapper extends javax.swing.JFrame {
         @SuppressWarnings("LocalVariableHidesMemberVariable")
         private void updateMovingMap(int posX, int posY, CharMap map, int movingMapWidth, int movingMapHeight, WebView view, float nodeSize)
         {
-            int queryX = posX - ((int) movingMapWidth / 2);
-            int queryY = posY - ((int) movingMapHeight / 2);
+            int queryX = posX - (int) Math.floor(movingMapWidth / 2);
+            int queryY = posY - (int) Math.floor(movingMapHeight / 2);
             
             int queryLength = movingMapWidth;
             int queryHeight = movingMapHeight;
