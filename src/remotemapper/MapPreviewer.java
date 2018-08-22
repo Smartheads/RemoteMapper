@@ -16,7 +16,14 @@
  */
 package remotemapper;
 
+import java.awt.Color;
 import java.io.File;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.web.WebView;
+import javax.swing.SwingWorker;
 import remotemapper.classes.mapping.CharMap;
 
 /**
@@ -26,17 +33,18 @@ import remotemapper.classes.mapping.CharMap;
 public class MapPreviewer extends javax.swing.JFrame {
     private File mapFile;
     private CharMap map;
+    private WebView mapView;
+    
+    private final String MAP_NODE = "<div class=\"node\"></div>";
 
     /**
      * Creates new form MapPreviewer
-     * @param map
-     * @param mapFile
+     * @param map The map to be viewed
+     * @param mapFile The file to save the map to if anything is changed.
      */
     public MapPreviewer(CharMap map, File mapFile) {
         this.mapFile = mapFile;
         this.map = map;
-        
-        this.map.setPoint(0, 0, 'K');
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -45,7 +53,7 @@ public class MapPreviewer extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -65,6 +73,28 @@ public class MapPreviewer extends javax.swing.JFrame {
     private MapPreviewer() 
     {
         initComponents();
+        
+        final JFXPanel fxPanel1 = new JFXPanel();
+        
+        fxPanel1.setBounds(0, 0, mapPanel.getWidth(), mapPanel.getHeight());
+        mapPanel.add(fxPanel1, Color.WHITE);
+        
+        Platform.runLater(() -> {
+            initFX(fxPanel1);
+        });
+    }
+    
+    private void initFX(JFXPanel fxPanel)
+    {
+        mapView = new WebView();
+        
+        final Scene mapScene = new Scene(new Group());
+        mapScene.setRoot(mapView);
+        
+        fxPanel.setScene(mapScene);
+        
+        MapUpdater mu = new MapUpdater();
+        mu.execute();
     }
 
     /**
@@ -79,11 +109,13 @@ public class MapPreviewer extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        mapPanel = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("remotemapper/Bundle"); // NOI18N
+        setTitle(bundle.getString("MapPreviewer.title")); // NOI18N
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
+
         jLabel1.setText(bundle.getString("MapPreviewer.jLabel1.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -114,14 +146,14 @@ public class MapPreviewer extends javax.swing.JFrame {
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout mapPanelLayout = new javax.swing.GroupLayout(mapPanel);
+        mapPanel.setLayout(mapPanelLayout);
+        mapPanelLayout.setHorizontalGroup(
+            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        mapPanelLayout.setVerticalGroup(
+            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 542, Short.MAX_VALUE)
         );
 
@@ -130,7 +162,7 @@ public class MapPreviewer extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -140,7 +172,7 @@ public class MapPreviewer extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -149,6 +181,66 @@ public class MapPreviewer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel mapPanel;
     // End of variables declaration//GEN-END:variables
+
+    public boolean close() {
+        return true;
+    }
+    
+    class MapUpdater extends SwingWorker<Void, Void>
+    {
+        
+        @Override
+        protected Void doInBackground() throws Exception {
+            
+            Platform.runLater(() -> {
+                mapView.getEngine().loadContent(getHTML(map.getMap(), 4, map.getObsticalMark(), map.getEmptySpaceMark()));
+            });
+               
+            return null;
+        }
+        
+        private String getHTML(char[][] data, int nodeSize, char obsticalMark, char emptyMark)
+        {
+            StringBuilder sb = new StringBuilder("<html>" + 
+                "<style> .node {" +
+                "height: "+ nodeSize +"px;" +
+                "width: "+ nodeSize +"px;" +
+                "background-color: green;" + 
+                "line-height: " + nodeSize + "px;" +
+                "display: table-cell;" +
+                "}" +
+                "</style>"
+            );
+            
+            for (int y = 0; y < data.length; y++)
+            {
+                for (int x = 0; x < data[0].length; x++)
+                {
+                    if (data[y][x] == obsticalMark)
+                    {
+                        sb.append("<div class=\"node\" style=\"background-color: red;\"></div>");
+                    }
+                    else if (data[y][x] != emptyMark)
+                    {
+                        sb.append("<div class=\"node\" style=\"background-color: yellow;\"></div>");
+                    }
+                    else
+                    {
+                        sb.append(MAP_NODE);
+                    }
+                }
+                
+                if (y != data.length - 1)
+                {
+                    sb.append("<div class=\"node\" style=\"display: inline;\"></div>");
+                }
+            }
+            
+            sb.append("</font></html>");
+            
+            return sb.toString();
+        }
+    }
 }
