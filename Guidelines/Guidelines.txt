@@ -1,0 +1,44 @@
+Smart Crew 2012 Rover Technologies
+
+In Dobsinalia All Rights Reserved.
+
+--
+
+Remote Mapper - Rover Bilateral Communication Guidelines (VERSION: 1204) RM-R_BCG1204
+
+DATE: 2018.08.23
+
+Table of contents:
+1. Introduction
+2. Communication structure
+3. Requests
+4. Requests for Remote Mapper - Rover communication
+
+1. Introduction
+Remote Mapper is a robotics control tool, which controls rover's with terrain mapping capabilities. These guidelines define the communication between the Remote Mapping software and the rover.
+
+2. Communication structure
+Communication between the Remote Mapping software and the rover is event based, meaning the two sides only send data on request of the other side. These requests are also called commands.
+
+3. Requests
+Requests are predefined keywords, with or without arguments, which tell the receiving side what to do. All requests are closed with a semi-colon (';'). Arguments can be attached to the command in parenthesis after the request keyword. If there are no arguments to pass, than the parenthesis are not mandatory. Arguments are to be separated using colons (','). Text can be passed as argument without requiring any special declaration (i.e double quotes). 
+
+Example requests:
+doSomething;	// A simple request without any parameters
+goForwards(30.5);	// A request with one parameter
+saySomething(Hello, 3);	// A request with multiple parameters
+
+4. Requests for Remote Mapper - Rover communication
+The following table contains all valid requests (commands) for Remote Mapper - Rover communication.
+
+Remote mapper to rover requests:
+* getInfo 					- requests information about the other side.
+* forward(float distance)	- Tells the rover to move forward.
+* backward(float distance)	- Tells the rover to move backward.
+* right(float degrees)		- Tells the rover to turn right.
+* sendPosition				- Requests the rovers current position.
+
+Rover to Remote Mapper requests.
+*
+
+EOF
