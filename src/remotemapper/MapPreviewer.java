@@ -17,6 +17,11 @@
 package remotemapper;
 
 import java.awt.Color;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -36,6 +41,18 @@ public class MapPreviewer extends javax.swing.JFrame {
     private WebView mapView;
     
     private final String MAP_NODE = "<div class=\"node\"></div>";
+    
+    {
+        WindowListener exitListener = new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                MapPreviewer.this.dispose();
+            }
+        };
+        addWindowListener(exitListener);
+    }
 
     /**
      * Creates new form MapPreviewer
@@ -64,14 +81,6 @@ public class MapPreviewer extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new MapPreviewer().setVisible(true);
-        });
-    }
-
-    private MapPreviewer() 
-    {
         initComponents();
         
         final JFXPanel fxPanel1 = new JFXPanel();
@@ -82,6 +91,16 @@ public class MapPreviewer extends javax.swing.JFrame {
         Platform.runLater(() -> {
             initFX(fxPanel1);
         });
+        
+        mapPanel.addComponentListener(new ComponentAdapter()
+        {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                fxPanel1.setBounds(0, 0, mapPanel.getWidth(), mapPanel.getHeight());
+            }
+        });
+        
+        super.setVisible(true);
     }
     
     private void initFX(JFXPanel fxPanel)
@@ -111,7 +130,7 @@ public class MapPreviewer extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         mapPanel = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("remotemapper/Bundle"); // NOI18N
         setTitle(bundle.getString("MapPreviewer.title")); // NOI18N
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
