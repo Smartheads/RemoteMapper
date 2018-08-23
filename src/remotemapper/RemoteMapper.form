@@ -2300,10 +2300,13 @@
             <Property name="text" type="java.lang.String" value="Tools"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="serialMontiorMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Serial monitor"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serialMontiorMenuItemActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -4868,7 +4871,7 @@
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="clock" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="4" pref="12" max="32767" attributes="0"/>
+                          <EmptySpace min="4" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="jSeparator9" max="32767" attributes="0"/>
