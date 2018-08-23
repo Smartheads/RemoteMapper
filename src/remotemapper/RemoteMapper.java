@@ -16,6 +16,7 @@
  */
 package remotemapper;
 
+import serial.SerialHandler;
 import remotemapper.data.ConfigFiles;
 import remotemapper.classes.mapping.Route;
 import remotemapper.exceptions.SerialException;
@@ -3610,7 +3611,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(clock)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(4, 12, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(jSeparator9)
                         .addGap(3, 3, 3))))
