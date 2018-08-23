@@ -91,6 +91,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private File workspace, mapFile, presetFile;
     private CommandPreset[] presets;
     MapPreviewer mp;
+    SerialMonitor sm;
     
     boolean savingWorkspace = false;
     boolean closing = false;
@@ -102,8 +103,15 @@ public class RemoteMapper extends javax.swing.JFrame {
     public RemoteMapper() {
         initComponents();
         
+//        java.awt.EventQueue.invokeLater(() ->
+//        {
+//            
+//        });
+        
+        sm = new SerialMonitor();
+            port = new SerialHandler (sm.getConsole());
+        
         // Init custom components
-        port = new SerialHandler ();
         wizardPage1.setLocationRelativeTo(null);
         wizardPage2.setLocationRelativeTo(null);
         wizardPage3.setLocationRelativeTo (null);
@@ -604,7 +612,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         preferencesItem = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        serialMontiorMenuItem = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         alwaysOnTopMenuItem = new javax.swing.JCheckBoxMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -3602,7 +3610,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(clock)
-                        .addGap(4, 12, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(jSeparator9)
                         .addGap(3, 3, 3))))
@@ -3666,8 +3674,13 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jMenu3.setText("Tools");
 
-        jMenuItem1.setText("Serial monitor");
-        jMenu3.add(jMenuItem1);
+        serialMontiorMenuItem.setText("Serial monitor");
+        serialMontiorMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serialMontiorMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(serialMontiorMenuItem);
 
         jMenuBar1.add(jMenu3);
 
@@ -5164,6 +5177,10 @@ public class RemoteMapper extends javax.swing.JFrame {
         // TODO add your handling code here:
         previewMap(simpleMap, null);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void serialMontiorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serialMontiorMenuItemActionPerformed
+        sm.setVisible(true);
+    }//GEN-LAST:event_serialMontiorMenuItemActionPerformed
     
     /**
      * Open a map in the map viewer.
@@ -5181,7 +5198,10 @@ public class RemoteMapper extends javax.swing.JFrame {
             }
         }
         
-        mp = new MapPreviewer(map, mapFile);
+        java.awt.EventQueue.invokeLater(() ->
+        {
+            mp = new MapPreviewer(map, mapFile);
+        });
     }
     
     /**
@@ -5668,7 +5688,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -5854,6 +5873,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> selectShapeBox;
     private javax.swing.JButton sendCommandButton;
     private javax.swing.JTextField sendCommandField;
+    private javax.swing.JMenuItem serialMontiorMenuItem;
     private javax.swing.JPanel shapeBoundsPanel;
     private javax.swing.JLabel simpleMapDetailsByteSize;
     private javax.swing.JLabel simpleMapDetailsHeight;
