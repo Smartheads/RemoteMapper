@@ -92,6 +92,7 @@ public class RemoteMapper extends javax.swing.JFrame {
     private CommandPreset[] presets;
     MapPreviewer mp;
     SerialMonitor sm;
+    private Pathfinder pf;
     
     boolean savingWorkspace = false;
     boolean closing = false;
@@ -544,9 +545,10 @@ public class RemoteMapper extends javax.swing.JFrame {
         jLabel74 = new javax.swing.JLabel();
         jPanel31 = new javax.swing.JPanel();
         jLabel93 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        autopilotMasterButton = new javax.swing.JToggleButton();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel94 = new javax.swing.JLabel();
+        autopilotErrorLabel = new javax.swing.JLabel();
         jSeparator13 = new javax.swing.JSeparator();
         mapPanel = new javax.swing.JPanel();
         jLabel79 = new javax.swing.JLabel();
@@ -622,7 +624,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         wizardPage1.setTitle("Remote Mapper Setup Wizard");
         wizardPage1.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
         wizardPage1.setResizable(false);
-        wizardPage1.setSize(new java.awt.Dimension(383, 200));
+        wizardPage1.setSize(new java.awt.Dimension(488, 213));
 
         jLabel1.setText("<html><h3>Smart Crew Remote Mapper Setup Wizard</h3></html>");
 
@@ -671,39 +673,38 @@ public class RemoteMapper extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addContainerGap()
+                            .addGap(10, 10, 10)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(errorJLabel)
                                 .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel3))
                                     .addGap(10, 10, 10)
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(errorJLabel)
+                                        .addComponent(portComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(baudRateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(36, 36, 36)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel4)
-                                                .addComponent(jLabel3))
-                                            .addGap(10, 10, 10)
-                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(portComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(baudRateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(36, 36, 36)
-                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                    .addComponent(jLabel6)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(decodeCharsetSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                    .addComponent(jLabel5)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                    .addComponent(encodeCharsetSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(jLabel6)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(decodeCharsetSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addComponent(jLabel5)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(encodeCharsetSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
                 .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -739,7 +740,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(75, 75, 75)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -770,7 +771,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         wizardPage2.setTitle("Remote Mapper Setup Wizard");
         wizardPage2.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
         wizardPage2.setResizable(false);
-        wizardPage2.setSize(new java.awt.Dimension(383, 200));
+        wizardPage2.setSize(new java.awt.Dimension(472, 207));
 
         jLabel7.setText("<html><h3>Smart Crew Remote Mapper Setup Wizard</h3></html>");
 
@@ -902,7 +903,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         wizardPage3.setTitle("Remote Mapper Setup Wizard");
         wizardPage3.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
         wizardPage3.setResizable(false);
-        wizardPage3.setSize(new java.awt.Dimension(383, 200));
+        wizardPage3.setSize(new java.awt.Dimension(487, 207));
 
         jLabel12.setText("<html><h3>Smart Crew Remote Mapper Setup Wizard</h3></html>");
 
@@ -1032,7 +1033,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                         .addComponent(wizardPage3Back, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(wizardPage4Next, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 93, Short.MAX_VALUE))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -1075,14 +1076,14 @@ public class RemoteMapper extends javax.swing.JFrame {
             wizardPage3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(wizardPage3Layout.createSequentialGroup()
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 24, Short.MAX_VALUE))
         );
 
         wizardPage4.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         wizardPage4.setTitle("Remote Mapper Setup Wizard");
         wizardPage4.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
         wizardPage4.setResizable(false);
-        wizardPage4.setSize(new java.awt.Dimension(383, 200));
+        wizardPage4.setSize(new java.awt.Dimension(446, 201));
 
         wizardPage4Title.setText("<html><h3>Smart Crew Remote Mapper Setup Wizard</h3></html>");
 
@@ -1224,7 +1225,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(wizardPage4Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
@@ -1319,7 +1320,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         loadingScreen.setTitle("Remote Mapper Wizard");
         loadingScreen.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
         loadingScreen.setResizable(false);
-        loadingScreen.setSize(new java.awt.Dimension(383, 200));
+        loadingScreen.setSize(new java.awt.Dimension(414, 203));
 
         jLabel24.setText("<html><h3>Prepairing your workspace</h3></html>");
 
@@ -1392,7 +1393,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         propertiesPage.setTitle("Properties");
         propertiesPage.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
         propertiesPage.setResizable(false);
-        propertiesPage.setSize(new java.awt.Dimension(788, 524));
+        propertiesPage.setSize(new java.awt.Dimension(906, 528));
 
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -2021,7 +2022,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         setTitle("Remote Mapper");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/map.png")).getImage());
         setResizable(false);
-        setSize(new java.awt.Dimension(830, 550));
+        setSize(new java.awt.Dimension(1194, 731));
 
         jSeparator11.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -2337,11 +2338,11 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel41.setText("heading");
 
-        statusPosX.setText("XXX");
+        statusPosX.setText("unknown");
 
-        statusPosY.setText("YYY");
+        statusPosY.setText("unknown");
 
-        statusPosHeading.setText("HHH.H");
+        statusPosHeading.setText("unknown");
 
         jLabel45.setText("°");
 
@@ -2467,7 +2468,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addGroup(jPanel28Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editPointErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(editPointErrorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                     .addGroup(jPanel28Layout.createSequentialGroup()
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel95)
@@ -2733,7 +2734,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                                 .addComponent(editShapeReplaceWithLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(editShapeReplaceWithField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 38, Short.MAX_VALUE)))
+                        .addGap(0, 46, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel30Layout.setVerticalGroup(
@@ -2846,7 +2847,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                                 .addComponent(editSectionErrorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(applySectionButton))
-                            .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                            .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel29Layout.createSequentialGroup()
                                 .addComponent(jLabel107, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2897,7 +2898,7 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Custom", jPanel24);
 
-        jLabel67.setText("<html><h4>Pathfind</h4></html>");
+        jLabel67.setText("<html><h4>Pathfind (on simplefied map)</h4></html>");
 
         jLabel68.setText("Algorithm:");
 
@@ -2942,7 +2943,9 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel76.setText("Distance:");
 
-        routeDistanceLabel.setText("XXX.XXX");
+        routeDistanceLabel.setText("n/a");
+        routeDistanceLabel.setToolTipText("");
+        routeDistanceLabel.setMaximumSize(new java.awt.Dimension(40, 15));
 
         jLabel78.setText("cm");
 
@@ -2960,14 +2963,20 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel71.setText("Displacement:");
 
-        routeDisplacementLabel.setText("XXX.XXX");
+        routeDisplacementLabel.setText("n/a");
+        routeDisplacementLabel.setMaximumSize(new java.awt.Dimension(40, 15));
 
         jLabel74.setText("cm");
 
         jLabel93.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel93.setText("<html><h4>Autopilot</h4></html>");
 
-        jToggleButton1.setText("AP on/off");
+        autopilotMasterButton.setText("AP OFF");
+        autopilotMasterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autopilotMasterButtonActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("Autoupdate route");
 
@@ -2978,13 +2987,17 @@ public class RemoteMapper extends javax.swing.JFrame {
         jPanel31Layout.setHorizontalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel93)
+            .addComponent(jLabel94, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel31Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jToggleButton1)
+                .addGap(22, 22, 22)
+                .addComponent(autopilotMasterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jCheckBox1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jLabel94, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel31Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(autopilotErrorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel31Layout.setVerticalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2992,9 +3005,11 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton1)
+                    .addComponent(autopilotMasterButton)
                     .addComponent(jCheckBox1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(autopilotErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel94, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -3002,83 +3017,74 @@ public class RemoteMapper extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel31)
+            .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(10, 10, 10)
+                        .addComponent(findPathButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(previewRouteButton))
+                    .addComponent(jTabbedPane2)
+                    .addComponent(pathfindErrorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(findPathButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(previewRouteButton))
-                            .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel72)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(pathfindGoalXLabel)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(pathfindGoalXField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel69)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(pathfindStartXLabel)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(pathfindStartXField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jLabel72)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(pathfindGoalXLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(pathfindStartYLabel)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(pathfindStartYField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(pathfindGoalYLabel)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(pathfindGoalYField)))
+                                        .addComponent(pathfindGoalXField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel69)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(pathfindUseRoverPosBox))
+                                        .addComponent(pathfindStartXLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(pathfindStartXField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(pathfindStartYLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(pathfindStartYField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(pathfindGoalYLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(pathfindGoalYField)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pathfindUseRoverPosBox))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel67, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel68)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(pathfindAlgorithmSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel70)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(routeMarkField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(pathfindErrorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jLabel31)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel70)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(routeMarkField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel75)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(83, 83, 83)
-                                .addComponent(jLabel67, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
+                                .addGap(10, 10, 10)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel75)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel76)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(routeDistanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel78))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel71)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(routeDisplacementLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel74)))))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel76)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(routeDistanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel78))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel71)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(routeDisplacementLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel74)))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3120,12 +3126,12 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel76)
-                    .addComponent(routeDistanceLabel)
+                    .addComponent(routeDistanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel78))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel71)
-                    .addComponent(routeDisplacementLabel)
+                    .addComponent(routeDisplacementLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel74))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -3143,15 +3149,15 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel84.setText("width:");
 
-        fullMapDetailsWidth.setText("XXX");
+        fullMapDetailsWidth.setText("n/a");
 
         jLabel85.setText("cm, height:");
 
-        fullMapDetailsHeight.setText("XXX");
+        fullMapDetailsHeight.setText("n/a");
 
-        jLabel86.setText("cm");
+        jLabel86.setText("cm,");
 
-        fullMapDetailsByteSize.setText("XXXXXX");
+        fullMapDetailsByteSize.setText("unknown");
 
         jLabel88.setText("kB");
 
@@ -3333,23 +3339,23 @@ public class RemoteMapper extends javax.swing.JFrame {
 
         jLabel90.setText("Simplification coefficient:");
 
-        simpleMapDetailsSimplificationCoefficient.setText("XXX");
+        simpleMapDetailsSimplificationCoefficient.setText("n/a");
 
         jLabel96.setText("Size:");
 
         jLabel97.setText("width:");
 
-        simpleMapDetailsWidth.setText("XXX");
+        simpleMapDetailsWidth.setText("n/a");
 
         jLabel104.setText("cm, height:");
 
-        simpleMapDetailsHeight.setText("XXX");
+        simpleMapDetailsHeight.setText("n/a");
 
-        jLabel106.setText("cm");
+        jLabel106.setText("cm,");
 
-        simpleMapDetailsByteSize.setText("XXXX");
+        simpleMapDetailsByteSize.setText("unknown");
 
-        jLabel111.setText("b");
+        jLabel111.setText("bytes");
 
         jLabel112.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel112.setText("<html><h4>Tools</h4></html>");
@@ -3358,7 +3364,7 @@ public class RemoteMapper extends javax.swing.JFrame {
         jPanel39.setLayout(jPanel39Layout);
         jPanel39Layout.setHorizontalGroup(
             jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 241, Short.MAX_VALUE)
+            .addGap(0, 259, Short.MAX_VALUE)
         );
         jPanel39Layout.setVerticalGroup(
             jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3380,7 +3386,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel32Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel32Layout.setVerticalGroup(
@@ -3501,7 +3507,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fullMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))
+                    .addComponent(fullMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE))
                 .addGap(13, 13, 13)
                 .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
@@ -3550,7 +3556,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3610,7 +3616,7 @@ public class RemoteMapper extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(clock)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(3, 3, Short.MAX_VALUE))
                     .addGroup(statusBarLayout.createSequentialGroup()
                         .addComponent(jSeparator9)
                         .addGap(3, 3, 3))))
@@ -3714,7 +3720,7 @@ public class RemoteMapper extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1097, Short.MAX_VALUE)
+                    .addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1199, Short.MAX_VALUE)
                     .addComponent(jSeparator8)
                     .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
@@ -4647,7 +4653,6 @@ public class RemoteMapper extends javax.swing.JFrame {
         findPathButton.setEnabled(false);
         pathfindErrorLabel.setForeground(Color.black);
         
-        Pathfinder pf;
         pf = new Pathfinder (
                 new Coord(Integer.parseInt(pathfindStartXField.getText()),
                         Integer.parseInt(pathfindStartYField.getText())),
@@ -4664,8 +4669,13 @@ public class RemoteMapper extends javax.swing.JFrame {
         {
             pathfindStartXField.setEnabled(false);
             pathfindStartYField.setEnabled(false);
-            pathfindStartXField.setText(Integer.toString(rover.getX()));
-            pathfindStartYField.setText(Integer.toString(rover.getY()));
+            
+            // Convert position to simplified map
+            int x = (int) Math.ceil(rover.getX() / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
+            int y = (int) Math.ceil(rover.getY() / Math.ceil(rover.getFlatDiagonal() / CONVERSION_CM_MM));
+            
+            pathfindStartXField.setText(Integer.toString(x));
+            pathfindStartYField.setText(Integer.toString(y));
         }
         else
         {
@@ -5181,6 +5191,13 @@ public class RemoteMapper extends javax.swing.JFrame {
     private void serialMontiorMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serialMontiorMenuItemActionPerformed
         sm.setVisible(true);
     }//GEN-LAST:event_serialMontiorMenuItemActionPerformed
+
+    private void autopilotMasterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autopilotMasterButtonActionPerformed
+       // TODO: Implement
+        
+        
+        
+    }//GEN-LAST:event_autopilotMasterButtonActionPerformed
     
     /**
      * Open a map in the map viewer.
@@ -5466,11 +5483,11 @@ public class RemoteMapper extends javax.swing.JFrame {
         
         route = new Route(simpleMap, path, routeMarkField.getText().charAt(0));
         
-        String rd = Double.toString(route.getDistance() * (rover.getFlatDiagonal() / CONVERSION_CM_MM));
+        String rd = Long.toString(Math.round(route.getDistance() * (rover.getFlatDiagonal() / CONVERSION_CM_MM)));
         routeDistanceLabel.setText(rd);
         routeDistanceLabel.setToolTipText(rd);
         
-        String rd2 = Double.toString(route.getDisplacement() * (rover.getFlatDiagonal() / CONVERSION_CM_MM));
+        String rd2 = Long.toString(Math.round(route.getDisplacement() * (rover.getFlatDiagonal() / CONVERSION_CM_MM)));
         routeDisplacementLabel.setText(rd2);
         routeDisplacementLabel.setToolTipText(rd2);
     }
@@ -5510,6 +5527,8 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem alwaysOnTopMenuItem;
     private javax.swing.JButton applySectionButton;
     private javax.swing.JCheckBoxMenuItem autoSaveCheckBox;
+    private javax.swing.JLabel autopilotErrorLabel;
+    private javax.swing.JToggleButton autopilotMasterButton;
     private javax.swing.JButton backwardsCommandButton;
     private javax.swing.JComboBox<String> baudRateSelector;
     private javax.swing.JButton browseButton;
@@ -5765,7 +5784,6 @@ public class RemoteMapper extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTabbedPane jTabbedPane4;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JButton leftTurnCommandButton;
     private javax.swing.JButton loadSectionButton;
     private javax.swing.JTextArea loadingConsole;
